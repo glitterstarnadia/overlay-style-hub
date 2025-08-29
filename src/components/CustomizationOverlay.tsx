@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { X, Settings, Move, MoreVertical, RotateCcw, Download, Upload, Palette, Pin, Eye } from 'lucide-react';
+import { X, Settings, Move } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
-import { ColorPickerPanel } from './ColorPickerPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
 import { HeartColorPicker } from './HeartColorPicker';
@@ -12,42 +11,14 @@ import { useToast } from '@/hooks/use-toast';
 interface CustomizationOverlayProps {
   isVisible: boolean;
   onToggle: () => void;
-  defaultActiveSection?: string;
   pageKey?: string;
 }
-const sections = [{
-  id: 'hair',
-  title: 'Hair'
-}, {
-  id: 'patterns',
-  title: 'Patterns'
-}, {
-  id: 'colours',
-  title: 'Colours'
-}, {
-  id: 'tops',
-  title: 'Tops'
-}, {
-  id: 'dresses',
-  title: 'Dresses'
-}, {
-  id: 'pants',
-  title: 'Pants'
-}, {
-  id: 'shoes',
-  title: 'Shoes'
-}, {
-  id: 'adjustments',
-  title: 'Adjustments'
-}];
 export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
   onToggle,
-  defaultActiveSection,
   pageKey = 'default'
 }) => {
   const { toast } = useToast();
-  const [activeSection, setActiveSection] = useState<string | null>(defaultActiveSection || null);
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [position, setPosition] = useState({
     x: 50,
@@ -126,7 +97,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   };
   const exportConfiguration = () => {
     const config = {
-      activeSection,
       selectedColor,
       position,
       size,
@@ -153,7 +123,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       reader.onload = e => {
         try {
           const config = JSON.parse(e.target?.result as string);
-          setActiveSection(config.activeSection);
           setSelectedColor(config.selectedColor);
           setPosition(config.position);
           setSize(config.size);
@@ -248,30 +217,21 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
         {/* Content */}
         <div className="flex h-full">
-          {/* Sidebar */}
-          <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border flex flex-col">
-            <nav className="p-2 flex-1 overflow-y-auto max-h-full">
-              <div className="space-y-1">
-                {sections.map(section => <button key={section.id} onClick={() => setActiveSection(activeSection === section.id ? null : section.id)} className={cn("w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", "hover:bg-overlay-hover hover:text-foreground", activeSection === section.id ? "bg-primary text-primary-foreground shadow-glow" : "text-muted-foreground")}>
-                    {section.title}
-                  </button>)}
+          {/* Content Area - Full Width */}
+          <div className="flex-1 min-h-0 p-6">
+            <div className="h-full overflow-y-auto">
+              {/* Display all sections content */}
+              <div className="space-y-8">
+                <SectionPanel sectionId="hair" sectionTitle="Hair" selectedColor={selectedColor} />
+                <SectionPanel sectionId="patterns" sectionTitle="Patterns" selectedColor={selectedColor} />
+                <SectionPanel sectionId="colours" sectionTitle="Colours" selectedColor={selectedColor} />
+                <SectionPanel sectionId="tops" sectionTitle="Tops" selectedColor={selectedColor} />
+                <SectionPanel sectionId="dresses" sectionTitle="Dresses" selectedColor={selectedColor} />
+                <SectionPanel sectionId="pants" sectionTitle="Pants" selectedColor={selectedColor} />
+                <SectionPanel sectionId="shoes" sectionTitle="Shoes" selectedColor={selectedColor} />
+                <SectionPanel sectionId="adjustments" sectionTitle="Adjustments" selectedColor={selectedColor} />
               </div>
-            </nav>
-            
-            {/* Always visible color picker */}
-            
-          </div>
-
-          {/* Content Area */}
-          <div className="flex-1 min-h-0">
-            {activeSection ? <SectionPanel sectionId={activeSection} sectionTitle={sections.find(s => s.id === activeSection)?.title || ''} selectedColor={selectedColor} /> : <div className="flex items-center justify-center h-full p-8 text-center">
-                <div>
-                  <Settings className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">
-                    Select a section from the left to customize your character
-                  </p>
-                </div>
-              </div>}
+            </div>
           </div>
         </div>
         

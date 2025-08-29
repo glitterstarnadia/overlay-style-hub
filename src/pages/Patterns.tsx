@@ -14,7 +14,6 @@ const Patterns = () => {
       <CustomizationOverlay 
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
-        defaultActiveSection="patterns"
         pageKey="patterns"
       />
     </div>

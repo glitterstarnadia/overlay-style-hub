@@ -180,13 +180,22 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
 
           <div>
             <Label className="text-xs font-bold text-pink-600 mb-1 block">HEX</Label>
-            <Input
-              type="text"
-              value={hexInput}
-              onChange={handleHexInputChange}
-              className="w-full h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
-              placeholder="#ffffff"
-            />
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                value={hexInput}
+                onChange={handleHexInputChange}
+                className="w-20 h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
+                placeholder="#ffffff"
+              />
+              <Input
+                type="text"
+                value={hexInput}
+                onChange={handleHexInputChange}
+                className="w-20 h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
+                placeholder="Scale HEX"
+              />
+            </div>
           </div>
         </div>
 
