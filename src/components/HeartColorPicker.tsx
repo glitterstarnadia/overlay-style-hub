@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { HexColorPicker } from 'react-colorful';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Heart, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -19,66 +17,10 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
   onSaveColor,
   onDeleteColor
 }) => {
-  const [hexInput, setHexInput] = useState(currentColor);
-  const [scaleHexInput, setScaleHexInput] = useState('#ffffff');
-  const [rgbValues, setRgbValues] = useState({
-    r: 255,
-    g: 105,
-    b: 180
-  });
-  const {
-    toast
-  } = useToast();
-  const hexToRgb = (hex: string) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : {
-      r: 255,
-      g: 105,
-      b: 180
-    };
-  };
-  const rgbToHex = (r: number, g: number, b: number) => {
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-  };
-  useEffect(() => {
-    setHexInput(currentColor);
-    setRgbValues(hexToRgb(currentColor));
-  }, [currentColor]);
+  const { toast } = useToast();
+
   const handleColorChange = (color: string) => {
-    setHexInput(color);
-    setRgbValues(hexToRgb(color));
     onColorSelect(color);
-  };
-  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setHexInput(value);
-    if (value.match(/^#[0-9A-Fa-f]{6}$/)) {
-      handleColorChange(value);
-    }
-  };
-  const handleScaleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setScaleHexInput(value);
-    if (value.match(/^#[0-9A-Fa-f]{6}$/)) {
-      toast({
-        title: "Scale Color Updated",
-        description: `Scale hex set to ${value}`
-      });
-    }
-  };
-  const handleRgbChange = (component: 'r' | 'g' | 'b', value: number) => {
-    const newRgb = {
-      ...rgbValues,
-      [component]: Math.max(0, Math.min(255, value))
-    };
-    setRgbValues(newRgb);
-    const hex = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
-    setHexInput(hex);
-    onColorSelect(hex);
   };
   const saveCurrentColor = () => {
     if (!savedColors.includes(currentColor)) {
@@ -123,102 +65,29 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
         </button>}
     </div>;
   return (
-    <div className="space-y-6">
-      {/* Main Color Picker */}
-      <div className="flex flex-col items-center space-y-4">
-        <HexColorPicker color={currentColor} onChange={handleColorChange} />
-        
-        {/* Hex Input */}
-        <div className="w-full">
-          <Label htmlFor="hex-input">Hex Color</Label>
-          <Input
-            id="hex-input"
-            type="text"
-            value={hexInput}
-            onChange={handleHexInputChange}
-            placeholder="#FF69B4"
-            className="mt-1"
-          />
-        </div>
-
-        {/* RGB Controls */}
-        <div className="grid grid-cols-3 gap-2 w-full">
-          <div>
-            <Label htmlFor="r-input">R</Label>
-            <Input
-              id="r-input"
-              type="number"
-              min="0"
-              max="255"
-              value={rgbValues.r}
-              onChange={(e) => handleRgbChange('r', parseInt(e.target.value) || 0)}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label htmlFor="g-input">G</Label>
-            <Input
-              id="g-input"
-              type="number"
-              min="0"
-              max="255"
-              value={rgbValues.g}
-              onChange={(e) => handleRgbChange('g', parseInt(e.target.value) || 0)}
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label htmlFor="b-input">B</Label>
-            <Input
-              id="b-input"
-              type="number"
-              min="0"
-              max="255"
-              value={rgbValues.b}
-              onChange={(e) => handleRgbChange('b', parseInt(e.target.value) || 0)}
-              className="mt-1"
-            />
-          </div>
-        </div>
-
-        {/* Scale Hex Input */}
-        <div className="w-full">
-          <Label htmlFor="scale-hex">Scale Hex</Label>
-          <Input
-            id="scale-hex"
-            type="text"
-            value={scaleHexInput}
-            onChange={handleScaleHexChange}
-            placeholder="#FFFFFF"
-            className="mt-1"
-          />
-        </div>
-      </div>
-
+    <div className="space-y-3">
       {/* Saved Colors */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <Label>Saved Colors</Label>
-          <Button onClick={saveCurrentColor} size="sm" variant="outline">
-            Save Current
-          </Button>
-        </div>
-        
-        <div className="flex flex-wrap gap-2">
+      <div className="flex items-center justify-between">
+        <Label>Saved Colors</Label>
+        <Button onClick={saveCurrentColor} size="sm" variant="outline">
+          Save Current
+        </Button>
+      </div>
+      
+      <div className="flex flex-wrap gap-2">
+        <HeartIcon
+          onClick={saveCurrentColor}
+          isAddButton={true}
+        />
+        {savedColors.map((color, index) => (
           <HeartIcon
-            onClick={saveCurrentColor}
-            isAddButton={true}
+            key={index}
+            color={color}
+            onClick={() => handleColorChange(color)}
+            onDelete={deleteColor}
+            index={index}
           />
-          {savedColors.map((color, index) => (
-            <HeartIcon
-              key={index}
-              color={color}
-              onClick={() => handleColorChange(color)}
-              onDelete={deleteColor}
-              index={index}
-            />
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );
