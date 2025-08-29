@@ -380,7 +380,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Saved Profiles Section */}
       <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40 max-h-60 overflow-y-auto custom-scrollbar">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-pink-600 flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
           <div className="flex gap-2">
@@ -457,7 +457,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 ) : (
                   <div className="mt-1 flex items-center justify-center">
                     <p 
-                      className="text-xs text-purple-600 text-center truncate w-16 cursor-pointer hover:text-purple-800"
+                      className="text-xs text-pink-600 text-center truncate w-16 cursor-pointer hover:text-pink-600 font-bold"
                       onClick={() => startEditingName(profile)}
                     >
                       {profile.name}
@@ -517,7 +517,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             ))}
           </div>
         ) : (
-          <p className="text-sm text-purple-600 text-center py-4">
+          <p className="text-sm text-pink-600 text-center py-4 font-bold">
             No saved profiles yet. Click "New Profile" to get started!
           </p>
         )}
@@ -578,7 +578,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
         <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-3 shadow-lg border border-pink-200/40 max-h-80 overflow-y-auto custom-scrollbar">
-          <h3 className="text-base font-semibold text-pink-700 mb-2 flex items-center gap-2">
+          <h3 className="text-base font-bold text-pink-600 mb-2 flex items-center gap-2">
             <span>🎨</span> Image Configuration
           </h3>
           
@@ -600,7 +600,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 
                 return (
                   <div key={controlId} className="p-1 bg-white/40 rounded-lg border border-pink-200/60">
-                    <h4 className="text-xs font-medium text-pink-700 mb-1 flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-pink-600 mb-1 flex items-center justify-between">
                       <span>Set {index + 1}</span>
                       <div className="flex items-center gap-1">
                         {/* Image Upload for each Transform Set */}
@@ -635,7 +635,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <div className="grid grid-cols-3 gap-1">
                       {/* Position Controls */}
                       <div>
-                        <p className="font-medium text-pink-700 mb-1 text-xs">Position</p>
+                        <p className="font-bold text-pink-600 mb-1 text-xs">Position</p>
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-1">
                             <span className="text-xs text-pink-600">x</span>
@@ -675,7 +675,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       
                       {/* Rotation Controls */}
                       <div>
-                        <p className="font-medium text-pink-700 mb-1 text-xs">Rotation</p>
+                        <p className="font-bold text-pink-600 mb-1 text-xs">Rotation</p>
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-1">
                             <span className="text-xs text-pink-600">x</span>
@@ -715,7 +715,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       
                       {/* Scale Control */}
                       <div>
-                        <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
+                        <p className="font-bold text-pink-600 mb-1 text-xs">Scale</p>
                         <div className="space-y-1">
                           <input 
                             type="text"
@@ -820,7 +820,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div className="grid grid-cols-2 gap-4">
                     {/* Position Controls */}
                     <div>
-                      <p className="font-medium text-pink-700 mb-1">Position</p>
+                      <p className="font-bold text-pink-600 mb-1">Position</p>
                       <div className="space-y-1">
                        <div className="flex items-center gap-2">
                            <span className="text-xs text-pink-600 w-4">X:</span>
@@ -857,7 +857,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     
                     {/* Rotate Controls */}
                     <div>
-                      <p className="font-medium text-pink-700 mb-1">Rotate</p>
+                      <p className="font-bold text-pink-600 mb-1">Rotate</p>
                       <div className="space-y-1">
                          <div className="flex items-center gap-2">
                            <span className="text-xs text-pink-600 w-4">X:</span>
@@ -896,7 +896,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   {/* Scale Control */}
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
-                      <p className="font-medium text-pink-700 mb-1">Scale</p>
+                      <p className="font-bold text-pink-600 mb-1">Scale</p>
                         <div className="flex gap-2 items-center">
                           <input 
                             type="text"
