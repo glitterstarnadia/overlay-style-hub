@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, X, Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -8,6 +8,15 @@ import hair1 from '@/assets/hair-1.jpg';
 import hair2 from '@/assets/hair-2.jpg';
 import hair3 from '@/assets/hair-3.jpg';
 import hair4 from '@/assets/hair-4.jpg';
+interface SavedConfiguration {
+  id: string;
+  thumbnail: string;
+  timestamp: number;
+  settings: ImageSettings;
+  color: string;
+  name: string;
+}
+
 interface ImageGalleryProps {
   mainImage: string;
   thumbnails: string[];
@@ -50,6 +59,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [smallerImage, setSmallerImage] = useState('');
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
+  const [savedConfigurations, setSavedConfigurations] = useState<SavedConfiguration[]>([]);
+  const [selectedConfiguration, setSelectedConfiguration] = useState<SavedConfiguration | null>(null);
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
@@ -141,12 +152,31 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
   const saveImageSettings = (imageKey: string) => {
     const settings = getImageSettings(imageKey);
-    // Here you could save to localStorage, database, etc.
-    console.log('Saved settings for', imageKey, settings);
-    toast({
-      title: "✨ Settings Saved!",
-      description: `Position, rotation, and scale saved for this image`
-    });
+    const thumbnail = currentMainImage || selectedImage;
+    
+    if (thumbnail) {
+      const newConfiguration: SavedConfiguration = {
+        id: `config-${Date.now()}`,
+        thumbnail: thumbnail,
+        timestamp: Date.now(),
+        settings: settings,
+        color: selectedColor,
+        name: `Configuration ${savedConfigurations.length + 1}`
+      };
+      
+      setSavedConfigurations(prev => [newConfiguration, ...prev]);
+      
+      toast({
+        title: "✨ Configuration Saved!",
+        description: `Saved with thumbnail at the top of the gallery`
+      });
+    } else {
+      toast({
+        title: "❌ No Image Selected",
+        description: "Please select an image before saving configuration",
+        variant: "destructive"
+      });
+    }
   };
   const addTransformControl = () => {
     const newId = `transform-${Date.now()}`;
@@ -179,7 +209,94 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       description: `Reset to default values`
     });
   };
+  const handleConfigurationClick = (config: SavedConfiguration) => {
+    setSelectedConfiguration(selectedConfiguration?.id === config.id ? null : config);
+    setSelectedImage(config.thumbnail);
+  };
+
+  const deleteConfiguration = (configId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSavedConfigurations(prev => prev.filter(config => config.id !== configId));
+    if (selectedConfiguration?.id === configId) {
+      setSelectedConfiguration(null);
+    }
+    toast({
+      title: "🗑️ Configuration Deleted",
+      description: "Saved configuration has been removed"
+    });
+  };
+
   return <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
+      {/* Saved Configurations Section */}
+      {savedConfigurations.length > 0 && (
+        <div className="flex-shrink-0">
+          <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
+            <span>💾</span> Saved Configurations
+          </h3>
+          <div className="grid grid-cols-4 gap-3 mb-6">
+            {savedConfigurations.map((config) => (
+              <div
+                key={config.id}
+                onClick={() => handleConfigurationClick(config)}
+                className={`relative cursor-pointer group transition-all duration-300 ${
+                  selectedConfiguration?.id === config.id 
+                    ? 'ring-2 ring-pink-500 ring-offset-2' 
+                    : 'hover:ring-2 hover:ring-pink-300 hover:ring-offset-1'
+                }`}
+              >
+                <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-lg p-2 shadow-md border border-pink-200/40">
+                  <img 
+                    src={imageMap[config.thumbnail] || config.thumbnail} 
+                    alt={config.name}
+                    className="w-full h-20 object-cover rounded-md"
+                  />
+                  <div className="absolute top-1 right-1 w-3 h-3 rounded-full border border-white shadow-sm" 
+                       style={{ backgroundColor: config.color }} />
+                  <Button
+                    onClick={(e) => deleteConfiguration(config.id, e)}
+                    className="absolute -top-1 -right-1 bg-red-500/90 hover:bg-red-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                    size="sm"
+                  >
+                    <X className="w-2 h-2" />
+                  </Button>
+                </div>
+                <p className="text-xs text-pink-600 mt-1 text-center truncate">{config.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Configuration Details Panel */}
+      {selectedConfiguration && (
+        <div className="flex-shrink-0 bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
+          <h4 className="text-base font-semibold text-purple-700 mb-3 flex items-center gap-2">
+            <Eye className="w-4 h-4" />
+            {selectedConfiguration.name} - Details
+          </h4>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <p className="font-medium text-purple-700 mb-1">Position</p>
+              <p className="text-purple-600">X: {selectedConfiguration.settings.position.x}</p>
+              <p className="text-purple-600">Y: {selectedConfiguration.settings.position.y}</p>
+              <p className="text-purple-600">Z: {selectedConfiguration.settings.position.z}</p>
+            </div>
+            <div>
+              <p className="font-medium text-purple-700 mb-1">Rotation</p>
+              <p className="text-purple-600">X: {selectedConfiguration.settings.rotation.x}°</p>
+              <p className="text-purple-600">Y: {selectedConfiguration.settings.rotation.y}°</p>
+              <p className="text-purple-600">Z: {selectedConfiguration.settings.rotation.z}°</p>
+            </div>
+            <div>
+              <p className="font-medium text-purple-700 mb-1">Other</p>
+              <p className="text-purple-600">Scale: {selectedConfiguration.settings.scale}</p>
+              <p className="text-purple-600">Color: {selectedConfiguration.color}</p>
+              <p className="text-purple-600 text-xs">Saved: {new Date(selectedConfiguration.timestamp).toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hidden File Inputs */}
       <input ref={mainImageInputRef} type="file" accept="image/*" className="hidden" onChange={e => {
       const file = e.target.files?.[0];
