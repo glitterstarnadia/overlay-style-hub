@@ -598,11 +598,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-14 h-14 object-cover rounded shadow-md"
+                                className="w-16 h-16 object-cover rounded shadow-md"
                               />
                             ) : (
-                              <div className="w-14 h-14 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-3 h-3 text-pink-500" />
+                              <div className="w-16 h-16 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                <Upload className="w-4 h-4 text-pink-500" />
                               </div>
                             )}
                             
@@ -619,7 +619,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                     </h4>
                     
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 gap-1">
                       {/* Position Controls */}
                       <div>
                         <p className="font-medium text-pink-700 mb-1 text-xs">Position</p>
