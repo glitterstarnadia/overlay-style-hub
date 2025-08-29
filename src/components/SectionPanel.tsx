@@ -136,15 +136,22 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   }
 
   return (
-    <div className="border border-overlay-border rounded-lg bg-overlay-surface/20 overflow-hidden">
+    <div className={cn(
+      "border rounded-lg overflow-hidden",
+      isCollapsed 
+        ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
+        : "border-overlay-border bg-overlay-surface/20"
+    )}>
       {/* Header */}
       <div className={cn(
-        "p-2 border-b border-overlay-border bg-overlay-surface/30 flex items-center justify-between",
-        isCollapsed ? "py-1" : "py-2"
+        "p-2 border-b flex items-center justify-between",
+        isCollapsed 
+          ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
+          : "py-2 border-overlay-border bg-overlay-surface/30"
       )}>
         <h3 className={cn(
-          "font-semibold text-foreground",
-          isCollapsed ? "text-sm" : "text-lg"
+          "font-bold",
+          isCollapsed ? "text-sm text-pink-600" : "text-lg text-foreground"
         )}>{sectionTitle}</h3>
         {onToggleCollapse && (
           <Button
