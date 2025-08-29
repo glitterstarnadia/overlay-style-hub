@@ -325,28 +325,24 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main character view"
-                className="w-64 h-64 object-cover rounded-lg shadow-md"
+                className="w-32 h-32 object-cover rounded-lg shadow-md"
               />
               <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
             </>
           ) : (
-            <>
-              <img
-                src={imageMap[currentMainImage] || currentMainImage}
-                alt="Main character view"
-                className="w-64 h-64 object-cover rounded-lg shadow-md"
-              />
-              <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
-            </>
+            <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg shadow-md flex flex-col items-center justify-center border-2 border-dashed border-pink-300">
+              <Upload className="w-6 h-6 text-pink-500 mb-2" />
+              <span className="text-xs font-medium text-pink-600 text-center px-2">Upload main image</span>
+            </div>
           )}
           
           {/* Change Main Image Button */}
           <Button
             onClick={triggerMainImageUpload}
-            className="absolute top-6 right-6 bg-pink-500/90 hover:bg-pink-600/90 text-white p-2 rounded-full shadow-lg backdrop-blur-sm"
+            className="absolute top-2 right-2 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
             size="sm"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-3 h-3" />
           </Button>
         </div>
       </div>
