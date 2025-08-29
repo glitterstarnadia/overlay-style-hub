@@ -6,6 +6,7 @@ import { SectionPanel } from './SectionPanel';
 import { ColorPickerPanel } from './ColorPickerPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
+import { SavedColorsBar } from './SavedColorsBar';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -43,6 +44,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [opacity, setOpacity] = useState(100);
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [savedColors, setSavedColors] = useState<string[]>([]);
   
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -287,14 +289,22 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         
         {/* Resize Handle */}
         <div
-          className="absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize bg-primary/20 hover:bg-primary/40 transition-colors"
+          className="absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize bg-pink-400/30 hover:bg-pink-400/50 transition-colors rounded-full flex items-center justify-center"
           onMouseDown={handleResizeStart}
-          style={{
-            background: 'linear-gradient(-45deg, transparent 30%, currentColor 30%, currentColor 70%, transparent 70%)',
-          }}
-        />
+          title="Drag to resize"
+        >
+          <div className="w-2 h-2 bg-pink-500 rounded-full" />
+        </div>
       </Card>
       <SparkleEffect />
+      
+      {/* Always Visible Saved Colors Bar */}
+      <SavedColorsBar
+        savedColors={savedColors}
+        onColorSelect={setSelectedColor}
+        onSaveColor={(color) => setSavedColors(prev => [...prev, color])}
+        currentColor={selectedColor}
+      />
     </div>
   );
 };

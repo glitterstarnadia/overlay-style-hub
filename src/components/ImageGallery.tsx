@@ -78,18 +78,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div>
                     <p className="font-medium text-pink-700 mb-1">Position</p>
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">X:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">Y:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">Z:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
+                     <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">X:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">Y:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">Z:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
                     </div>
                   </div>
                   
@@ -97,27 +97,27 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div>
                     <p className="font-medium text-pink-700 mb-1">Rotate</p>
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">X:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">Y:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-pink-600 w-4">Z:</span>
-                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
-                      </div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">X:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">Y:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-xs text-pink-600 w-4">Z:</span>
+                         <input className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                       </div>
                     </div>
                   </div>
                 </div>
                 
-                {/* Scale Control */}
-                <div>
-                  <p className="font-medium text-pink-700 mb-1">Scale</p>
-                  <input className="w-full px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="1.0" />
-                </div>
+                 {/* Scale Control */}
+                 <div>
+                   <p className="font-medium text-pink-700 mb-1">Scale</p>
+                   <input className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="1.0" />
+                 </div>
               </div>
             </div>
           ))}

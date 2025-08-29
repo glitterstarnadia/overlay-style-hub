@@ -60,12 +60,24 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
 
   if (compact) {
     return (
-      <div className="space-y-4 p-3 bg-gradient-to-b from-pink-50/50 to-purple-50/50 rounded-lg border border-pink-200/50">
+      <div className="space-y-4 p-4 bg-gradient-to-b from-pink-50/50 to-purple-50/50 rounded-lg border border-pink-200/50">
         <div className="flex items-center gap-2">
           <Palette className="w-4 h-4 text-pink-500" />
           <Label className="text-sm font-medium text-pink-700">Magic Colors</Label>
         </div>
         
+        {/* Hex Input Field */}
+        <div className="space-y-2">
+          <Label className="text-xs font-medium text-pink-600">Enter Hex Code</Label>
+          <Input
+            type="text"
+            value={color}
+            onChange={handleInputChange}
+            className="text-sm font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center"
+            placeholder="#000000"
+          />
+        </div>
+
         {/* Current Color Display */}
         <div className="flex items-center gap-3 p-2 bg-white/60 rounded-lg">
           <div
@@ -75,14 +87,8 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
             title="Click to copy"
           />
           <div className="flex-1">
-            <Input
-              type="text"
-              value={color}
-              onChange={handleInputChange}
-              className="text-sm font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center"
-              placeholder="#000000"
-            />
-            <p className="text-xs text-pink-600 mt-1">Current Color</p>
+            <p className="text-sm font-mono text-pink-700">{color}</p>
+            <p className="text-xs text-pink-600">Current Color</p>
           </div>
           <Button
             size="sm"
@@ -94,14 +100,14 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
           </Button>
         </div>
 
-        {/* Color Picker */}
+        {/* Color Picker - Bigger */}
         <div className="relative">
           <HexColorPicker
             color={color}
             onChange={onChange}
             style={{ 
               width: '100%', 
-              height: '120px',
+              height: '160px',
               borderRadius: '8px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
@@ -128,29 +134,6 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
             ))}
           </div>
         </div>
-
-        {/* Saved Colors */}
-        {savedColors.length > 0 && (
-          <div>
-            <Label className="text-xs font-medium text-pink-600 mb-2 block flex items-center gap-1">
-              <Heart className="w-3 h-3 fill-pink-400 text-pink-400" />
-              Saved Colors ({savedColors.length}/20)
-            </Label>
-            <div className="grid grid-cols-5 gap-2 max-h-24 overflow-y-auto">
-              {savedColors.map((savedColor, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSavedColorClick(savedColor)}
-                  className="w-8 h-8 rounded-full border-2 border-pink-300 hover:scale-110 hover:shadow-lg transition-all duration-200 relative group"
-                  style={{ backgroundColor: savedColor }}
-                  title={`${savedColor} - Click to use & copy`}
-                >
-                  <Copy className="w-3 h-3 text-white/80 opacity-0 group-hover:opacity-100 transition-opacity absolute inset-0 m-auto" />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     );
   }
