@@ -250,8 +250,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setCurrentThumbnails([]);
     toast({
       title: "✨ New Profile Started!",
-      description: "Ready to create a new character profile",
+      description: "Please upload a main image to get started",
     });
+    // Automatically trigger main image upload
+    setTimeout(() => {
+      triggerMainImageUpload();
+    }, 100);
   };
 
   const moveProfile = (profileId: string, direction: 'up' | 'down') => {
@@ -513,14 +517,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
           )}
           
-          {/* Change Main Image Button */}
-          <Button
-            onClick={triggerMainImageUpload}
-            className="absolute top-2 right-2 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
-            size="sm"
-          >
-            <Upload className="w-3 h-3" />
-          </Button>
+          {/* Change Main Image Button - only show when image exists */}
+          {currentMainImage && (
+            <Button
+              onClick={triggerMainImageUpload}
+              className="absolute top-2 right-2 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
+              size="sm"
+            >
+              <Upload className="w-3 h-3" />
+            </Button>
+          )}
         </div>
       </div>
 
