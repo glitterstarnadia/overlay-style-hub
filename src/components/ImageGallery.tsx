@@ -204,9 +204,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const addTransformControl = () => {
     const newId = `transform-${Date.now()}`;
     setTransformControls(prev => [...prev, newId]);
+    // Initialize empty transform image for the new control
+    setTransformImages(prev => ({
+      ...prev,
+      [newId]: ''
+    }));
     toast({
       title: "➕ Control Added!",
-      description: "New transform control set created",
+      description: "New transform control set created with image upload",
     });
   };
 
@@ -586,8 +591,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <h4 className="text-xs font-medium text-pink-700 mb-1 flex items-center justify-between">
                       <span>Set {index + 1}</span>
                       <div className="flex items-center gap-1">
-                      {/* Individual Image Upload for each Transform Set */}
-                      {index > 0 && (
+                        {/* Image Upload for each Transform Set */}
                         <div className="flex-shrink-0">
                           <div className="relative">
                             {transformImages[controlId] ? (
@@ -606,39 +610,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               onClick={() => triggerTransformImageUpload(controlId)}
                               className="absolute -top-0.5 -right-0.5 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
                               size="sm"
+                              title={`Upload image for Set ${index + 1}`}
                             >
                               <Upload className="w-1 h-1" />
                             </Button>
                           </div>
                         </div>
-                      )}
-                      
-                      {/* Default Smaller Image for First Transform Set */}
-                      {index === 0 && (
-                        <div className="flex-shrink-0">
-                          <div className="relative">
-                            {smallerImage ? (
-                              <img
-                                src={imageMap[smallerImage] || smallerImage}
-                                alt="Smaller image"
-                                className="w-8 h-8 object-cover rounded shadow-md"
-                              />
-                            ) : (
-                              <div className="w-8 h-8 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-2 h-2 text-pink-500" />
-                              </div>
-                            )}
-                            
-                            <Button
-                              onClick={triggerSmallerImageUpload}
-                              className="absolute -top-0.5 -right-0.5 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
-                              size="sm"
-                            >
-                              <Upload className="w-1 h-1" />
-                            </Button>
-                          </div>
-                        </div>
-                      )}
                       </div>
                     </h4>
                     
