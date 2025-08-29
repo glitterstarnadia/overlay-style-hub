@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -38,9 +38,55 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState(mainImage);
   const [imageSettings, setImageSettings] = useState<Record<string, ImageSettings>>({});
+  const [currentMainImage, setCurrentMainImage] = useState(mainImage);
+  const [currentThumbnails, setCurrentThumbnails] = useState(thumbnails);
+  
+  const mainImageInputRef = useRef<HTMLInputElement>(null);
+  const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
 
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
+  };
+
+  const handleImageUpload = (file: File, isMain: boolean = false, thumbnailIndex?: number) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        
+        if (isMain) {
+          setCurrentMainImage(imageUrl);
+          setSelectedImage(imageUrl);
+          toast({
+            title: "📸 Main Image Updated!",
+            description: "New main image has been loaded",
+          });
+        } else if (thumbnailIndex !== undefined) {
+          const newThumbnails = [...currentThumbnails];
+          newThumbnails[thumbnailIndex] = imageUrl;
+          setCurrentThumbnails(newThumbnails);
+          toast({
+            title: "🖼️ Thumbnail Updated!",
+            description: `Thumbnail ${thumbnailIndex + 1} has been updated`,
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      toast({
+        title: "❌ Invalid File",
+        description: "Please select a valid image file",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const triggerMainImageUpload = () => {
+    mainImageInputRef.current?.click();
+  };
+
+  const triggerThumbnailUpload = (index: number) => {
+    thumbnailInputRefs.current[index]?.click();
   };
 
   const getImageSettings = (imageKey: string): ImageSettings => {
@@ -86,15 +132,51 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="p-6 flex gap-6 h-full">
+      {/* Hidden File Inputs */}
+      <input
+        ref={mainImageInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) handleImageUpload(file, true);
+        }}
+      />
+      {currentThumbnails.map((_, index) => (
+        <input
+          key={index}
+          ref={(el) => {
+            if (el) thumbnailInputRefs.current[index] = el;
+          }}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleImageUpload(file, false, index);
+          }}
+        />
+      ))}
+      
       {/* Main Image - Smaller */}
       <div className="flex-shrink-0">
         <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
           <img
-            src={imageMap[selectedImage] || selectedImage}
+            src={imageMap[currentMainImage] || currentMainImage}
             alt="Main character view"
             className="w-64 h-64 object-cover rounded-lg shadow-md"
           />
           <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
+          
+          {/* Change Main Image Button */}
+          <Button
+            onClick={triggerMainImageUpload}
+            className="absolute top-6 right-6 bg-pink-500/90 hover:bg-pink-600/90 text-white p-2 rounded-full shadow-lg backdrop-blur-sm"
+            size="sm"
+          >
+            <Camera className="w-4 h-4" />
+          </Button>
         </div>
       </div>
       
@@ -104,7 +186,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <span>✨</span> Variations
         </h3>
         <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-          {thumbnails.map((thumbnail, index) => {
+          {currentThumbnails.map((thumbnail, index) => {
             const imageKey = thumbnail;
             const settings = getImageSettings(imageKey);
             
@@ -119,11 +201,24 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     src={imageMap[thumbnail] || thumbnail}
                     alt={`Variation ${index + 1}`}
                     className="w-16 h-16 object-cover rounded-md group-hover:scale-105 transition-transform duration-300 shadow-sm"
+                    onClick={() => setSelectedImage(thumbnail)}
                   />
                   <div 
                     className="absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm"
                     style={{ backgroundColor: selectedColor }}
                   />
+                  
+                  {/* Change Thumbnail Button */}
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      triggerThumbnailUpload(index);
+                    }}
+                    className="absolute -bottom-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm"
+                    size="sm"
+                  >
+                    <Upload className="w-3 h-3" />
+                  </Button>
                 </div>
                 
                 {/* Controls */}
