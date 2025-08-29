@@ -17,8 +17,9 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
   onSaveColor,
   onDeleteColor
 }) => {
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleColorChange = (color: string) => {
     onColorSelect(color);
   };
@@ -64,31 +65,10 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
           <X className="w-2.5 h-2.5" />
         </button>}
     </div>;
-  return (
-    <div className="space-y-3">
+  return <div className="space-y-3">
       {/* Saved Colors */}
-      <div className="flex items-center justify-between">
-        <Label>Saved Colors</Label>
-        <Button onClick={saveCurrentColor} size="sm" variant="outline">
-          Save Current
-        </Button>
-      </div>
       
-      <div className="flex flex-wrap gap-2">
-        <HeartIcon
-          onClick={saveCurrentColor}
-          isAddButton={true}
-        />
-        {savedColors.map((color, index) => (
-          <HeartIcon
-            key={index}
-            color={color}
-            onClick={() => handleColorChange(color)}
-            onDelete={deleteColor}
-            index={index}
-          />
-        ))}
-      </div>
-    </div>
-  );
+      
+      
+    </div>;
 };
