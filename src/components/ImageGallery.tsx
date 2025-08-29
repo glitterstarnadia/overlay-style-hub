@@ -78,6 +78,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   ]);
   const [activeProfileId, setActiveProfileId] = useState('default');
   const [selectedConfiguration, setSelectedConfiguration] = useState<SavedConfiguration | null>(null);
+  const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const [profileImageSettings, setProfileImageSettings] = useState<ImageSettings>({
+    position: { x: 0, y: 0, z: 0 },
+    rotation: { x: 0, y: 0, z: 0 },
+    scale: 1.0
+  });
+  const [profileImageLayers, setProfileImageLayers] = useState<ImageSettings[]>([]);
   
   const activeProfile = profiles.find(p => p.id === activeProfileId) || profiles[0];
   const mainImageInputRef = useRef<HTMLInputElement>(null);
@@ -251,6 +258,48 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const handleConfigurationClick = (config: SavedConfiguration) => {
     setSelectedConfiguration(selectedConfiguration?.id === config.id ? null : config);
     setSelectedImage(config.thumbnail);
+    setShowProfileDetails(false);
+  };
+
+  const handleProfileClick = () => {
+    setShowProfileDetails(!showProfileDetails);
+    setSelectedConfiguration(null);
+  };
+
+  const updateProfileImageSettings = (settings: Partial<ImageSettings>) => {
+    setProfileImageSettings(prev => ({
+      ...prev,
+      ...settings
+    }));
+  };
+
+  const addProfileImageLayer = () => {
+    const newLayer: ImageSettings = {
+      position: { x: 0, y: 0, z: 0 },
+      rotation: { x: 0, y: 0, z: 0 },
+      scale: 1.0
+    };
+    setProfileImageLayers(prev => [...prev, newLayer]);
+    
+    toast({
+      title: "➕ Layer Added!",
+      description: "New image layer created for profile"
+    });
+  };
+
+  const updateProfileImageLayer = (index: number, settings: Partial<ImageSettings>) => {
+    setProfileImageLayers(prev => prev.map((layer, i) => 
+      i === index ? { ...layer, ...settings } : layer
+    ));
+  };
+
+  const deleteProfileImageLayer = (index: number) => {
+    setProfileImageLayers(prev => prev.filter((_, i) => i !== index));
+    
+    toast({
+      title: "🗑️ Layer Deleted",
+      description: "Image layer removed from profile"
+    });
   };
 
   const createNewProfile = () => {
@@ -342,24 +391,30 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       <div className="flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="relative">
+            <div 
+              className="relative cursor-pointer"
+              onClick={handleProfileClick}
+            >
               {activeProfile.thumbnail ? (
                 <img 
                   src={imageMap[activeProfile.thumbnail] || activeProfile.thumbnail} 
                   alt={activeProfile.name}
-                  className="w-12 h-12 object-cover rounded-full border-2 border-pink-300 shadow-md"
+                  className="w-20 h-20 object-cover rounded-full border-3 border-pink-300 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 />
               ) : (
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full border-2 border-pink-300 shadow-md flex items-center justify-center">
-                  <span className="text-pink-600 text-lg">👤</span>
+                <div className="w-20 h-20 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full border-3 border-pink-300 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center">
+                  <span className="text-pink-600 text-2xl">👤</span>
                 </div>
               )}
               <Button
-                onClick={() => triggerProfileThumbnailUpload(activeProfileId)}
-                className="absolute -bottom-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  triggerProfileThumbnailUpload(activeProfileId);
+                }}
+                className="absolute -bottom-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
                 size="sm"
               >
-                <Upload className="w-2 h-2" />
+                <Upload className="w-3 h-3" />
               </Button>
             </div>
             <div>
@@ -484,6 +539,250 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 <p className="text-xs text-pink-600 mt-1 text-center truncate">{config.name}</p>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Profile Details Panel */}
+      {showProfileDetails && (
+        <div className="flex-shrink-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-blue-100/50 rounded-xl p-4 shadow-lg border border-blue-200/40">
+          <h4 className="text-base font-semibold text-blue-700 mb-4 flex items-center gap-2">
+            <Eye className="w-4 h-4" />
+            {activeProfile.name} - Image Settings
+          </h4>
+          
+          {/* Main Profile Image Settings */}
+          <div className="mb-6 p-4 bg-white/40 rounded-lg border border-blue-200/60">
+            <h5 className="text-sm font-medium text-blue-700 mb-3 flex items-center gap-2">
+              <Upload className="w-3 h-3" />
+              Main Profile Image
+            </h5>
+            
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              {/* Position Controls */}
+              <div>
+                <p className="font-medium text-blue-700 mb-2">Position</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">X:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.position.x} 
+                      onChange={e => updateProfileImageSettings({
+                        position: { ...profileImageSettings.position, x: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">Y:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.position.y} 
+                      onChange={e => updateProfileImageSettings({
+                        position: { ...profileImageSettings.position, y: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">Z:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.position.z} 
+                      onChange={e => updateProfileImageSettings({
+                        position: { ...profileImageSettings.position, z: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Rotation Controls */}
+              <div>
+                <p className="font-medium text-blue-700 mb-2">Rotate</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">X:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.rotation.x} 
+                      onChange={e => updateProfileImageSettings({
+                        rotation: { ...profileImageSettings.rotation, x: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">Y:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.rotation.y} 
+                      onChange={e => updateProfileImageSettings({
+                        rotation: { ...profileImageSettings.rotation, y: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-600 w-4">Z:</span>
+                    <input 
+                      type="number" 
+                      className="w-16 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                      value={profileImageSettings.rotation.z} 
+                      onChange={e => updateProfileImageSettings({
+                        rotation: { ...profileImageSettings.rotation, z: parseFloat(e.target.value) || 0 }
+                      })} 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Scale Control */}
+              <div>
+                <p className="font-medium text-blue-700 mb-2">Scale</p>
+                <input 
+                  type="number" 
+                  step="0.1" 
+                  className="w-20 px-2 py-1 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                  value={profileImageSettings.scale} 
+                  onChange={e => updateProfileImageSettings({
+                    scale: parseFloat(e.target.value) || 1.0
+                  })} 
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Additional Image Layers */}
+          {profileImageLayers.length > 0 && (
+            <div className="mb-4">
+              <h5 className="text-sm font-medium text-blue-700 mb-3">Additional Image Layers</h5>
+              <div className="space-y-3">
+                {profileImageLayers.map((layer, index) => (
+                  <div key={index} className="p-3 bg-white/40 rounded-lg border border-blue-200/60">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-blue-700">Layer {index + 1}</span>
+                      <Button
+                        onClick={() => deleteProfileImageLayer(index)}
+                        className="bg-red-500/90 hover:bg-red-600/90 text-white px-2 py-1 text-xs"
+                        size="sm"
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-3 text-xs">
+                      {/* Position Controls */}
+                      <div>
+                        <p className="font-medium text-blue-700 mb-1">Position</p>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">X:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.position.x} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                position: { ...layer.position, x: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">Y:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.position.y} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                position: { ...layer.position, y: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">Z:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.position.z} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                position: { ...layer.position, z: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Rotation Controls */}
+                      <div>
+                        <p className="font-medium text-blue-700 mb-1">Rotate</p>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">X:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.rotation.x} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                rotation: { ...layer.rotation, x: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">Y:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.rotation.y} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                rotation: { ...layer.rotation, y: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-blue-600 w-3">Z:</span>
+                            <input 
+                              type="number" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                              value={layer.rotation.z} 
+                              onChange={e => updateProfileImageLayer(index, {
+                                rotation: { ...layer.rotation, z: parseFloat(e.target.value) || 0 }
+                              })} 
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Scale Control */}
+                      <div>
+                        <p className="font-medium text-blue-700 mb-1">Scale</p>
+                        <input 
+                          type="number" 
+                          step="0.1" 
+                          className="w-16 px-1 py-0.5 text-xs rounded border border-blue-200 bg-white/60 focus:border-blue-400 focus:outline-none text-blue-600" 
+                          value={layer.scale} 
+                          onChange={e => updateProfileImageLayer(index, {
+                            scale: parseFloat(e.target.value) || 1.0
+                          })} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Add Layer Button */}
+          <div className="flex justify-center">
+            <Button
+              onClick={addProfileImageLayer}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 text-sm"
+              size="sm"
+            >
+              ➕ Add Layer
+            </Button>
           </div>
         </div>
       )}
