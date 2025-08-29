@@ -34,51 +34,94 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return (
-    <div className="h-full flex gap-4">
-      {/* Main Image - Smaller size */}
-      <div className="w-80 bg-overlay-surface/30 rounded-lg border border-overlay-border overflow-hidden">
-        <div className="aspect-square w-full">
+    <div className="p-6 flex gap-6 h-full">
+      {/* Main Image - Smaller */}
+      <div className="flex-shrink-0">
+        <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
           <img
             src={imageMap[selectedImage] || selectedImage}
-            alt="Selected item"
-            className="w-full h-full object-cover"
-            style={{ filter: `hue-rotate(${selectedColor ? '0deg' : '0deg'})` }}
+            alt="Main character view"
+            className="w-64 h-64 object-cover rounded-lg shadow-md"
           />
-        </div>
-        
-        {/* Color indicator */}
-        <div className="p-3 bg-overlay-surface/50 border-t border-overlay-border">
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-4 h-4 rounded-full border border-overlay-border"
-              style={{ backgroundColor: selectedColor }}
-            />
-            <span className="text-xs text-muted-foreground">Selected Color</span>
-          </div>
+          <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
         </div>
       </div>
-
-      {/* Thumbnail Grid */}
-      <div className="w-20 flex flex-col gap-2">
-        {thumbnails.map((thumbnail, index) => (
-          <Button
-            key={index}
-            variant="ghost"
-            className={cn(
-              "p-1 h-auto aspect-square rounded-lg border-2 transition-all duration-200",
-              selectedImage === thumbnail
-                ? "border-primary shadow-glow"
-                : "border-overlay-border hover:border-overlay-active/50"
-            )}
-            onClick={() => handleThumbnailClick(thumbnail)}
-          >
-            <img
-              src={imageMap[thumbnail] || thumbnail}
-              alt={`Option ${index + 1}`}
-              className="w-full h-full object-cover rounded-md"
-            />
-          </Button>
-        ))}
+      
+      {/* Side Panel with Scrollable Thumbnails */}
+      <div className="flex-1 min-w-0">
+        <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
+          <span>✨</span> Variations
+        </h3>
+        <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+          {thumbnails.map((thumbnail, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 p-3 bg-gradient-to-r from-pink-50/50 to-purple-50/50 rounded-lg border border-pink-200/50 hover:border-pink-300 transition-all duration-300 hover:shadow-md cursor-pointer group"
+            >
+              {/* Thumbnail Image */}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={imageMap[thumbnail] || thumbnail}
+                  alt={`Variation ${index + 1}`}
+                  className="w-16 h-16 object-cover rounded-md group-hover:scale-105 transition-transform duration-300 shadow-sm"
+                />
+                <div 
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm"
+                  style={{ backgroundColor: selectedColor }}
+                />
+              </div>
+              
+              {/* Controls */}
+              <div className="flex-1 space-y-2 text-sm">
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Position Controls */}
+                  <div>
+                    <p className="font-medium text-pink-700 mb-1">Position</p>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">X:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">Y:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">Z:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Rotate Controls */}
+                  <div>
+                    <p className="font-medium text-pink-700 mb-1">Rotate</p>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">X:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">Y:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-pink-600 w-4">Z:</span>
+                        <input className="flex-1 px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="0" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Scale Control */}
+                <div>
+                  <p className="font-medium text-pink-700 mb-1">Scale</p>
+                  <input className="w-full px-2 py-1 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" defaultValue="1.0" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

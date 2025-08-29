@@ -5,6 +5,7 @@ import { X, Settings, Move, MoreVertical, RotateCcw, Download, Upload, Palette, 
 import { SectionPanel } from './SectionPanel';
 import { ColorPickerPanel } from './ColorPickerPanel';
 import { SettingsMenu } from './SettingsMenu';
+import { SparkleEffect } from './SparkleEffect';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -196,7 +197,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       }}
       onMouseDown={handleMouseDown}
     >
-      <Card className="bg-overlay-bg/95 backdrop-blur-lg border-overlay-border shadow-overlay w-full h-full overflow-hidden relative">
+      <Card className="bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-pink-200/60 shadow-xl w-full h-full overflow-hidden relative magic-cursor">
         {/* Header */}
         <div
           data-drag-handle
@@ -204,7 +205,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         >
           <div className="flex items-center gap-2">
             <Move className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-lg font-semibold text-foreground">Character Editor</h2>
+            <h2 className="text-lg font-semibold text-foreground">Menu</h2>
           </div>
           <div className="flex items-center gap-2">
             <SettingsMenu
@@ -293,6 +294,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           }}
         />
       </Card>
+      <SparkleEffect />
     </div>
   );
 };
