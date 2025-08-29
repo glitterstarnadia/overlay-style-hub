@@ -336,9 +336,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       )}
                     </h4>
                     
-                    <div className="grid grid-cols-5 gap-0">
+                    <div className="flex gap-1">
                       {/* Position Controls */}
-                      <div>
+                      <div className="flex-1">
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Pos</p>
                         <div className="space-y-0">
                           <div className="flex items-center">
@@ -378,7 +378,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Rotate Controls */}
-                      <div>
+                      <div className="flex-1">
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Rot</p>
                         <div className="space-y-0">
                           <div className="flex items-center">
@@ -418,7 +418,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Scale Control */}
-                      <div>
+                      <div className="flex-1">
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Scale</p>
                         <input 
                           type="number"
@@ -432,7 +432,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Save Button */}
-                      <div className="flex items-end justify-center col-span-2">
+                      <div className="flex items-end">
                         <Button
                           onClick={() => saveImageSettings(imageKey)}
                           className="bg-pink-500 hover:bg-pink-600 text-white w-6 h-6 p-0 rounded-full flex items-center justify-center"
