@@ -36,10 +36,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   selectedColor,
 }) => {
   const { toast } = useToast();
-  const [selectedImage, setSelectedImage] = useState(mainImage);
+  const [selectedImage, setSelectedImage] = useState('');
   const [imageSettings, setImageSettings] = useState<Record<string, ImageSettings>>({});
-  const [currentMainImage, setCurrentMainImage] = useState(mainImage);
-  const [currentThumbnails, setCurrentThumbnails] = useState(thumbnails);
+  const [currentMainImage, setCurrentMainImage] = useState('');
+  const [currentThumbnails, setCurrentThumbnails] = useState<string[]>([]);
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
@@ -162,12 +162,23 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Main Image - Smaller */}
       <div className="flex-shrink-0">
         <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
-          <img
-            src={imageMap[currentMainImage] || currentMainImage}
-            alt="Main character view"
-            className="w-64 h-64 object-cover rounded-lg shadow-md"
-          />
-          <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
+          {currentMainImage ? (
+            <>
+              <img
+                src={imageMap[currentMainImage] || currentMainImage}
+                alt="Main character view"
+                className="w-64 h-64 object-cover rounded-lg shadow-md"
+              />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
+            </>
+          ) : (
+            <div className="w-64 h-64 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
+              <div className="text-center text-pink-500">
+                <Upload className="w-8 h-8 mx-auto mb-2" />
+                <p className="text-sm">Upload Main Image</p>
+              </div>
+            </div>
+          )}
           
           {/* Change Main Image Button */}
           <Button
@@ -175,7 +186,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             className="absolute top-6 right-6 bg-pink-500/90 hover:bg-pink-600/90 text-white p-2 rounded-full shadow-lg backdrop-blur-sm"
             size="sm"
           >
-            <Camera className="w-4 h-4" />
+            <Upload className="w-4 h-4" />
           </Button>
         </div>
       </div>
@@ -186,7 +197,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <span>✨</span> Variations
         </h3>
         <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-          {currentThumbnails.map((thumbnail, index) => {
+          {currentThumbnails.length > 0 ? currentThumbnails.map((thumbnail, index) => {
             const imageKey = thumbnail;
             const settings = getImageSettings(imageKey);
             
@@ -336,7 +347,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 </div>
               </div>
             );
-          })}
+          }) : (
+            <div className="text-center text-pink-500 py-8">
+              <Upload className="w-8 h-8 mx-auto mb-2" />
+              <p className="text-sm">No variations uploaded yet</p>
+              <p className="text-xs text-pink-400 mt-1">Upload images to see variations here</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
