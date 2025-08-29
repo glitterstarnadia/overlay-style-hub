@@ -274,10 +274,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         {/* Content */}
         <div className="flex h-full">
           {/* Content Area - Full Width */}
-          <div className="flex-1 min-h-0 p-6">
-            <div className="h-full overflow-y-auto">
+          <div className="flex-1 min-h-0 p-4">
+            <div className="h-full overflow-y-auto custom-scrollbar">
               {/* Display all sections content */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {sections.map(sectionId => (
                   <SectionPanel 
                     key={sectionId}

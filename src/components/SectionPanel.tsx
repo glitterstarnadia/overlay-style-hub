@@ -4,6 +4,36 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+/* Custom Scrollbar Styles for SectionPanel */
+const scrollbarStyles = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(219, 188, 255, 0.2);
+    border-radius: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(236, 72, 153, 0.6);
+    border-radius: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(236, 72, 153, 0.8);
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const existingStyle = document.getElementById('section-panel-scrollbar');
+  if (!existingStyle) {
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'section-panel-scrollbar';
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = scrollbarStyles;
+    document.head.appendChild(styleSheet);
+  }
+}
+
 interface SectionPanelProps {
   sectionId: string;
   sectionTitle: string;
@@ -108,8 +138,14 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   return (
     <div className="border border-overlay-border rounded-lg bg-overlay-surface/20 overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-overlay-border bg-overlay-surface/30 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">{sectionTitle}</h3>
+      <div className={cn(
+        "p-2 border-b border-overlay-border bg-overlay-surface/30 flex items-center justify-between",
+        isCollapsed ? "py-1" : "py-2"
+      )}>
+        <h3 className={cn(
+          "font-semibold text-foreground",
+          isCollapsed ? "text-sm" : "text-lg"
+        )}>{sectionTitle}</h3>
         {onToggleCollapse && (
           <Button
             variant="ghost"
@@ -129,9 +165,9 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
       {/* Content */}
       <div className={cn(
         "transition-all duration-300 ease-in-out overflow-hidden",
-        isCollapsed ? "max-h-0 opacity-0" : "max-h-[500px] opacity-100"
+        isCollapsed ? "max-h-0 opacity-0" : "max-h-[75vh] opacity-100"
       )}>
-        <div className="p-4">
+        <div className="p-4 h-full overflow-y-auto custom-scrollbar">
           <ImageGallery
             mainImage={data.mainImage}
             thumbnails={data.thumbnails}
