@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Settings, Move, MoreVertical, RotateCcw, Download, Upload, Palette, Pin, Eye } from 'lucide-react';
@@ -13,7 +12,8 @@ import { useToast } from '@/hooks/use-toast';
 interface CustomizationOverlayProps {
   isVisible: boolean;
   onToggle: () => void;
-  activeSection?: string;
+  defaultActiveSection?: string;
+  pageKey?: string;
 }
 const sections = [{
   id: 'hair',
@@ -43,11 +43,11 @@ const sections = [{
 export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
   onToggle,
-  activeSection: initialActiveSection
+  defaultActiveSection,
+  pageKey = 'default'
 }) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState<string | null>(initialActiveSection || null);
+  const [activeSection, setActiveSection] = useState<string | null>(defaultActiveSection || null);
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [position, setPosition] = useState({
     x: 50,
@@ -70,11 +70,23 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     height: 0
   });
 
-  // Settings state
-  const [opacity, setOpacity] = useState(100);
-  const [alwaysOnTop, setAlwaysOnTop] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [savedColors, setSavedColors] = useState<string[]>(['#ffb3ba', '#ffb3d6', '#d6b3ff', '#b3d6ff', '#b3ffb3', '#ffffb3', '#ffcc99', '#ff9999', '#ff66b3', '#b366ff', '#66b3ff', '#66ff66', '#ffff66', '#ff9966']);
+  // Settings state - using pageKey to isolate state per page
+  const [opacity, setOpacity] = useState(() => {
+    const saved = localStorage.getItem(`customization-opacity-${pageKey}`);
+    return saved ? parseInt(saved) : 100;
+  });
+  const [alwaysOnTop, setAlwaysOnTop] = useState(() => {
+    const saved = localStorage.getItem(`customization-alwaysOnTop-${pageKey}`);
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const saved = localStorage.getItem(`customization-theme-${pageKey}`);
+    return saved ? saved as 'dark' | 'light' : 'dark';
+  });
+  const [savedColors, setSavedColors] = useState<string[]>(() => {
+    const saved = localStorage.getItem(`customization-colors-${pageKey}`);
+    return saved ? JSON.parse(saved) : ['#ffb3ba', '#ffb3d6', '#d6b3ff', '#b3d6ff', '#b3ffb3', '#ffffb3', '#ffcc99', '#ff9999', '#ff66b3', '#b366ff', '#66b3ff', '#66ff66', '#ffff66', '#ff9966'];
+  });
   const overlayRef = useRef<HTMLDivElement>(null);
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget || (e.target as HTMLElement).closest('[data-drag-handle]')) {
@@ -164,6 +176,18 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
   };
   useEffect(() => {
+    localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
+  }, [opacity, pageKey]);
+
+  useEffect(() => {
+    localStorage.setItem(`customization-alwaysOnTop-${pageKey}`, JSON.stringify(alwaysOnTop));
+  }, [alwaysOnTop, pageKey]);
+
+  useEffect(() => {
+    localStorage.setItem(`customization-theme-${pageKey}`, theme);
+  }, [theme, pageKey]);
+
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
         setPosition({
@@ -228,7 +252,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border flex flex-col">
             <nav className="p-2 flex-1 overflow-y-auto max-h-full">
               <div className="space-y-1">
-                {sections.map(section => <button key={section.id} onClick={() => navigate(`/${section.id}`)} className={cn("w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", "hover:bg-overlay-hover hover:text-foreground", activeSection === section.id ? "bg-primary text-primary-foreground shadow-glow" : "text-muted-foreground")}>
+                {sections.map(section => <button key={section.id} onClick={() => setActiveSection(activeSection === section.id ? null : section.id)} className={cn("w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", "hover:bg-overlay-hover hover:text-foreground", activeSection === section.id ? "bg-primary text-primary-foreground shadow-glow" : "text-muted-foreground")}>
                     {section.title}
                   </button>)}
               </div>
@@ -259,6 +283,20 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       <SparkleEffect />
       
       {/* Heart Color Picker */}
-      <HeartColorPicker currentColor={selectedColor} onColorSelect={setSelectedColor} savedColors={savedColors} onSaveColor={color => setSavedColors(prev => [...prev, color])} onDeleteColor={index => setSavedColors(prev => prev.filter((_, i) => i !== index))} />
+      <HeartColorPicker 
+        currentColor={selectedColor} 
+        onColorSelect={setSelectedColor} 
+        savedColors={savedColors} 
+        onSaveColor={color => {
+          const newColors = [...savedColors, color];
+          setSavedColors(newColors);
+          localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
+        }} 
+        onDeleteColor={index => {
+          const newColors = savedColors.filter((_, i) => i !== index);
+          setSavedColors(newColors);
+          localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
+        }} 
+      />
     </div>;
 };

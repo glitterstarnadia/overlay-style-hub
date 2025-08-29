@@ -14,7 +14,8 @@ const Colours = () => {
       <CustomizationOverlay 
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
-        activeSection="colours"
+        defaultActiveSection="colours"
+        pageKey="colours"
       />
     </div>
   );

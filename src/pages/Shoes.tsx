@@ -14,7 +14,8 @@ const Shoes = () => {
       <CustomizationOverlay 
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
-        activeSection="shoes"
+        defaultActiveSection="shoes"
+        pageKey="shoes"
       />
     </div>
   );

@@ -14,7 +14,8 @@ const Tops = () => {
       <CustomizationOverlay 
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
-        activeSection="tops"
+        defaultActiveSection="tops"
+        pageKey="tops"
       />
     </div>
   );

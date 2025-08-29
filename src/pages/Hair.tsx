@@ -14,7 +14,8 @@ const Hair = () => {
       <CustomizationOverlay 
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
-        activeSection="hair"
+        defaultActiveSection="hair"
+        pageKey="hair"
       />
     </div>
   );
