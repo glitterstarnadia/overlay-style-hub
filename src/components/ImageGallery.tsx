@@ -336,119 +336,109 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       )}
                     </h4>
                     
-                    <div className="flex gap-3">
-                      {/* Preview Area */}
-                      <div className="flex-shrink-0 w-24 h-20 border-2 border-pink-300 rounded bg-white/40 flex items-center justify-center">
-                        <div className="text-pink-400 text-xs">Preview</div>
-                      </div>
-                      
-                      {/* Controls Area */}
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div className="space-y-2">
-                          {/* Position Controls */}
-                          <div>
-                            <p className="font-medium text-pink-700 mb-1 text-xs">Position</p>
-                            <div className="flex gap-2">
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">x</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                                  value={settings.position.x}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">y</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                                  value={settings.position.y}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">z</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
-                                  value={settings.position.z}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Rotation Controls */}
-                          <div>
-                            <p className="font-medium text-pink-700 mb-1 text-xs">Rotation</p>
-                            <div className="flex gap-2">
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">x</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                                  value={settings.rotation.x}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">y</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                                  value={settings.rotation.y}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <span className="text-xs text-pink-600">z</span>
-                                <input 
-                                  type="number"
-                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
-                                  value={settings.rotation.z}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
-                                  })}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Scale Control */}
-                          <div>
-                            <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
+                    <div className="space-y-2">
+                      {/* Position Controls */}
+                      <div>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Position</p>
+                        <div className="flex gap-2">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">x</span>
                             <input 
                               type="number"
-                              step="0.1"
-                              className="w-20 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                              value={settings.scale}
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              value={settings.position.x}
                               onChange={(e) => updateImageSettings(imageKey, { 
-                                scale: parseFloat(e.target.value) || 1.0 
+                                position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
+                              })}
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">y</span>
+                            <input 
+                              type="number"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              value={settings.position.y}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
+                              })}
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">z</span>
+                            <input 
+                              type="number"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              value={settings.position.z}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
                               })}
                             />
                           </div>
                         </div>
-                        
-                        {/* Save Button */}
-                        <div className="flex justify-end">
-                          <Button
-                            onClick={() => saveImageSettings(imageKey)}
-                            className="bg-pink-500 hover:bg-pink-600 text-white w-12 h-8 rounded-full flex items-center justify-center text-xs"
-                          >
-                            Save
-                          </Button>
+                      </div>
+                      
+                      {/* Rotation Controls */}
+                      <div>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Rotation</p>
+                        <div className="flex gap-2">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">x</span>
+                            <input 
+                              type="number"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              value={settings.rotation.x}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
+                              })}
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">y</span>
+                            <input 
+                              type="number"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              value={settings.rotation.y}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
+                              })}
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600">z</span>
+                            <input 
+                              type="number"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              value={settings.rotation.z}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
+                              })}
+                            />
+                          </div>
                         </div>
+                      </div>
+                      
+                      {/* Scale Control */}
+                      <div>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
+                        <input 
+                          type="number"
+                          step="0.1"
+                          className="w-20 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                          value={settings.scale}
+                          onChange={(e) => updateImageSettings(imageKey, { 
+                            scale: parseFloat(e.target.value) || 1.0 
+                          })}
+                        />
+                      </div>
+                      
+                      {/* Save Button */}
+                      <div className="flex justify-end">
+                        <Button
+                          onClick={() => saveImageSettings(imageKey)}
+                          className="bg-pink-500 hover:bg-pink-600 text-white w-12 h-8 rounded-full flex items-center justify-center text-xs"
+                        >
+                          Save
+                        </Button>
                       </div>
                     </div>
                   </div>
