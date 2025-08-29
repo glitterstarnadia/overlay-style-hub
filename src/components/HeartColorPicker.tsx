@@ -22,6 +22,7 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
   onDeleteColor 
 }) => {
   const [hexInput, setHexInput] = useState(currentColor);
+  const [scaleHexInput, setScaleHexInput] = useState('#ffffff');
   const [rgbValues, setRgbValues] = useState({ r: 255, g: 105, b: 180 });
   const { toast } = useToast();
 
@@ -54,6 +55,17 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
     setHexInput(value);
     if (value.match(/^#[0-9A-Fa-f]{6}$/)) {
       handleColorChange(value);
+    }
+  };
+
+  const handleScaleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setScaleHexInput(value);
+    if (value.match(/^#[0-9A-Fa-f]{6}$/)) {
+      toast({
+        title: "Scale Color Updated",
+        description: `Scale hex set to ${value}`,
+      });
     }
   };
 
@@ -180,22 +192,24 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
 
           <div>
             <Label className="text-xs font-bold text-pink-600 mb-1 block">HEX</Label>
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                value={hexInput}
-                onChange={handleHexInputChange}
-                className="w-20 h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
-                placeholder="#ffffff"
-              />
-              <Input
-                type="text"
-                value={hexInput}
-                onChange={handleHexInputChange}
-                className="w-20 h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
-                placeholder="Scale HEX"
-              />
-            </div>
+            <Input
+              type="text"
+              value={hexInput}
+              onChange={handleHexInputChange}
+              className="w-full h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
+              placeholder="#ffffff"
+            />
+          </div>
+
+          <div>
+            <Label className="text-xs font-bold text-pink-600 mb-1 block">Scale HEX</Label>
+            <Input
+              type="text"
+              value={scaleHexInput}
+              onChange={handleScaleHexChange}
+              className="w-full h-8 text-center bg-white border-2 border-pink-300 text-pink-700 font-mono font-bold"
+              placeholder="#ffffff"
+            />
           </div>
         </div>
 
