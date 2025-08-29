@@ -260,7 +260,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <span>🎨</span> Image Configuration
           </h3>
           
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             {/* Main Image Display */}
             <div className="flex-shrink-0">
               <img
@@ -278,7 +278,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 
                 return (
                   <div key={controlId} className="p-2 bg-white/40 rounded-lg border border-pink-200/60">
-                    <h4 className="text-xs font-medium text-pink-700 mb-1 flex items-center gap-2">
+                    <h4 className="text-xs font-medium text-pink-700 mb-1 flex items-center gap-1">
                       Set {index + 1}
                       
                       {/* Individual Image Upload for each Transform Set */}
@@ -289,11 +289,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-8 h-8 object-cover rounded shadow-md"
+                                className="w-12 h-12 object-cover rounded shadow-md"
                               />
                             ) : (
-                              <div className="w-8 h-8 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-2 h-2 text-pink-500" />
+                              <div className="w-12 h-12 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
                             
@@ -302,7 +302,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               className="absolute -top-0.5 -right-0.5 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
                               size="sm"
                             >
-                              <Upload className="w-1.5 h-1.5" />
+                              <Upload className="w-1 h-1" />
                             </Button>
                           </div>
                         </div>
@@ -316,11 +316,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[smallerImage] || smallerImage}
                                 alt="Smaller image"
-                                className="w-8 h-8 object-cover rounded shadow-md"
+                                className="w-12 h-12 object-cover rounded shadow-md"
                               />
                             ) : (
-                              <div className="w-8 h-8 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-2 h-2 text-pink-500" />
+                              <div className="w-12 h-12 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
                             
@@ -329,19 +329,19 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               className="absolute -top-0.5 -right-0.5 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
                               size="sm"
                             >
-                              <Upload className="w-1.5 h-1.5" />
+                              <Upload className="w-1 h-1" />
                             </Button>
                           </div>
                         </div>
                       )}
                     </h4>
                     
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-1">
                       {/* Position Controls */}
                       <div>
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Pos</p>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">X</span>
                             <input 
                               type="number"
@@ -352,7 +352,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">Y</span>
                             <input 
                               type="number"
@@ -363,7 +363,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">Z</span>
                             <input 
                               type="number"
@@ -381,7 +381,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <div>
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Rot</p>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">X</span>
                             <input 
                               type="number"
@@ -392,7 +392,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">Y</span>
                             <input 
                               type="number"
@@ -403,7 +403,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-0.5">
                             <span className="text-xs text-pink-600 w-2">Z</span>
                             <input 
                               type="number"
