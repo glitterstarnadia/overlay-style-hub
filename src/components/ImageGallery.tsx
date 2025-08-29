@@ -598,10 +598,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-12 h-12 object-cover rounded shadow-md"
+                                className="w-14 h-14 object-cover rounded shadow-md"
                               />
                             ) : (
-                              <div className="w-12 h-12 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                              <div className="w-14 h-14 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
                                 <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
@@ -707,7 +707,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           <input 
                             type="number"
                             step="0.1"
-                            className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                             value={settings.scale}
                             onChange={(e) => updateImageSettings(imageKey, { 
                               scale: parseFloat(e.target.value) || 1.0 
@@ -718,7 +718,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             <input 
                               type="text"
                               placeholder="#ffffff"
-                              className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                              className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
                               value={settings.scaleHex || '#ffffff'}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 scaleHex: e.target.value 
@@ -882,27 +882,27 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
                       <p className="font-medium text-pink-700 mb-1">Scale</p>
-                      <div className="flex gap-2 items-center">
-                        <input 
-                          className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
-                          value={settings.scale}
-                          onChange={(e) => updateImageSettings(imageKey, { 
-                            scale: parseFloat(e.target.value) || 1.0 
-                          })}
-                        />
-                        <div className="flex flex-col">
-                          <label className="text-xs text-pink-600 mb-0.5">Hex Code</label>
+                        <div className="flex gap-2 items-center">
                           <input 
-                            type="text"
-                            placeholder="#ffffff"
-                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
-                            value={settings.scaleHex || '#ffffff'}
+                            className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                            value={settings.scale}
                             onChange={(e) => updateImageSettings(imageKey, { 
-                              scaleHex: e.target.value 
+                              scale: parseFloat(e.target.value) || 1.0 
                             })}
                           />
+                          <div className="flex flex-col">
+                            <label className="text-xs text-pink-600 mb-0.5">Hex Code</label>
+                            <input 
+                              type="text"
+                              placeholder="#ffffff"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                              value={settings.scaleHex || '#ffffff'}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                scaleHex: e.target.value 
+                              })}
+                            />
+                          </div>
                         </div>
-                      </div>
                     </div>
                     
                     {/* Action Buttons */}
