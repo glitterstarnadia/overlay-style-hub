@@ -30,6 +30,17 @@ interface ImageSettings {
   scale: number;
 }
 
+interface SavedProfile {
+  id: string;
+  name: string;
+  thumbnail: string;
+  mainImage: string;
+  settings: Record<string, ImageSettings>;
+  transformImages: Record<string, string>;
+  smallerImage: string;
+  createdAt: Date;
+}
+
 export const ImageGallery: React.FC<ImageGalleryProps> = ({
   mainImage,
   thumbnails,
@@ -43,6 +54,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [smallerImage, setSmallerImage] = useState('');
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
+  const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -151,6 +163,54 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
+  const saveProfile = () => {
+    if (!currentMainImage) {
+      toast({
+        title: "❌ No Main Image",
+        description: "Please upload a main image first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newProfile: SavedProfile = {
+      id: `profile-${Date.now()}`,
+      name: `Profile ${savedProfiles.length + 1}`,
+      thumbnail: currentMainImage,
+      mainImage: currentMainImage,
+      settings: { ...imageSettings },
+      transformImages: { ...transformImages },
+      smallerImage: smallerImage,
+      createdAt: new Date(),
+    };
+
+    setSavedProfiles(prev => [...prev, newProfile]);
+    toast({
+      title: "✨ Profile Saved!",
+      description: "Your image configuration has been saved",
+    });
+  };
+
+  const loadProfile = (profile: SavedProfile) => {
+    setCurrentMainImage(profile.mainImage);
+    setSelectedImage(profile.mainImage);
+    setImageSettings(profile.settings);
+    setTransformImages(profile.transformImages);
+    setSmallerImage(profile.smallerImage);
+    toast({
+      title: "📁 Profile Loaded!",
+      description: `Loaded configuration for ${profile.name}`,
+    });
+  };
+
+  const deleteProfile = (profileId: string) => {
+    setSavedProfiles(prev => prev.filter(p => p.id !== profileId));
+    toast({
+      title: "🗑️ Profile Deleted!",
+      description: "Profile has been removed",
+    });
+  };
+
   const clearImageSettings = (imageKey: string) => {
     const defaultSettings = {
       position: { x: 0, y: 0, z: 0 },
@@ -169,6 +229,42 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
+      
+      {/* Saved Profiles Section */}
+      {savedProfiles.length > 0 && (
+        <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
+          <h3 className="text-lg font-semibold text-purple-700 mb-3 flex items-center gap-2">
+            <span>📁</span> Saved Profiles
+          </h3>
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {savedProfiles.map((profile) => (
+              <div key={profile.id} className="flex-shrink-0 relative group">
+                <div 
+                  className="w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200 hover:border-purple-400 cursor-pointer transition-all duration-300 hover:scale-105"
+                  onClick={() => loadProfile(profile)}
+                >
+                  <img
+                    src={imageMap[profile.thumbnail] || profile.thumbnail}
+                    alt={profile.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-xs text-purple-600 mt-1 text-center truncate w-20">{profile.name}</p>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteProfile(profile.id);
+                  }}
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  size="sm"
+                >
+                  ×
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {/* Hidden File Inputs */}
       <input
         ref={mainImageInputRef}
@@ -450,12 +546,22 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           </div>
           
           {/* Add Transform Control Button */}
-          <div className="mt-2 flex justify-center">
+          <div className="mt-2 flex justify-center gap-2">
             <Button
               onClick={addTransformControl}
               className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
             >
               ➕ Add
+            </Button>
+          </div>
+          
+          {/* Save Profile Button */}
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={saveProfile}
+              className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 text-sm font-medium"
+            >
+              💾 Save Profile
             </Button>
           </div>
         </div>
