@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, X } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -55,9 +55,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
-  const [activeProfileId, setActiveProfileId] = useState<string | null>(null);
-  const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState('');
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -176,44 +173,22 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       return;
     }
 
-    if (activeProfileId) {
-      // Overwrite existing profile
-      setSavedProfiles(prev => prev.map(profile => 
-        profile.id === activeProfileId 
-          ? {
-              ...profile,
-              thumbnail: currentMainImage,
-              mainImage: currentMainImage,
-              settings: { ...imageSettings },
-              transformImages: { ...transformImages },
-              smallerImage: smallerImage,
-            }
-          : profile
-      ));
-      toast({
-        title: "✨ Profile Updated!",
-        description: "Your changes have been saved to the current profile",
-      });
-    } else {
-      // Create new profile
-      const newProfile: SavedProfile = {
-        id: `profile-${Date.now()}`,
-        name: `Profile ${savedProfiles.length + 1}`,
-        thumbnail: currentMainImage,
-        mainImage: currentMainImage,
-        settings: { ...imageSettings },
-        transformImages: { ...transformImages },
-        smallerImage: smallerImage,
-        createdAt: new Date(),
-      };
+    const newProfile: SavedProfile = {
+      id: `profile-${Date.now()}`,
+      name: `Profile ${savedProfiles.length + 1}`,
+      thumbnail: currentMainImage,
+      mainImage: currentMainImage,
+      settings: { ...imageSettings },
+      transformImages: { ...transformImages },
+      smallerImage: smallerImage,
+      createdAt: new Date(),
+    };
 
-      setSavedProfiles(prev => [...prev, newProfile]);
-      setActiveProfileId(newProfile.id);
-      toast({
-        title: "✨ Profile Saved!",
-        description: "Your image configuration has been saved",
-      });
-    }
+    setSavedProfiles(prev => [...prev, newProfile]);
+    toast({
+      title: "✨ Profile Saved!",
+      description: "Your image configuration has been saved",
+    });
   };
 
   const loadProfile = (profile: SavedProfile) => {
@@ -222,7 +197,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setImageSettings(profile.settings);
     setTransformImages(profile.transformImages);
     setSmallerImage(profile.smallerImage);
-    setActiveProfileId(profile.id);
     toast({
       title: "📁 Profile Loaded!",
       description: `Loaded configuration for ${profile.name}`,
@@ -231,67 +205,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const deleteProfile = (profileId: string) => {
     setSavedProfiles(prev => prev.filter(p => p.id !== profileId));
-    if (activeProfileId === profileId) {
-      setActiveProfileId(null);
-    }
     toast({
       title: "🗑️ Profile Deleted!",
       description: "Profile has been removed",
     });
-  };
-
-  const createNewProfile = () => {
-    setCurrentMainImage('');
-    setSelectedImage('');
-    setImageSettings({});
-    setTransformImages({});
-    setSmallerImage('');
-    setActiveProfileId(null);
-    setTransformControls(['default']);
-    toast({
-      title: "📝 New Profile!",
-      description: "Started a fresh profile configuration",
-    });
-  };
-
-  const moveProfile = (profileId: string, direction: 'up' | 'down') => {
-    setSavedProfiles(prev => {
-      const index = prev.findIndex(p => p.id === profileId);
-      if (index === -1) return prev;
-      
-      const newIndex = direction === 'up' ? index - 1 : index + 1;
-      if (newIndex < 0 || newIndex >= prev.length) return prev;
-      
-      const newProfiles = [...prev];
-      [newProfiles[index], newProfiles[newIndex]] = [newProfiles[newIndex], newProfiles[index]];
-      return newProfiles;
-    });
-  };
-
-  const startEditingName = (profile: SavedProfile) => {
-    setEditingProfileId(profile.id);
-    setEditingName(profile.name);
-  };
-
-  const saveProfileName = (profileId: string) => {
-    if (!editingName.trim()) return;
-    
-    setSavedProfiles(prev => prev.map(profile => 
-      profile.id === profileId 
-        ? { ...profile, name: editingName.trim() }
-        : profile
-    ));
-    setEditingProfileId(null);
-    setEditingName('');
-    toast({
-      title: "✏️ Name Updated!",
-      description: "Profile name has been changed",
-    });
-  };
-
-  const cancelEditingName = () => {
-    setEditingProfileId(null);
-    setEditingName('');
   };
 
   const clearImageSettings = (imageKey: string) => {
@@ -314,137 +231,40 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
       
       {/* Saved Profiles Section */}
-      <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
+      {savedProfiles.length > 0 && (
+        <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
+          <h3 className="text-lg font-semibold text-purple-700 mb-3 flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
-          <Button
-            onClick={createNewProfile}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
-          >
-            <Plus className="w-3 h-3 mr-1" />
-            New Profile
-          </Button>
-        </div>
-        
-        {savedProfiles.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2">
-            {savedProfiles.map((profile, index) => (
+            {savedProfiles.map((profile) => (
               <div key={profile.id} className="flex-shrink-0 relative group">
-                <div className="flex flex-col items-center">
-                  {/* Profile Image */}
-                  <div 
-                    className={cn(
-                      "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-105",
-                      activeProfileId === profile.id 
-                        ? "border-purple-500 ring-2 ring-purple-300" 
-                        : "border-purple-200 hover:border-purple-400"
-                    )}
-                    onClick={() => loadProfile(profile)}
-                  >
-                    <img
-                      src={imageMap[profile.thumbnail] || profile.thumbnail}
-                      alt={profile.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
-                  {/* Profile Name */}
-                  <div className="mt-1 w-20">
-                    {editingProfileId === profile.id ? (
-                      <div className="flex flex-col items-center gap-1">
-                        <input
-                          type="text"
-                          value={editingName}
-                          onChange={(e) => setEditingName(e.target.value)}
-                          className="w-full px-1 py-0.5 text-xs text-center border border-purple-300 rounded bg-white"
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') saveProfileName(profile.id);
-                            if (e.key === 'Escape') cancelEditingName();
-                          }}
-                          autoFocus
-                        />
-                        <div className="flex gap-1">
-                          <Button
-                            onClick={() => saveProfileName(profile.id)}
-                            className="w-4 h-4 bg-green-500 hover:bg-green-600 text-white rounded p-0"
-                            size="sm"
-                          >
-                            ✓
-                          </Button>
-                          <Button
-                            onClick={cancelEditingName}
-                            className="w-4 h-4 bg-gray-500 hover:bg-gray-600 text-white rounded p-0"
-                            size="sm"
-                          >
-                            <X className="w-2 h-2" />
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <p 
-                        className="text-xs text-purple-600 text-center truncate cursor-pointer hover:text-purple-800"
-                        onClick={() => startEditingName(profile)}
-                      >
-                        {profile.name}
-                      </p>
-                    )}
-                  </div>
+                <div 
+                  className="w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200 hover:border-purple-400 cursor-pointer transition-all duration-300 hover:scale-105"
+                  onClick={() => loadProfile(profile)}
+                >
+                  <img
+                    src={imageMap[profile.thumbnail] || profile.thumbnail}
+                    alt={profile.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-
-                {/* Control Buttons */}
-                <div className="absolute -top-1 -right-1 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* Delete Button */}
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteProfile(profile.id);
-                    }}
-                    className="w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full p-0"
-                    size="sm"
-                  >
-                    <X className="w-3 h-3" />
-                  </Button>
-                  
-                  {/* Move Up Button */}
-                  {index > 0 && (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveProfile(profile.id, 'up');
-                      }}
-                      className="w-5 h-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
-                      size="sm"
-                    >
-                      <ChevronUp className="w-3 h-3" />
-                    </Button>
-                  )}
-                  
-                  {/* Move Down Button */}
-                  {index < savedProfiles.length - 1 && (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveProfile(profile.id, 'down');
-                      }}
-                      className="w-5 h-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
-                      size="sm"
-                    >
-                      <ChevronDown className="w-3 h-3" />
-                    </Button>
-                  )}
-                </div>
+                <p className="text-xs text-purple-600 mt-1 text-center truncate w-20">{profile.name}</p>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteProfile(profile.id);
+                  }}
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  size="sm"
+                >
+                  ×
+                </Button>
               </div>
             ))}
           </div>
-        ) : (
-          <div className="text-center text-purple-500 py-4">
-            <p className="text-sm">No profiles saved yet</p>
-            <p className="text-xs text-purple-400 mt-1">Click "New Profile" to get started</p>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
       {/* Hidden File Inputs */}
       <input
         ref={mainImageInputRef}
@@ -741,7 +561,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               onClick={saveProfile}
               className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 text-sm font-medium"
             >
-              💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
+              💾 Save Profile
             </Button>
           </div>
         </div>
