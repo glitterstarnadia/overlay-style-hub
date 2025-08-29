@@ -377,7 +377,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <div className="flex gap-2">
             <Button
               onClick={newProfile}
-              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+              className="text-white px-3 py-1 text-xs"
+              style={{ backgroundColor: '#ffb3d6' }}
               size="sm"
             >
               <Plus className="w-3 h-3 mr-1" />
@@ -385,12 +386,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </Button>
             <Button
               onClick={saveProfile}
-              className={cn(
-                "px-3 py-1 text-xs font-medium text-white",
-                activeProfileId 
-                  ? "bg-orange-500 hover:bg-orange-600" 
-                  : "bg-purple-500 hover:bg-purple-600"
-              )}
+              className="px-3 py-1 text-xs font-medium text-white"
+              style={{ backgroundColor: '#ffb3d6' }}
               size="sm"
             >
               💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
@@ -433,14 +430,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     />
                     <Button
                       onClick={saveProfileName}
-                      className="w-3 h-3 bg-green-500 hover:bg-green-600 text-white rounded-full p-0"
+                      className="w-3 h-3 text-white rounded-full p-0"
+                      style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
                       <Check className="w-2 h-2" />
                     </Button>
                     <Button
                       onClick={cancelEditingName}
-                      className="w-3 h-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-0"
+                      className="w-3 h-3 text-white rounded-full p-0"
+                      style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
                       <X className="w-2 h-2" />
@@ -456,7 +455,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     </p>
                     <Button
                       onClick={() => startEditingName(profile)}
-                      className="w-3 h-3 bg-blue-500/80 hover:bg-blue-600 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
+                      className="w-3 h-3 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
+                      style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
                       <Edit2 className="w-1.5 h-1.5" />
@@ -472,7 +472,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         e.stopPropagation();
                         moveProfile(profile.id, 'up');
                       }}
-                      className="w-4 h-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
+                      className="w-4 h-4 text-white rounded-full p-0"
+                      style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
                       <ChevronUp className="w-2 h-2" />
@@ -484,7 +485,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         e.stopPropagation();
                         moveProfile(profile.id, 'down');
                       }}
-                      className="w-4 h-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
+                      className="w-4 h-4 text-white rounded-full p-0"
+                      style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
                       <ChevronDown className="w-2 h-2" />
@@ -495,7 +497,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       e.stopPropagation();
                       deleteProfile(profile.id);
                     }}
-                    className="w-4 h-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-0"
+                    className="w-4 h-4 text-white rounded-full p-0"
+                    style={{ backgroundColor: '#ffb3d6' }}
                     size="sm"
                   >
                     <X className="w-2 h-2" />
@@ -608,7 +611,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             
                             <Button
                               onClick={() => triggerTransformImageUpload(controlId)}
-                              className="absolute -top-0.5 -right-0.5 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
+                              className="absolute -top-0.5 -right-0.5 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
+                              style={{ backgroundColor: '#ffb3d6' }}
                               size="sm"
                               title={`Upload image for Set ${index + 1}`}
                             >
@@ -733,13 +737,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <div className="flex justify-between mt-1">
                         <Button
                           onClick={() => clearImageSettings(imageKey)}
-                          className="bg-gray-500 hover:bg-gray-600 text-white px-2 py-0.5 text-xs"
+                          className="text-white px-2 py-0.5 text-xs"
+                          style={{ backgroundColor: '#ffb3d6' }}
                         >
                           Clear
                         </Button>
                         <Button
                           onClick={() => saveImageSettings(imageKey)}
-                          className="bg-pink-500 hover:bg-pink-600 text-white px-2 py-0.5 text-xs"
+                          className="text-white px-2 py-0.5 text-xs"
+                          style={{ backgroundColor: '#ffb3d6' }}
                         >
                           Save
                         </Button>
@@ -754,7 +760,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <div className="mt-2 flex justify-center">
             <Button
               onClick={addTransformControl}
-              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+              className="text-white px-3 py-1 text-xs"
+              style={{ backgroundColor: '#ffb3d6' }}
             >
               ➕ Add
             </Button>
@@ -793,7 +800,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       e.stopPropagation();
                       triggerThumbnailUpload(index);
                     }}
-                    className="absolute -bottom-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
+                    className="absolute -bottom-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
+                    style={{ backgroundColor: '#ffb3d6' }}
                     size="sm"
                   >
                     <Upload className="w-2 h-2" />
@@ -910,16 +918,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <Button
                         size="sm"
                         onClick={() => saveImageSettings(imageKey)}
-                        className="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 text-xs"
+                        className="text-white px-3 py-1 text-xs"
+                        style={{ backgroundColor: '#ffb3d6' }}
                       >
                         <Save className="w-3 h-3 mr-1" />
                         Save
                       </Button>
                       <Button
                         size="sm"
-                        variant="outline"
                         onClick={() => clearImageSettings(imageKey)}
-                        className="border-pink-300 text-pink-600 hover:bg-pink-50 px-3 py-1 text-xs"
+                        className="text-white px-3 py-1 text-xs"
+                        style={{ backgroundColor: '#ffb3d6' }}
                       >
                         <RotateCcw className="w-3 h-3 mr-1" />
                         Clear
