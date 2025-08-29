@@ -168,7 +168,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return (
-    <div className="p-6 space-y-6 h-full">
+    <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
       {/* Hidden File Inputs */}
       <input
         ref={mainImageInputRef}
@@ -255,30 +255,30 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
-        <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-6 shadow-lg border border-pink-200/40">
-          <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
+        <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-4 shadow-lg border border-pink-200/40">
+          <h3 className="text-lg font-semibold text-pink-700 mb-3 flex items-center gap-2">
             <span>🎨</span> Image Configuration
           </h3>
           
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {/* Main Image Display */}
             <div className="flex-shrink-0">
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main image"
-                className="w-48 h-48 object-cover rounded-lg shadow-md"
+                className="w-40 h-40 object-cover rounded-lg shadow-md"
               />
             </div>
             
             {/* Transform Controls */}
-            <div className="flex-1 space-y-6">
+            <div className="flex-1 space-y-3">
               {transformControls.map((controlId, index) => {
                 const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                 const settings = getImageSettings(imageKey);
                 
                 return (
-                  <div key={controlId} className="p-4 bg-white/40 rounded-lg border border-pink-200/60">
-                    <h4 className="text-sm font-medium text-pink-700 mb-3 flex items-center gap-4">
+                  <div key={controlId} className="p-3 bg-white/40 rounded-lg border border-pink-200/60">
+                    <h4 className="text-sm font-medium text-pink-700 mb-2 flex items-center gap-2">
                       Transform Set {index + 1}
                       
                       {/* Individual Image Upload for each Transform Set */}
@@ -289,17 +289,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-16 h-16 object-cover rounded-lg shadow-md"
+                                className="w-12 h-12 object-cover rounded-lg shadow-md"
                               />
                             ) : (
-                              <div className="w-16 h-16 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
-                                <Upload className="w-4 h-4 text-pink-500" />
+                              <div className="w-12 h-12 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
+                                <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
                             
                             <Button
                               onClick={() => triggerTransformImageUpload(controlId)}
-                              className="absolute -top-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm"
+                              className="absolute -top-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
                               size="sm"
                             >
                               <Upload className="w-2 h-2" />
@@ -316,17 +316,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[smallerImage] || smallerImage}
                                 alt="Smaller image"
-                                className="w-16 h-16 object-cover rounded-lg shadow-md"
+                                className="w-12 h-12 object-cover rounded-lg shadow-md"
                               />
                             ) : (
-                              <div className="w-16 h-16 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
-                                <Upload className="w-4 h-4 text-pink-500" />
+                              <div className="w-12 h-12 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
+                                <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
                             
                             <Button
                               onClick={triggerSmallerImageUpload}
-                              className="absolute -top-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm"
+                              className="absolute -top-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
                               size="sm"
                             >
                               <Upload className="w-2 h-2" />
@@ -336,38 +336,38 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       )}
                     </h4>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-3">
                       {/* Position Controls */}
                       <div>
-                        <p className="font-medium text-pink-700 mb-2">Position</p>
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">X:</span>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Position</p>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">X:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.position.x}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">Y:</span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">Y:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.position.y}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">Z:</span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">Z:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
                               value={settings.position.z}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
@@ -379,35 +379,35 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       
                       {/* Rotate Controls */}
                       <div>
-                        <p className="font-medium text-pink-700 mb-2">Rotate</p>
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">X:</span>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Rotate</p>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">X:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.rotation.x}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">Y:</span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">Y:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.rotation.y}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-pink-600 w-4">Z:</span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-pink-600 w-3">Z:</span>
                             <input 
                               type="number"
-                              className="w-16 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
                               value={settings.rotation.z}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
@@ -416,31 +416,29 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    {/* Scale Control */}
-                    <div className="mt-4">
-                      <p className="font-medium text-pink-700 mb-2">Scale</p>
-                      <input 
-                        type="number"
-                        step="0.1"
-                        className="w-24 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                        value={settings.scale}
-                        onChange={(e) => updateImageSettings(imageKey, { 
-                          scale: parseFloat(e.target.value) || 1.0 
-                        })}
-                      />
-                    </div>
-                    
-                    {/* Save Button */}
-                    <div className="flex justify-end mt-4">
-                      <Button
-                        onClick={() => saveImageSettings(imageKey)}
-                        className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2"
-                      >
-                        <Save className="w-4 h-4 mr-2" />
-                        Save Settings
-                      </Button>
+                      
+                      {/* Scale Control and Save Button */}
+                      <div>
+                        <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
+                        <input 
+                          type="number"
+                          step="0.1"
+                          className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 mb-2" 
+                          value={settings.scale}
+                          onChange={(e) => updateImageSettings(imageKey, { 
+                            scale: parseFloat(e.target.value) || 1.0 
+                          })}
+                        />
+                        
+                        {/* Save Button */}
+                        <Button
+                          onClick={() => saveImageSettings(imageKey)}
+                          className="bg-pink-500 hover:bg-pink-600 text-white px-2 py-1 text-xs w-full"
+                        >
+                          <Save className="w-3 h-3 mr-1" />
+                          Save
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -449,10 +447,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           </div>
           
           {/* Add Transform Control Button */}
-          <div className="mt-4 flex justify-center">
+          <div className="mt-3 flex justify-center">
             <Button
               onClick={addTransformControl}
-              className="bg-green-500 hover:bg-green-600 text-white px-6 py-2"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 text-sm"
             >
               ➕ Add Transform Control
             </Button>
