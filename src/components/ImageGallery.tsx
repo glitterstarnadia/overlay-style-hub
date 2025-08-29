@@ -40,15 +40,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [imageSettings, setImageSettings] = useState<Record<string, ImageSettings>>({});
   const [currentMainImage, setCurrentMainImage] = useState('');
   const [currentThumbnails, setCurrentThumbnails] = useState<string[]>([]);
+  const [smallerImage, setSmallerImage] = useState('');
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
+  const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
 
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
   };
 
-  const handleImageUpload = (file: File, isMain: boolean = false, thumbnailIndex?: number) => {
+  const handleImageUpload = (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number) => {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -60,6 +62,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           toast({
             title: "📸 Main Image Updated!",
             description: "New main image has been loaded",
+          });
+        } else if (isSmaller) {
+          setSmallerImage(imageUrl);
+          toast({
+            title: "🖼️ Smaller Image Updated!",
+            description: "Smaller image has been loaded",
           });
         } else if (thumbnailIndex !== undefined) {
           const newThumbnails = [...currentThumbnails];
@@ -83,6 +91,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const triggerMainImageUpload = () => {
     mainImageInputRef.current?.click();
+  };
+
+  const triggerSmallerImageUpload = () => {
+    smallerImageInputRef.current?.click();
   };
 
   const triggerThumbnailUpload = (index: number) => {
@@ -131,7 +143,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return (
-    <div className="p-6 flex gap-6 h-full">
+    <div className="p-6 space-y-6 h-full">
       {/* Hidden File Inputs */}
       <input
         ref={mainImageInputRef}
@@ -141,6 +153,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) handleImageUpload(file, true);
+        }}
+      />
+      <input
+        ref={smallerImageInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) handleImageUpload(file, false, true);
         }}
       />
       {currentThumbnails.map((_, index) => (
@@ -154,12 +176,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           className="hidden"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) handleImageUpload(file, false, index);
+            if (file) handleImageUpload(file, false, false, index);
           }}
         />
       ))}
       
-      {/* Main Image - Smaller */}
+      {/* Main Upload Section */}
       <div className="flex-shrink-0">
         <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
           {currentMainImage ? (
@@ -190,6 +212,176 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           </Button>
         </div>
       </div>
+
+      {/* Main Image Subsection - Only show when main image is uploaded */}
+      {currentMainImage && (
+        <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-6 shadow-lg border border-pink-200/40">
+          <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
+            <span>🎨</span> Image Configuration
+          </h3>
+          
+          <div className="flex gap-6">
+            {/* Main Image Display */}
+            <div className="flex-shrink-0">
+              <img
+                src={imageMap[currentMainImage] || currentMainImage}
+                alt="Main image"
+                className="w-48 h-48 object-cover rounded-lg shadow-md"
+              />
+            </div>
+            
+            {/* Smaller Image and Controls */}
+            <div className="flex-1 flex gap-6">
+              {/* Smaller Image Upload */}
+              <div className="flex-shrink-0">
+                <div className="relative">
+                  {smallerImage ? (
+                    <img
+                      src={imageMap[smallerImage] || smallerImage}
+                      alt="Smaller image"
+                      className="w-32 h-32 object-cover rounded-lg shadow-md"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
+                      <div className="text-center text-pink-500">
+                        <Upload className="w-6 h-6 mx-auto mb-1" />
+                        <p className="text-xs">Upload</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <Button
+                    onClick={triggerSmallerImageUpload}
+                    className="absolute -top-2 -right-2 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
+                    size="sm"
+                  >
+                    <Upload className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Transform Controls */}
+              <div className="flex-1 space-y-4">
+                {(() => {
+                  const imageKey = smallerImage || 'smaller-image-default';
+                  const settings = getImageSettings(imageKey);
+                  
+                  return (
+                    <>
+                      <div className="grid grid-cols-2 gap-4">
+                        {/* Position Controls */}
+                        <div>
+                          <p className="font-medium text-pink-700 mb-2">Position</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">X:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.position.x}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">Y:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.position.y}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">Z:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.position.z}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Rotate Controls */}
+                        <div>
+                          <p className="font-medium text-pink-700 mb-2">Rotate</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">X:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.rotation.x}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">Y:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.rotation.y}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-pink-600 w-4">Z:</span>
+                              <input 
+                                type="number"
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                value={settings.rotation.z}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
+                                })}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Scale Control */}
+                      <div>
+                        <p className="font-medium text-pink-700 mb-2">Scale</p>
+                        <input 
+                          type="number"
+                          step="0.1"
+                          className="w-24 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                          value={settings.scale}
+                          onChange={(e) => updateImageSettings(imageKey, { 
+                            scale: parseFloat(e.target.value) || 1.0 
+                          })}
+                        />
+                      </div>
+                      
+                      {/* Save Button */}
+                      <div className="flex justify-end">
+                        <Button
+                          onClick={() => saveImageSettings(imageKey)}
+                          className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2"
+                        >
+                          <Save className="w-4 h-4 mr-2" />
+                          Save Settings
+                        </Button>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Side Panel with Scrollable Thumbnails */}
       <div className="flex-1 min-w-0">
