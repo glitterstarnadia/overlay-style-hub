@@ -501,7 +501,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Main Upload Section */}
       <div className="flex-shrink-0">
         <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
-          {currentMainImage ? (
+          {currentMainImage && (
             <>
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
@@ -510,11 +510,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               />
               <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
             </>
-          ) : (
-            <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg shadow-md flex flex-col items-center justify-center border-2 border-dashed border-pink-300">
-              <Upload className="w-6 h-6 text-pink-500 mb-2" />
-              <span className="text-xs font-medium text-pink-600 text-center px-2">Upload main image</span>
-            </div>
           )}
           
           {/* Change Main Image Button - only show when image exists */}
@@ -753,9 +748,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       
       {/* Side Panel with Scrollable Thumbnails */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
-          <span>✨</span> Variations
-        </h3>
         <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
           {currentThumbnails.length > 0 ? currentThumbnails.map((thumbnail, index) => {
             const imageKey = thumbnail;
