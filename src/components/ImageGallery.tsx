@@ -369,14 +369,28 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
-          <Button
-            onClick={newProfile}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
-            size="sm"
-          >
-            <Plus className="w-3 h-3 mr-1" />
-            New Profile
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={newProfile}
+              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+              size="sm"
+            >
+              <Plus className="w-3 h-3 mr-1" />
+              New Profile
+            </Button>
+            <Button
+              onClick={saveProfile}
+              className={cn(
+                "px-3 py-1 text-xs font-medium text-white",
+                activeProfileId 
+                  ? "bg-orange-500 hover:bg-orange-600" 
+                  : "bg-purple-500 hover:bg-purple-600"
+              )}
+              size="sm"
+            >
+              💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
+            </Button>
+          </div>
         </div>
         
         {savedProfiles.length > 0 ? (
@@ -760,27 +774,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           </div>
           
           {/* Add Transform Control Button */}
-          <div className="mt-2 flex justify-center gap-2">
+          <div className="mt-2 flex justify-center">
             <Button
               onClick={addTransformControl}
               className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
             >
               ➕ Add
-            </Button>
-          </div>
-          
-          {/* Save Profile Button */}
-          <div className="mt-4 flex justify-center">
-            <Button
-              onClick={saveProfile}
-              className={cn(
-                "px-6 py-2 text-sm font-medium text-white",
-                activeProfileId 
-                  ? "bg-orange-500 hover:bg-orange-600" 
-                  : "bg-purple-500 hover:bg-purple-600"
-              )}
-            >
-              💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
             </Button>
           </div>
         </div>
