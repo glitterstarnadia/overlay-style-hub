@@ -277,7 +277,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">X:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.position.x}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
@@ -288,7 +288,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">Y:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.position.y}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
@@ -299,7 +299,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">Z:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.position.z}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
@@ -317,7 +317,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">X:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.rotation.x}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
@@ -328,7 +328,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">Y:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.rotation.y}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
@@ -339,7 +339,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <span className="text-sm text-pink-600 w-4">Z:</span>
                               <input 
                                 type="number"
-                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                                className="flex-1 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                                 value={settings.rotation.z}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
@@ -356,7 +356,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <input 
                           type="number"
                           step="0.1"
-                          className="w-24 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                          className="w-24 px-2 py-1 text-sm rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                           value={settings.scale}
                           onChange={(e) => updateImageSettings(imageKey, { 
                             scale: parseFloat(e.target.value) || 1.0 
