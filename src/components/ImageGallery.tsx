@@ -598,11 +598,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-8 h-8 object-cover rounded shadow-md"
+                                className="w-12 h-12 object-cover rounded shadow-md"
                               />
                             ) : (
-                              <div className="w-8 h-8 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-2 h-2 text-pink-500" />
+                              <div className="w-12 h-12 bg-pink-100/50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                <Upload className="w-3 h-3 text-pink-500" />
                               </div>
                             )}
                             
