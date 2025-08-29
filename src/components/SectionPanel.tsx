@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageGallery } from './ImageGallery';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -140,25 +140,31 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
       "border rounded-lg overflow-hidden",
       isCollapsed 
         ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
-        : "border-overlay-border bg-overlay-surface/20"
+        : "border-white bg-white"
     )}>
       {/* Header */}
       <div className={cn(
         "p-2 border-b flex items-center justify-between",
         isCollapsed 
           ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
-          : "py-2 border-overlay-border bg-overlay-surface/30"
+          : "py-2 border-pink-200 bg-white"
       )}>
-        <h3 className={cn(
-          "font-bold",
-          isCollapsed ? "text-sm text-pink-600" : "text-lg text-foreground"
-        )}>{sectionTitle}</h3>
+        <div className="flex items-center gap-2">
+          <Heart 
+            className="w-5 h-5 stroke-white stroke-2" 
+            style={{ fill: '#ff66b3', color: '#ff66b3' }}
+          />
+          <h3 className={cn(
+            "font-bold",
+            isCollapsed ? "text-sm text-pink-600" : "text-lg text-pink-600"
+          )}>{sectionTitle}</h3>
+        </div>
         {onToggleCollapse && (
           <Button
             variant="ghost"
             size="sm"
             onClick={onToggleCollapse}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-pink-600 hover:text-pink-700"
           >
             {isCollapsed ? (
               <ChevronDown className="w-4 h-4" />

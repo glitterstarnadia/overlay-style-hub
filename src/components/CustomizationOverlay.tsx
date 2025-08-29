@@ -245,17 +245,17 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }} onMouseDown={handleMouseDown}>
       <Card className="bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-pink-200/60 shadow-xl w-full h-full overflow-hidden relative magic-cursor">
         {/* Header */}
-        <div data-drag-handle className="flex items-center justify-between p-4 border-b border-overlay-border bg-gradient-surface cursor-move">
+        <div data-drag-handle className="flex items-center justify-between p-4 border-b border-white cursor-move" style={{ backgroundColor: '#ff66b3' }}>
           <div className="flex items-center gap-2">
-            <Move className="w-4 h-4 text-muted-foreground" />
-            <h2 className="text-lg font-semibold text-foreground">Menu</h2>
+            <Move className="w-4 h-4 text-white" />
+            <h2 className="text-lg font-semibold text-white">Menu</h2>
           </div>
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleAllSections}
-              className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground"
+              className="hover:bg-white/20 text-white hover:text-white"
               title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
             >
               {allCollapsed ? (
@@ -265,7 +265,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               )}
             </Button>
             <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} />
-            <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white">
               <X className="w-4 h-4" />
             </Button>
           </div>
