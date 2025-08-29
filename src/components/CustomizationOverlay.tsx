@@ -243,9 +243,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     zIndex: alwaysOnTop ? 9999 : 50,
     opacity: opacity / 100
   }} onMouseDown={handleMouseDown}>
-      <Card className="bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-pink-200/60 shadow-xl w-full h-full overflow-hidden relative magic-cursor">
+      <Card className="bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl w-full h-full overflow-hidden relative magic-cursor">
         {/* Header */}
-        <div data-drag-handle className="flex items-center justify-between p-4 border-b border-white cursor-move" style={{ backgroundColor: '#ff66b3' }}>
+        <div data-drag-handle className="flex items-center justify-between p-4 border-b-4 border-white cursor-move" style={{ backgroundColor: '#ff66b3' }}>
           <div className="flex items-center gap-2">
             <Move className="w-4 h-4 text-white" />
             <h2 className="text-lg font-semibold text-white">Menu</h2>

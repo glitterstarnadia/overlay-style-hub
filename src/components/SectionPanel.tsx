@@ -137,14 +137,14 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
   return (
     <div className={cn(
-      "border rounded-lg overflow-hidden",
+      "border-4 rounded-lg overflow-hidden",
       isCollapsed 
         ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
         : "border-white bg-white"
     )}>
       {/* Header */}
       <div className={cn(
-        "p-2 border-b flex items-center justify-between",
+        "p-2 border-b-4 flex items-center justify-between",
         isCollapsed 
           ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
           : "py-2 border-pink-200 bg-white"
