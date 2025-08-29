@@ -100,14 +100,14 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
           </Button>
         </div>
 
-        {/* Color Picker - Bigger and Wider */}
+        {/* Color Picker - Bigger */}
         <div className="relative">
           <HexColorPicker
             color={color}
             onChange={onChange}
             style={{ 
               width: '100%', 
-              height: '200px',
+              height: '160px',
               borderRadius: '8px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
