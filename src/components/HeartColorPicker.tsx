@@ -122,5 +122,104 @@ export const HeartColorPicker: React.FC<HeartColorPickerProps> = ({
           <X className="w-2.5 h-2.5" />
         </button>}
     </div>;
-  return;
+  return (
+    <div className="space-y-6">
+      {/* Main Color Picker */}
+      <div className="flex flex-col items-center space-y-4">
+        <HexColorPicker color={currentColor} onChange={handleColorChange} />
+        
+        {/* Hex Input */}
+        <div className="w-full">
+          <Label htmlFor="hex-input">Hex Color</Label>
+          <Input
+            id="hex-input"
+            type="text"
+            value={hexInput}
+            onChange={handleHexInputChange}
+            placeholder="#FF69B4"
+            className="mt-1"
+          />
+        </div>
+
+        {/* RGB Controls */}
+        <div className="grid grid-cols-3 gap-2 w-full">
+          <div>
+            <Label htmlFor="r-input">R</Label>
+            <Input
+              id="r-input"
+              type="number"
+              min="0"
+              max="255"
+              value={rgbValues.r}
+              onChange={(e) => handleRgbChange('r', parseInt(e.target.value) || 0)}
+              className="mt-1"
+            />
+          </div>
+          <div>
+            <Label htmlFor="g-input">G</Label>
+            <Input
+              id="g-input"
+              type="number"
+              min="0"
+              max="255"
+              value={rgbValues.g}
+              onChange={(e) => handleRgbChange('g', parseInt(e.target.value) || 0)}
+              className="mt-1"
+            />
+          </div>
+          <div>
+            <Label htmlFor="b-input">B</Label>
+            <Input
+              id="b-input"
+              type="number"
+              min="0"
+              max="255"
+              value={rgbValues.b}
+              onChange={(e) => handleRgbChange('b', parseInt(e.target.value) || 0)}
+              className="mt-1"
+            />
+          </div>
+        </div>
+
+        {/* Scale Hex Input */}
+        <div className="w-full">
+          <Label htmlFor="scale-hex">Scale Hex</Label>
+          <Input
+            id="scale-hex"
+            type="text"
+            value={scaleHexInput}
+            onChange={handleScaleHexChange}
+            placeholder="#FFFFFF"
+            className="mt-1"
+          />
+        </div>
+      </div>
+
+      {/* Saved Colors */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <Label>Saved Colors</Label>
+          <Button onClick={saveCurrentColor} size="sm" variant="outline">
+            Save Current
+          </Button>
+        </div>
+        
+        <div className="flex flex-wrap gap-2">
+          <HeartIcon
+            onClick={saveCurrentColor}
+            isAddButton={true}
+          />
+          {savedColors.map((color, index) => (
+            <HeartIcon
+              key={index}
+              color={color}
+              onClick={() => handleColorChange(color)}
+              onDelete={deleteColor}
+              index={index}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
