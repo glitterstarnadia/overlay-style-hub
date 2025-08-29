@@ -15,6 +15,14 @@ interface SavedConfiguration {
   settings: ImageSettings;
   color: string;
   name: string;
+  profileId: string;
+}
+
+interface Profile {
+  id: string;
+  name: string;
+  createdAt: number;
+  configurations: SavedConfiguration[];
 }
 
 interface ImageGalleryProps {
@@ -59,8 +67,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [smallerImage, setSmallerImage] = useState('');
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
-  const [savedConfigurations, setSavedConfigurations] = useState<SavedConfiguration[]>([]);
+  const [profiles, setProfiles] = useState<Profile[]>([
+    {
+      id: 'default',
+      name: 'Default Profile',
+      createdAt: Date.now(),
+      configurations: []
+    }
+  ]);
+  const [activeProfileId, setActiveProfileId] = useState('default');
   const [selectedConfiguration, setSelectedConfiguration] = useState<SavedConfiguration | null>(null);
+  
+  const activeProfile = profiles.find(p => p.id === activeProfileId) || profiles[0];
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
@@ -161,14 +179,19 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         timestamp: Date.now(),
         settings: settings,
         color: selectedColor,
-        name: `Configuration ${savedConfigurations.length + 1}`
+        name: `Configuration ${activeProfile.configurations.length + 1}`,
+        profileId: activeProfileId
       };
       
-      setSavedConfigurations(prev => [newConfiguration, ...prev]);
+      setProfiles(prev => prev.map(profile => 
+        profile.id === activeProfileId 
+          ? { ...profile, configurations: [newConfiguration, ...profile.configurations] }
+          : profile
+      ));
       
       toast({
         title: "✨ Configuration Saved!",
-        description: `Saved with thumbnail at the top of the gallery`
+        description: `Saved to ${activeProfile.name}`
       });
     } else {
       toast({
@@ -214,12 +237,46 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage(config.thumbnail);
   };
 
+  const createNewProfile = () => {
+    const newProfile: Profile = {
+      id: `profile-${Date.now()}`,
+      name: `Profile ${profiles.length + 1}`,
+      createdAt: Date.now(),
+      configurations: []
+    };
+    
+    setProfiles(prev => [...prev, newProfile]);
+    setActiveProfileId(newProfile.id);
+    
+    toast({
+      title: "✨ New Profile Created!",
+      description: `Switched to ${newProfile.name}`
+    });
+  };
+
+  const switchProfile = (profileId: string) => {
+    setActiveProfileId(profileId);
+    setSelectedConfiguration(null);
+    const profile = profiles.find(p => p.id === profileId);
+    
+    toast({
+      title: "🔄 Profile Switched",
+      description: `Now using ${profile?.name}`
+    });
+  };
+
   const deleteConfiguration = (configId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSavedConfigurations(prev => prev.filter(config => config.id !== configId));
+    setProfiles(prev => prev.map(profile => 
+      profile.id === activeProfileId 
+        ? { ...profile, configurations: profile.configurations.filter(config => config.id !== configId) }
+        : profile
+    ));
+    
     if (selectedConfiguration?.id === configId) {
       setSelectedConfiguration(null);
     }
+    
     toast({
       title: "🗑️ Configuration Deleted",
       description: "Saved configuration has been removed"
@@ -227,14 +284,50 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
+      {/* Profile Selection Section */}
+      <div className="flex-shrink-0">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-pink-700 flex items-center gap-2">
+            <span>👤</span> Profile: {activeProfile.name}
+          </h3>
+          <Button
+            onClick={createNewProfile}
+            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+            size="sm"
+          >
+            ➕ New Profile
+          </Button>
+        </div>
+        
+        {profiles.length > 1 && (
+          <div className="flex gap-2 mb-4">
+            {profiles.map((profile) => (
+              <Button
+                key={profile.id}
+                onClick={() => switchProfile(profile.id)}
+                variant={profile.id === activeProfileId ? "default" : "outline"}
+                className={`text-xs px-3 py-1 ${
+                  profile.id === activeProfileId 
+                    ? "bg-pink-500 hover:bg-pink-600 text-white" 
+                    : "border-pink-300 text-pink-600 hover:bg-pink-50"
+                }`}
+                size="sm"
+              >
+                {profile.name} ({profile.configurations.length})
+              </Button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Saved Configurations Section */}
-      {savedConfigurations.length > 0 && (
+      {activeProfile.configurations.length > 0 && (
         <div className="flex-shrink-0">
           <h3 className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2">
-            <span>💾</span> Saved Configurations
+            <span>💾</span> Saved Configurations ({activeProfile.configurations.length})
           </h3>
           <div className="grid grid-cols-4 gap-3 mb-6">
-            {savedConfigurations.map((config) => (
+            {activeProfile.configurations.map((config) => (
               <div
                 key={config.id}
                 onClick={() => handleConfigurationClick(config)}
