@@ -234,12 +234,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
             </>
           ) : (
-            <div className="w-64 h-64 bg-pink-100/50 rounded-lg shadow-md flex items-center justify-center border-2 border-dashed border-pink-300">
-              <div className="text-center text-pink-500">
-                <Upload className="w-8 h-8 mx-auto mb-2" />
-                <p className="text-sm">Upload Main Image</p>
-              </div>
-            </div>
+            <>
+              <img
+                src={imageMap[currentMainImage] || currentMainImage}
+                alt="Main character view"
+                className="w-64 h-64 object-cover rounded-lg shadow-md"
+              />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
+            </>
           )}
           
           {/* Change Main Image Button */}

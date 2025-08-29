@@ -236,24 +236,26 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         <div className="flex h-full">
           {/* Sidebar */}
           <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border flex flex-col">
-            <nav className="p-2 flex-1">
-              {sections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => 
-                    setActiveSection(activeSection === section.id ? null : section.id)
-                  }
-                  className={cn(
-                    "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
-                    "hover:bg-overlay-hover hover:text-foreground",
-                    activeSection === section.id
-                      ? "bg-primary text-primary-foreground shadow-glow"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {section.title}
-                </button>
-              ))}
+            <nav className="p-2 flex-1 overflow-y-auto max-h-full">
+              <div className="space-y-1">
+                {sections.map((section) => (
+                  <button
+                    key={section.id}
+                    onClick={() => 
+                      setActiveSection(activeSection === section.id ? null : section.id)
+                    }
+                    className={cn(
+                      "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                      "hover:bg-overlay-hover hover:text-foreground",
+                      activeSection === section.id
+                        ? "bg-primary text-primary-foreground shadow-glow"
+                        : "text-muted-foreground"
+                    )}
+                  >
+                    {section.title}
+                  </button>
+                ))}
+              </div>
             </nav>
             
             {/* Always visible color picker */}
