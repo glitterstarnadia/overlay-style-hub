@@ -336,12 +336,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       )}
                     </h4>
                     
-                    <div className="grid grid-cols-5 gap-0.5">
+                    <div className="grid grid-cols-5 gap-0">
                       {/* Position Controls */}
                       <div>
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Pos</p>
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-0.5">
+                        <div className="space-y-0">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">X</span>
                             <input 
                               type="number"
@@ -352,7 +352,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">Y</span>
                             <input 
                               type="number"
@@ -363,7 +363,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">Z</span>
                             <input 
                               type="number"
@@ -380,8 +380,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       {/* Rotate Controls */}
                       <div>
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Rot</p>
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-0.5">
+                        <div className="space-y-0">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">X</span>
                             <input 
                               type="number"
@@ -392,7 +392,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">Y</span>
                             <input 
                               type="number"
@@ -403,7 +403,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               })}
                             />
                           </div>
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center">
                             <span className="text-xs text-pink-600 w-1">Z</span>
                             <input 
                               type="number"
