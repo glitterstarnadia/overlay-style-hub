@@ -6,7 +6,7 @@ import { SectionPanel } from './SectionPanel';
 import { ColorPickerPanel } from './ColorPickerPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
-import { SavedColorsBar } from './SavedColorsBar';
+import { HeartColorPicker } from './HeartColorPicker';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -44,7 +44,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [opacity, setOpacity] = useState(100);
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [savedColors, setSavedColors] = useState<string[]>([]);
+  const [savedColors, setSavedColors] = useState<string[]>([
+    '#ffb3ba', '#ffb3d6', '#d6b3ff', '#b3d6ff', '#b3ffb3', '#ffffb3', '#ffcc99',
+    '#ff9999', '#ff66b3', '#b366ff', '#66b3ff', '#66ff66', '#ffff66', '#ff9966'
+  ]);
   
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -300,12 +303,13 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       </Card>
       <SparkleEffect />
       
-      {/* Always Visible Saved Colors Bar */}
-      <SavedColorsBar
-        savedColors={savedColors}
-        onColorSelect={setSelectedColor}
-        onSaveColor={(color) => setSavedColors(prev => [...prev, color])}
+      {/* Heart Color Picker */}
+      <HeartColorPicker
         currentColor={selectedColor}
+        onColorSelect={setSelectedColor}
+        savedColors={savedColors}
+        onSaveColor={(color) => setSavedColors(prev => [...prev, color])}
+        onDeleteColor={(index) => setSavedColors(prev => prev.filter((_, i) => i !== index))}
       />
     </div>
   );

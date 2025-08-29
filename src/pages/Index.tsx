@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CustomizationOverlay } from '@/components/CustomizationOverlay';
-import { HeartColorPicker } from '@/components/HeartColorPicker';
 
 const Index = () => {
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -17,9 +16,6 @@ const Index = () => {
         isVisible={overlayVisible} 
         onToggle={toggleOverlay} 
       />
-
-      {/* Heart Color Picker */}
-      <HeartColorPicker />
     </div>
   );
 };
