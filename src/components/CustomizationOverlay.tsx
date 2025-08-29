@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { X, Settings, Move } from 'lucide-react';
+import { X, Settings, Move, ChevronDown, ChevronUp } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
@@ -20,6 +20,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 }) => {
   const { toast } = useToast();
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+  const [allCollapsed, setAllCollapsed] = useState(false);
+
+  const sections = ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
   const [position, setPosition] = useState({
     x: 50,
     y: 50
@@ -80,7 +84,46 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     });
   };
 
-  // Settings handlers
+  const toggleAllSections = () => {
+    if (allCollapsed) {
+      // Expand all
+      setCollapsedSections(new Set());
+      setAllCollapsed(false);
+      toast({
+        title: "Sections Expanded",
+        description: "All sections are now visible."
+      });
+    } else {
+      // Collapse all
+      setCollapsedSections(new Set(sections));
+      setAllCollapsed(true);
+      toast({
+        title: "Sections Collapsed",
+        description: "All sections have been minimized."
+      });
+    }
+  };
+
+  const toggleSection = (sectionId: string) => {
+    const newCollapsed = new Set(collapsedSections);
+    if (newCollapsed.has(sectionId)) {
+      newCollapsed.delete(sectionId);
+    } else {
+      newCollapsed.add(sectionId);
+    }
+    setCollapsedSections(newCollapsed);
+    
+    // Update allCollapsed state
+    setAllCollapsed(newCollapsed.size === sections.length);
+  };
+
+  const getSectionTitle = (id: string) => {
+    const titles: Record<string, string> = {
+      hair: 'Hair', patterns: 'Patterns', colours: 'Colours', tops: 'Tops',
+      dresses: 'Dresses', pants: 'Pants', shoes: 'Shoes', adjustments: 'Adjustments'
+    };
+    return titles[id] || id;
+  };
   const resetPositionAndSize = () => {
     setPosition({
       x: 50,
@@ -208,6 +251,19 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             <h2 className="text-lg font-semibold text-foreground">Menu</h2>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleAllSections}
+              className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground"
+              title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
+            >
+              {allCollapsed ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronUp className="w-4 h-4" />
+              )}
+            </Button>
             <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} />
             <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground">
               <X className="w-4 h-4" />
@@ -221,15 +277,17 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <div className="flex-1 min-h-0 p-6">
             <div className="h-full overflow-y-auto">
               {/* Display all sections content */}
-              <div className="space-y-8">
-                <SectionPanel sectionId="hair" sectionTitle="Hair" selectedColor={selectedColor} />
-                <SectionPanel sectionId="patterns" sectionTitle="Patterns" selectedColor={selectedColor} />
-                <SectionPanel sectionId="colours" sectionTitle="Colours" selectedColor={selectedColor} />
-                <SectionPanel sectionId="tops" sectionTitle="Tops" selectedColor={selectedColor} />
-                <SectionPanel sectionId="dresses" sectionTitle="Dresses" selectedColor={selectedColor} />
-                <SectionPanel sectionId="pants" sectionTitle="Pants" selectedColor={selectedColor} />
-                <SectionPanel sectionId="shoes" sectionTitle="Shoes" selectedColor={selectedColor} />
-                <SectionPanel sectionId="adjustments" sectionTitle="Adjustments" selectedColor={selectedColor} />
+              <div className="space-y-4">
+                {sections.map(sectionId => (
+                  <SectionPanel 
+                    key={sectionId}
+                    sectionId={sectionId} 
+                    sectionTitle={getSectionTitle(sectionId)} 
+                    selectedColor={selectedColor}
+                    isCollapsed={collapsedSections.has(sectionId)}
+                    onToggleCollapse={() => toggleSection(sectionId)}
+                  />
+                ))}
               </div>
             </div>
           </div>
