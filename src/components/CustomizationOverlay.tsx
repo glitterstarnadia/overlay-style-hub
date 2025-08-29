@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Settings, Move, MoreVertical, RotateCcw, Download, Upload, Palette, Pin, Eye } from 'lucide-react';
@@ -12,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 interface CustomizationOverlayProps {
   isVisible: boolean;
   onToggle: () => void;
+  activeSection?: string;
 }
 const sections = [{
   id: 'hair',
@@ -40,12 +42,12 @@ const sections = [{
 }];
 export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
-  onToggle
+  onToggle,
+  activeSection: initialActiveSection
 }) => {
-  const {
-    toast
-  } = useToast();
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState<string | null>(initialActiveSection || null);
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [position, setPosition] = useState({
     x: 50,
@@ -226,7 +228,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border flex flex-col">
             <nav className="p-2 flex-1 overflow-y-auto max-h-full">
               <div className="space-y-1">
-                {sections.map(section => <button key={section.id} onClick={() => setActiveSection(activeSection === section.id ? null : section.id)} className={cn("w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", "hover:bg-overlay-hover hover:text-foreground", activeSection === section.id ? "bg-primary text-primary-foreground shadow-glow" : "text-muted-foreground")}>
+                {sections.map(section => <button key={section.id} onClick={() => navigate(`/${section.id}`)} className={cn("w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", "hover:bg-overlay-hover hover:text-foreground", activeSection === section.id ? "bg-primary text-primary-foreground shadow-glow" : "text-muted-foreground")}>
                     {section.title}
                   </button>)}
               </div>
