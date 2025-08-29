@@ -41,6 +41,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [currentMainImage, setCurrentMainImage] = useState('');
   const [currentThumbnails, setCurrentThumbnails] = useState<string[]>([]);
   const [smallerImage, setSmallerImage] = useState('');
+  const [transformControls, setTransformControls] = useState<string[]>(['default']);
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -123,6 +124,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     toast({
       title: "✨ Settings Saved!",
       description: `Position, rotation, and scale saved for this image`,
+    });
+  };
+
+  const addTransformControl = () => {
+    const newId = `transform-${Date.now()}`;
+    setTransformControls(prev => [...prev, newId]);
+    toast({
+      title: "➕ Control Added!",
+      description: "New transform control set created",
     });
   };
 
@@ -261,13 +271,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               </div>
               
               {/* Transform Controls */}
-              <div className="flex-1 space-y-4">
-                {(() => {
-                  const imageKey = smallerImage || 'smaller-image-default';
+              <div className="flex-1 space-y-6">
+                {transformControls.map((controlId, index) => {
+                  const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                   const settings = getImageSettings(imageKey);
                   
                   return (
-                    <>
+                    <div key={controlId} className="p-4 bg-white/40 rounded-lg border border-pink-200/60">
+                      <h4 className="text-sm font-medium text-pink-700 mb-3">Transform Set {index + 1}</h4>
+                      
                       <div className="grid grid-cols-2 gap-4">
                         {/* Position Controls */}
                         <div>
@@ -351,7 +363,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Scale Control */}
-                      <div>
+                      <div className="mt-4">
                         <p className="font-medium text-pink-700 mb-2">Scale</p>
                         <input 
                           type="number"
@@ -365,7 +377,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Save Button */}
-                      <div className="flex justify-end">
+                      <div className="flex justify-end mt-4">
                         <Button
                           onClick={() => saveImageSettings(imageKey)}
                           className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2"
@@ -374,11 +386,21 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           Save Settings
                         </Button>
                       </div>
-                    </>
+                    </div>
                   );
-                })()}
+                })}
               </div>
             </div>
+          </div>
+          
+          {/* Add Transform Control Button */}
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={addTransformControl}
+              className="bg-green-500 hover:bg-green-600 text-white px-6 py-2"
+            >
+              ➕ Add Transform Control
+            </Button>
           </div>
         </div>
       )}
