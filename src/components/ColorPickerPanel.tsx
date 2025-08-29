@@ -60,69 +60,51 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
 
   if (compact) {
     return (
-      <div className="space-y-3 p-4 bg-gradient-to-b from-pink-50/50 to-purple-50/50 rounded-lg border border-pink-200/50 w-full">
+      <div className="space-y-2 p-2 bg-gradient-to-b from-pink-50/50 to-purple-50/50 rounded-lg border border-pink-200/50 w-full">
         <div className="flex items-center gap-2">
-          <Palette className="w-4 h-4 text-pink-500" />
-          <Label className="text-sm font-medium text-pink-700">Magic Colors</Label>
+          <Palette className="w-3 h-3 text-pink-500" />
+          <Label className="text-xs font-medium text-pink-700">Magic Colors</Label>
         </div>
         
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           {/* Left Column */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             {/* Hex Input Field */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label className="text-xs font-medium text-pink-600">Enter Hex Code</Label>
               <Input
                 type="text"
                 value={color}
                 onChange={handleInputChange}
-                className="text-sm font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center"
+                className="text-xs font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center h-7"
                 placeholder="#000000"
               />
             </div>
 
             {/* Current Color Display */}
-            <div className="flex items-center gap-3 p-2 bg-white/60 rounded-lg">
+            <div className="flex items-center gap-2 p-1.5 bg-white/60 rounded-lg">
               <div
-                className="w-10 h-10 rounded-full border-2 border-pink-200 shadow-sm flex-shrink-0 cursor-pointer hover:scale-105 transition-transform"
+                className="w-6 h-6 rounded-full border-2 border-pink-200 shadow-sm flex-shrink-0 cursor-pointer hover:scale-105 transition-transform"
                 style={{ backgroundColor: color }}
                 onClick={() => copyToClipboard(color)}
                 title="Click to copy"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-mono text-pink-700 truncate">{color}</p>
-                <p className="text-xs text-pink-600">Current Color</p>
+                <p className="text-xs font-mono text-pink-700 truncate">{color}</p>
               </div>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={saveCurrentColor}
-                className="text-pink-500 hover:text-pink-600 hover:bg-pink-100 flex-shrink-0"
+                className="text-pink-500 hover:text-pink-600 hover:bg-pink-100 flex-shrink-0 h-6 w-6 p-0"
               >
-                <Save className="w-4 h-4" />
+                <Save className="w-3 h-3" />
               </Button>
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-3">
-            {/* Color Picker */}
-            <div className="relative">
-              <HexColorPicker
-                color={color}
-                onChange={onChange}
-                style={{ 
-                  width: '100%', 
-                  height: '120px',
-                  borderRadius: '8px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                }}
-              />
             </div>
 
             {/* Preset Colors */}
             <div>
-              <Label className="text-xs font-medium text-pink-600 mb-2 block">Preset Colors</Label>
+              <Label className="text-xs font-medium text-pink-600 mb-1 block">Presets</Label>
               <div className="grid grid-cols-4 gap-1">
                 {presetColors.slice(0, 8).map((presetColor) => (
                   <button
@@ -131,15 +113,27 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
                       onChange(presetColor);
                       copyToClipboard(presetColor);
                     }}
-                    className="w-6 h-6 rounded-full border-2 border-pink-200 hover:scale-110 hover:shadow-lg transition-all duration-200 relative group"
+                    className="w-4 h-4 rounded-full border border-pink-200 hover:scale-110 hover:shadow-lg transition-all duration-200"
                     style={{ backgroundColor: presetColor }}
                     title={presetColor}
-                  >
-                    <Heart className="w-2 h-2 text-white/80 opacity-0 group-hover:opacity-100 transition-opacity absolute inset-0 m-auto" />
-                  </button>
+                  />
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Right Column - Color Picker */}
+          <div className="flex items-center justify-center">
+            <HexColorPicker
+              color={color}
+              onChange={onChange}
+              style={{ 
+                width: '80px', 
+                height: '80px',
+                borderRadius: '8px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+            />
           </div>
         </div>
       </div>
