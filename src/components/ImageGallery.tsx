@@ -191,6 +191,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     }));
   };
 
+  const handleScaleChange = (imageKey: string, value: string) => {
+    // Allow partial decimal inputs like "0." or "1."
+    if (value === '' || value === '0.' || /^\d*\.?\d*$/.test(value)) {
+      updateImageSettings(imageKey, { 
+        scale: value === '' ? 0 : (value.endsWith('.') ? parseFloat(value + '0') : parseFloat(value)) || 0
+      });
+    }
+  };
+
   const saveImageSettings = (imageKey: string) => {
     const settings = getImageSettings(imageKey);
     // Here you could save to localStorage, database, etc.
@@ -709,13 +718,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
                         <div className="space-y-1">
                           <input 
-                            type="number"
+                            type="text"
                             step="0.1"
                             className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                             value={settings.scale}
-                            onChange={(e) => updateImageSettings(imageKey, { 
-                              scale: parseFloat(e.target.value) || 1.0 
-                            })}
+                            onChange={(e) => handleScaleChange(imageKey, e.target.value)}
                           />
                           <div>
                             <label className="text-xs text-pink-600 mb-0.5 block">Hex Code</label>
@@ -892,11 +899,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <p className="font-medium text-pink-700 mb-1">Scale</p>
                         <div className="flex gap-2 items-center">
                           <input 
+                            type="text"
                             className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
                             value={settings.scale}
-                            onChange={(e) => updateImageSettings(imageKey, { 
-                              scale: parseFloat(e.target.value) || 1.0 
-                            })}
+                            onChange={(e) => handleScaleChange(imageKey, e.target.value)}
                           />
                           <div className="flex flex-col">
                             <label className="text-xs text-pink-600 mb-0.5">Hex Code</label>
