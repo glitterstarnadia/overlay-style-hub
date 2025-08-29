@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -55,6 +55,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
+  const [activeProfileId, setActiveProfileId] = useState<string | null>(null);
+  const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState('');
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -173,22 +176,44 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       return;
     }
 
-    const newProfile: SavedProfile = {
-      id: `profile-${Date.now()}`,
-      name: `Profile ${savedProfiles.length + 1}`,
-      thumbnail: currentMainImage,
-      mainImage: currentMainImage,
-      settings: { ...imageSettings },
-      transformImages: { ...transformImages },
-      smallerImage: smallerImage,
-      createdAt: new Date(),
-    };
+    if (activeProfileId) {
+      // Overwrite existing profile
+      setSavedProfiles(prev => prev.map(profile => 
+        profile.id === activeProfileId 
+          ? {
+              ...profile,
+              thumbnail: currentMainImage,
+              mainImage: currentMainImage,
+              settings: { ...imageSettings },
+              transformImages: { ...transformImages },
+              smallerImage: smallerImage,
+            }
+          : profile
+      ));
+      toast({
+        title: "✨ Profile Updated!",
+        description: "Your changes have been saved to the existing profile",
+      });
+    } else {
+      // Create new profile
+      const newProfile: SavedProfile = {
+        id: `profile-${Date.now()}`,
+        name: `Profile ${savedProfiles.length + 1}`,
+        thumbnail: currentMainImage,
+        mainImage: currentMainImage,
+        settings: { ...imageSettings },
+        transformImages: { ...transformImages },
+        smallerImage: smallerImage,
+        createdAt: new Date(),
+      };
 
-    setSavedProfiles(prev => [...prev, newProfile]);
-    toast({
-      title: "✨ Profile Saved!",
-      description: "Your image configuration has been saved",
-    });
+      setSavedProfiles(prev => [...prev, newProfile]);
+      setActiveProfileId(newProfile.id);
+      toast({
+        title: "✨ Profile Saved!",
+        description: "Your image configuration has been saved",
+      });
+    }
   };
 
   const loadProfile = (profile: SavedProfile) => {
@@ -197,6 +222,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setImageSettings(profile.settings);
     setTransformImages(profile.transformImages);
     setSmallerImage(profile.smallerImage);
+    setActiveProfileId(profile.id);
     toast({
       title: "📁 Profile Loaded!",
       description: `Loaded configuration for ${profile.name}`,
@@ -205,10 +231,68 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const deleteProfile = (profileId: string) => {
     setSavedProfiles(prev => prev.filter(p => p.id !== profileId));
+    if (activeProfileId === profileId) {
+      setActiveProfileId(null);
+    }
     toast({
       title: "🗑️ Profile Deleted!",
       description: "Profile has been removed",
     });
+  };
+
+  const newProfile = () => {
+    setCurrentMainImage('');
+    setSelectedImage('');
+    setImageSettings({});
+    setTransformImages({});
+    setSmallerImage('');
+    setActiveProfileId(null);
+    setCurrentThumbnails([]);
+    toast({
+      title: "✨ New Profile Started!",
+      description: "Ready to create a new character profile",
+    });
+  };
+
+  const moveProfile = (profileId: string, direction: 'up' | 'down') => {
+    setSavedProfiles(prev => {
+      const currentIndex = prev.findIndex(p => p.id === profileId);
+      if (currentIndex === -1) return prev;
+      
+      const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= prev.length) return prev;
+      
+      const newProfiles = [...prev];
+      [newProfiles[currentIndex], newProfiles[newIndex]] = [newProfiles[newIndex], newProfiles[currentIndex]];
+      return newProfiles;
+    });
+  };
+
+  const startEditingName = (profile: SavedProfile) => {
+    setEditingProfileId(profile.id);
+    setEditingName(profile.name);
+  };
+
+  const saveProfileName = () => {
+    if (!editingProfileId || !editingName.trim()) return;
+    
+    setSavedProfiles(prev => prev.map(profile => 
+      profile.id === editingProfileId 
+        ? { ...profile, name: editingName.trim() }
+        : profile
+    ));
+    
+    setEditingProfileId(null);
+    setEditingName('');
+    toast({
+      title: "✏️ Name Updated!",
+      description: "Profile name has been changed",
+    });
+  };
+
+  const cancelEditingName = () => {
+    setEditingProfileId(null);
+    setEditingName('');
   };
 
   const clearImageSettings = (imageKey: string) => {
@@ -231,16 +315,32 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
       
       {/* Saved Profiles Section */}
-      {savedProfiles.length > 0 && (
-        <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
-          <h3 className="text-lg font-semibold text-purple-700 mb-3 flex items-center gap-2">
+      <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
+          <Button
+            onClick={newProfile}
+            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+            size="sm"
+          >
+            <Plus className="w-3 h-3 mr-1" />
+            New Profile
+          </Button>
+        </div>
+        
+        {savedProfiles.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2">
-            {savedProfiles.map((profile) => (
+            {savedProfiles.map((profile, index) => (
               <div key={profile.id} className="flex-shrink-0 relative group">
                 <div 
-                  className="w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200 hover:border-purple-400 cursor-pointer transition-all duration-300 hover:scale-105"
+                  className={cn(
+                    "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-105",
+                    activeProfileId === profile.id 
+                      ? "border-green-400 ring-2 ring-green-200" 
+                      : "border-purple-200 hover:border-purple-400"
+                  )}
                   onClick={() => loadProfile(profile)}
                 >
                   <img
@@ -249,22 +349,99 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="text-xs text-purple-600 mt-1 text-center truncate w-20">{profile.name}</p>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteProfile(profile.id);
-                  }}
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                  size="sm"
-                >
-                  ×
-                </Button>
+                
+                {/* Profile Name - Editable */}
+                {editingProfileId === profile.id ? (
+                  <div className="mt-1 flex items-center gap-1">
+                    <input
+                      value={editingName}
+                      onChange={(e) => setEditingName(e.target.value)}
+                      className="w-16 px-1 py-0.5 text-xs rounded border border-purple-300 bg-white/80"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') saveProfileName();
+                        if (e.key === 'Escape') cancelEditingName();
+                      }}
+                      autoFocus
+                    />
+                    <Button
+                      onClick={saveProfileName}
+                      className="w-3 h-3 bg-green-500 hover:bg-green-600 text-white rounded-full p-0"
+                      size="sm"
+                    >
+                      <Check className="w-2 h-2" />
+                    </Button>
+                    <Button
+                      onClick={cancelEditingName}
+                      className="w-3 h-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-0"
+                      size="sm"
+                    >
+                      <X className="w-2 h-2" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="mt-1 flex items-center justify-center">
+                    <p 
+                      className="text-xs text-purple-600 text-center truncate w-16 cursor-pointer hover:text-purple-800"
+                      onClick={() => startEditingName(profile)}
+                    >
+                      {profile.name}
+                    </p>
+                    <Button
+                      onClick={() => startEditingName(profile)}
+                      className="w-3 h-3 bg-blue-500/80 hover:bg-blue-600 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
+                      size="sm"
+                    >
+                      <Edit2 className="w-1.5 h-1.5" />
+                    </Button>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="absolute -top-1 -right-1 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {index > 0 && (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveProfile(profile.id, 'up');
+                      }}
+                      className="w-4 h-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
+                      size="sm"
+                    >
+                      <ChevronUp className="w-2 h-2" />
+                    </Button>
+                  )}
+                  {index < savedProfiles.length - 1 && (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveProfile(profile.id, 'down');
+                      }}
+                      className="w-4 h-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-0"
+                      size="sm"
+                    >
+                      <ChevronDown className="w-2 h-2" />
+                    </Button>
+                  )}
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteProfile(profile.id);
+                    }}
+                    className="w-4 h-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-0"
+                    size="sm"
+                  >
+                    <X className="w-2 h-2" />
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-sm text-purple-600 text-center py-4">
+            No saved profiles yet. Click "New Profile" to get started!
+          </p>
+        )}
+      </div>
       {/* Hidden File Inputs */}
       <input
         ref={mainImageInputRef}
@@ -555,9 +732,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <div className="mt-4 flex justify-center">
             <Button
               onClick={saveProfile}
-              className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 text-sm font-medium"
+              className={cn(
+                "px-6 py-2 text-sm font-medium text-white",
+                activeProfileId 
+                  ? "bg-orange-500 hover:bg-orange-600" 
+                  : "bg-purple-500 hover:bg-purple-600"
+              )}
             >
-              💾 Save Profile
+              💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
             </Button>
           </div>
         </div>
