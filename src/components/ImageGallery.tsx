@@ -28,6 +28,7 @@ interface ImageSettings {
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
   scale: number;
+  scaleHex?: string;
 }
 
 interface SavedProfile {
@@ -136,7 +137,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     return imageSettings[imageKey] || {
       position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 0, z: 0 },
-      scale: 1.0
+      scale: 1.0,
+      scaleHex: '#ffffff'
     };
   };
 
@@ -303,7 +305,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     const defaultSettings = {
       position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 0, z: 0 },
-      scale: 1.0
+      scale: 1.0,
+      scaleHex: '#ffffff'
     };
     setImageSettings(prev => ({
       ...prev,
@@ -666,15 +669,26 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       {/* Scale Control */}
                       <div>
                         <p className="font-medium text-pink-700 mb-1 text-xs">Scale</p>
-                        <input 
-                          type="number"
-                          step="0.1"
-                          className="w-20 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
-                          value={settings.scale}
-                          onChange={(e) => updateImageSettings(imageKey, { 
-                            scale: parseFloat(e.target.value) || 1.0 
-                          })}
-                        />
+                        <div className="flex gap-2 items-center">
+                          <input 
+                            type="number"
+                            step="0.1"
+                            className="w-20 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                            value={settings.scale}
+                            onChange={(e) => updateImageSettings(imageKey, { 
+                              scale: parseFloat(e.target.value) || 1.0 
+                            })}
+                          />
+                          <input 
+                            type="text"
+                            placeholder="#ffffff"
+                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                            value={settings.scaleHex || '#ffffff'}
+                            onChange={(e) => updateImageSettings(imageKey, { 
+                              scaleHex: e.target.value 
+                            })}
+                          />
+                        </div>
                       </div>
                       
                       {/* Save Button */}
@@ -840,13 +854,24 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
                       <p className="font-medium text-pink-700 mb-1">Scale</p>
-                      <input 
-                        className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
-                        value={settings.scale}
-                        onChange={(e) => updateImageSettings(imageKey, { 
-                          scale: parseFloat(e.target.value) || 1.0 
-                        })}
-                      />
+                      <div className="flex gap-2 items-center">
+                        <input 
+                          className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none" 
+                          value={settings.scale}
+                          onChange={(e) => updateImageSettings(imageKey, { 
+                            scale: parseFloat(e.target.value) || 1.0 
+                          })}
+                        />
+                        <input 
+                          type="text"
+                          placeholder="#ffffff"
+                          className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                          value={settings.scaleHex || '#ffffff'}
+                          onChange={(e) => updateImageSettings(imageKey, { 
+                            scaleHex: e.target.value 
+                          })}
+                        />
+                      </div>
                     </div>
                     
                     {/* Action Buttons */}
