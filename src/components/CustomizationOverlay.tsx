@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { X, Settings, Move } from 'lucide-react';
+import { X, Settings, Move, MoreVertical, RotateCcw, Download, Upload, Palette, Pin, Eye } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
 import { ColorPickerPanel } from './ColorPickerPanel';
+import { SettingsMenu } from './SettingsMenu';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface CustomizationOverlayProps {
   isVisible: boolean;
@@ -26,6 +28,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
   onToggle,
 }) => {
+  const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [position, setPosition] = useState({ x: 50, y: 50 });
@@ -34,6 +37,12 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [isResizing, setIsResizing] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  
+  // Settings state
+  const [opacity, setOpacity] = useState(100);
+  const [alwaysOnTop, setAlwaysOnTop] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -56,6 +65,73 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       width: size.width,
       height: size.height,
     });
+  };
+
+  // Settings handlers
+  const resetPositionAndSize = () => {
+    setPosition({ x: 50, y: 50 });
+    setSize({ width: 800, height: 600 });
+    toast({
+      title: "Window Reset",
+      description: "Position and size have been reset to default.",
+    });
+  };
+
+  const exportConfiguration = () => {
+    const config = {
+      activeSection,
+      selectedColor,
+      position,
+      size,
+      opacity,
+      alwaysOnTop,
+      theme,
+    };
+    
+    const dataStr = JSON.stringify(config, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = 'character-config.json';
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    toast({
+      title: "Configuration Exported",
+      description: "Your settings have been saved to a file.",
+    });
+  };
+
+  const importConfiguration = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const config = JSON.parse(e.target?.result as string);
+          setActiveSection(config.activeSection);
+          setSelectedColor(config.selectedColor);
+          setPosition(config.position);
+          setSize(config.size);
+          setOpacity(config.opacity);
+          setAlwaysOnTop(config.alwaysOnTop);
+          setTheme(config.theme);
+          
+          toast({
+            title: "Configuration Imported",
+            description: "Your settings have been restored successfully.",
+          });
+        } catch (error) {
+          toast({
+            title: "Import Error",
+            description: "Failed to import configuration file.",
+            variant: "destructive",
+          });
+        }
+      };
+      reader.readAsText(file);
+    }
   };
 
   useEffect(() => {
@@ -106,14 +182,17 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     <div
       ref={overlayRef}
       className={cn(
-        "fixed z-50 select-none transition-all duration-300 ease-smooth",
-        (isDragging || isResizing) ? "cursor-grabbing" : "cursor-grab"
+        "fixed select-none transition-all duration-300 ease-smooth",
+        (isDragging || isResizing) ? "cursor-grabbing" : "cursor-grab",
+        theme === 'dark' ? 'dark' : ''
       )}
       style={{
         left: position.x,
         top: position.y,
         width: size.width,
         height: size.height,
+        zIndex: alwaysOnTop ? 9999 : 50,
+        opacity: opacity / 100,
       }}
       onMouseDown={handleMouseDown}
     >
@@ -127,14 +206,27 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             <Move className="w-4 h-4 text-muted-foreground" />
             <h2 className="text-lg font-semibold text-foreground">Character Editor</h2>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggle}
-            className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground"
-          >
-            <X className="w-4 h-4" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <SettingsMenu
+              opacity={opacity}
+              onOpacityChange={setOpacity}
+              alwaysOnTop={alwaysOnTop}
+              onAlwaysOnTopChange={setAlwaysOnTop}
+              theme={theme}
+              onThemeChange={setTheme}
+              onResetPosition={resetPositionAndSize}
+              onExportConfig={exportConfiguration}
+              onImportConfig={importConfiguration}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onToggle}
+              className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
         {/* Content */}
