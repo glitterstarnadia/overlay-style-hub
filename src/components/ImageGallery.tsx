@@ -498,32 +498,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         />
       ))}
       
-      {/* Main Upload Section */}
-      <div className="flex-shrink-0">
-        <div className="relative bg-gradient-to-br from-pink-50 via-purple-50/20 to-pink-100/30 rounded-xl p-4 shadow-lg border border-pink-200/40">
-          {currentMainImage && (
-            <>
-              <img
-                src={imageMap[currentMainImage] || currentMainImage}
-                alt="Main character view"
-                className="w-32 h-32 object-cover rounded-lg shadow-md"
-              />
-              <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-pink-100/10 rounded-xl" />
-            </>
-          )}
-          
-          {/* Change Main Image Button - only show when image exists */}
-          {currentMainImage && (
-            <Button
-              onClick={triggerMainImageUpload}
-              className="absolute top-2 right-2 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1.5 rounded-full shadow-lg backdrop-blur-sm"
-              size="sm"
-            >
-              <Upload className="w-3 h-3" />
-            </Button>
-          )}
-        </div>
-      </div>
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
@@ -749,7 +723,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Side Panel with Scrollable Thumbnails */}
       <div className="flex-1 min-w-0">
         <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-          {currentThumbnails.length > 0 ? currentThumbnails.map((thumbnail, index) => {
+          {currentThumbnails.length > 0 && currentThumbnails.map((thumbnail, index) => {
             const imageKey = thumbnail;
             const settings = getImageSettings(imageKey);
             
@@ -899,13 +873,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 </div>
               </div>
             );
-          }) : (
-            <div className="text-center text-pink-500 py-8">
-              <Upload className="w-8 h-8 mx-auto mb-2" />
-              <p className="text-sm">No variations uploaded yet</p>
-              <p className="text-xs text-pink-400 mt-1">Upload images to see variations here</p>
-            </div>
-          )}
+          })}
         </div>
       </div>
     </div>
