@@ -9,6 +9,48 @@ import hair2 from '@/assets/hair-2.jpg';
 import hair3 from '@/assets/hair-3.jpg';
 import hair4 from '@/assets/hair-4.jpg';
 
+/* Custom Scrollbar Styles */
+const scrollbarStyles = `
+  .custom-scrollbar-main::-webkit-scrollbar {
+    width: 12px;
+  }
+  .custom-scrollbar-main::-webkit-scrollbar-track {
+    background: rgba(219, 188, 255, 0.3);
+    border-radius: 10px;
+  }
+  .custom-scrollbar-main::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  .custom-scrollbar-main::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #db2777, #7c3aed);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(219, 188, 255, 0.2);
+    border-radius: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(236, 72, 153, 0.6);
+    border-radius: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(236, 72, 153, 0.8);
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.type = 'text/css';
+  styleSheet.innerText = scrollbarStyles;
+  document.head.appendChild(styleSheet);
+}
+
 interface ImageGalleryProps {
   mainImage: string;
   thumbnails: string[];
@@ -319,10 +361,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   return (
-    <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen">
+    <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
       
       {/* Saved Profiles Section */}
-      <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40">
+      <div className="bg-gradient-to-br from-purple-50/50 via-pink-50/30 to-purple-100/50 rounded-xl p-4 shadow-lg border border-purple-200/40 max-h-60 overflow-y-auto custom-scrollbar">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-purple-700 flex items-center gap-2">
             <span>📁</span> Saved Profiles
@@ -504,7 +546,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
-        <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-3 shadow-lg border border-pink-200/40">
+        <div className="bg-gradient-to-br from-pink-50/50 via-purple-50/30 to-pink-100/50 rounded-xl p-3 shadow-lg border border-pink-200/40 max-h-80 overflow-y-auto custom-scrollbar">
           <h3 className="text-base font-semibold text-pink-700 mb-2 flex items-center gap-2">
             <span>🎨</span> Image Configuration
           </h3>
@@ -520,7 +562,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
             
             {/* Transform Controls */}
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
               {transformControls.map((controlId, index) => {
                 const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                 const settings = getImageSettings(imageKey);
@@ -679,15 +721,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               scale: parseFloat(e.target.value) || 1.0 
                             })}
                           />
-                          <input 
-                            type="text"
-                            placeholder="#ffffff"
-                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
-                            value={settings.scaleHex || '#ffffff'}
-                            onChange={(e) => updateImageSettings(imageKey, { 
-                              scaleHex: e.target.value 
-                            })}
-                          />
+                          <div className="flex flex-col">
+                            <label className="text-xs text-pink-600 mb-0.5">Hex Code</label>
+                            <input 
+                              type="text"
+                              placeholder="#ffffff"
+                              className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                              value={settings.scaleHex || '#ffffff'}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                scaleHex: e.target.value 
+                              })}
+                            />
+                          </div>
                         </div>
                       </div>
                       
@@ -862,15 +907,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             scale: parseFloat(e.target.value) || 1.0 
                           })}
                         />
-                        <input 
-                          type="text"
-                          placeholder="#ffffff"
-                          className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
-                          value={settings.scaleHex || '#ffffff'}
-                          onChange={(e) => updateImageSettings(imageKey, { 
-                            scaleHex: e.target.value 
-                          })}
-                        />
+                        <div className="flex flex-col">
+                          <label className="text-xs text-pink-600 mb-0.5">Hex Code</label>
+                          <input 
+                            type="text"
+                            placeholder="#ffffff"
+                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600 font-mono" 
+                            value={settings.scaleHex || '#ffffff'}
+                            onChange={(e) => updateImageSettings(imageKey, { 
+                              scaleHex: e.target.value 
+                            })}
+                          />
+                        </div>
                       </div>
                     </div>
                     
