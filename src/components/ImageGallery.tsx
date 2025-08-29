@@ -260,7 +260,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <span>🎨</span> Image Configuration
           </h3>
           
-          <div className="flex gap-2">
+          <div className="flex gap-1">
             {/* Main Image Display */}
             <div className="flex-shrink-0">
               <img
@@ -277,7 +277,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 const settings = getImageSettings(imageKey);
                 
                 return (
-                  <div key={controlId} className="p-2 bg-white/40 rounded-lg border border-pink-200/60">
+                  <div key={controlId} className="p-1.5 bg-white/40 rounded-lg border border-pink-200/60">
                     <h4 className="text-xs font-medium text-pink-700 mb-1 flex items-center gap-1">
                       Set {index + 1}
                       
@@ -336,16 +336,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       )}
                     </h4>
                     
-                    <div className="grid grid-cols-4 gap-1">
+                    <div className="grid grid-cols-5 gap-0.5">
                       {/* Position Controls */}
                       <div>
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Pos</p>
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">X</span>
+                            <span className="text-xs text-pink-600 w-1">X</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.position.x}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
@@ -353,10 +353,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             />
                           </div>
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">Y</span>
+                            <span className="text-xs text-pink-600 w-1">Y</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.position.y}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
@@ -364,10 +364,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             />
                           </div>
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">Z</span>
+                            <span className="text-xs text-pink-600 w-1">Z</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
                               value={settings.position.z}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
@@ -382,10 +382,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <p className="font-medium text-pink-700 mb-0.5 text-xs">Rot</p>
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">X</span>
+                            <span className="text-xs text-pink-600 w-1">X</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.rotation.x}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
@@ -393,10 +393,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             />
                           </div>
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">Y</span>
+                            <span className="text-xs text-pink-600 w-1">Y</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                               value={settings.rotation.y}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
@@ -404,10 +404,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             />
                           </div>
                           <div className="flex items-center gap-0.5">
-                            <span className="text-xs text-pink-600 w-2">Z</span>
+                            <span className="text-xs text-pink-600 w-1">Z</span>
                             <input 
                               type="number"
-                              className="w-10 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
+                              className="w-8 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600"
                               value={settings.rotation.z}
                               onChange={(e) => updateImageSettings(imageKey, { 
                                 rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
@@ -423,7 +423,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <input 
                           type="number"
                           step="0.1"
-                          className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
+                          className="w-10 px-0.5 py-0.5 text-xs rounded border border-pink-200 bg-white/60 focus:border-pink-400 focus:outline-none text-pink-600" 
                           value={settings.scale}
                           onChange={(e) => updateImageSettings(imageKey, { 
                             scale: parseFloat(e.target.value) || 1.0 
@@ -432,13 +432,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                       
                       {/* Save Button */}
-                      <div className="flex items-end">
+                      <div className="flex items-end justify-center col-span-2">
                         <Button
                           onClick={() => saveImageSettings(imageKey)}
-                          className="bg-pink-500 hover:bg-pink-600 text-white px-1 py-0.5 text-xs w-full"
+                          className="bg-pink-500 hover:bg-pink-600 text-white w-6 h-6 p-0 rounded-full flex items-center justify-center"
                         >
-                          <Save className="w-2 h-2 mr-0.5" />
-                          Save
+                          <Save className="w-3 h-3" />
                         </Button>
                       </div>
                     </div>
