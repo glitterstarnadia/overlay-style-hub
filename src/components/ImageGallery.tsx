@@ -10,6 +10,7 @@ import hair4 from '@/assets/hair-4.jpg';
 interface ImageGalleryProps {
   mainImage: string;
   thumbnails: string[];
+  selectedColor: string;
 }
 
 // Map the imported images
@@ -24,6 +25,7 @@ const imageMap: Record<string, string> = {
 export const ImageGallery: React.FC<ImageGalleryProps> = ({
   mainImage,
   thumbnails,
+  selectedColor,
 }) => {
   const [selectedImage, setSelectedImage] = useState(mainImage);
 
@@ -33,14 +35,26 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="h-full flex gap-4">
-      {/* Main Image */}
-      <div className="flex-1 bg-overlay-surface/30 rounded-lg border border-overlay-border overflow-hidden">
-        <div className="aspect-video w-full h-full">
+      {/* Main Image - Smaller size */}
+      <div className="w-80 bg-overlay-surface/30 rounded-lg border border-overlay-border overflow-hidden">
+        <div className="aspect-square w-full">
           <img
             src={imageMap[selectedImage] || selectedImage}
             alt="Selected item"
             className="w-full h-full object-cover"
+            style={{ filter: `hue-rotate(${selectedColor ? '0deg' : '0deg'})` }}
           />
+        </div>
+        
+        {/* Color indicator */}
+        <div className="p-3 bg-overlay-surface/50 border-t border-overlay-border">
+          <div className="flex items-center gap-2">
+            <div 
+              className="w-4 h-4 rounded-full border border-overlay-border"
+              style={{ backgroundColor: selectedColor }}
+            />
+            <span className="text-xs text-muted-foreground">Selected Color</span>
+          </div>
         </div>
       </div>
 

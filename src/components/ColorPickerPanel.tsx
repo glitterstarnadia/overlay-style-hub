@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card';
 interface ColorPickerPanelProps {
   color: string;
   onChange: (color: string) => void;
+  compact?: boolean;
 }
 
 const presetColors = [
@@ -19,6 +20,7 @@ const presetColors = [
 export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
   color,
   onChange,
+  compact = false,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -26,6 +28,44 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
       onChange(value);
     }
   };
+
+  if (compact) {
+    return (
+      <div className="space-y-3">
+        <Label className="text-xs font-medium text-foreground">Colors</Label>
+        
+        {/* Compact Color Picker */}
+        <div className="w-full">
+          <HexColorPicker
+            color={color}
+            onChange={onChange}
+            className="!w-full !h-24"
+          />
+        </div>
+
+        {/* Hex Input */}
+        <Input
+          value={color}
+          onChange={handleInputChange}
+          className="bg-overlay-bg border-overlay-border text-foreground text-xs h-7"
+          placeholder="#000000"
+        />
+
+        {/* Preset Colors - Compact */}
+        <div className="grid grid-cols-6 gap-1">
+          {presetColors.slice(0, 6).map((presetColor) => (
+            <Button
+              key={presetColor}
+              variant="ghost"
+              className="p-0 h-6 w-6 rounded border border-overlay-border hover:border-overlay-active/50"
+              style={{ backgroundColor: presetColor }}
+              onClick={() => onChange(presetColor)}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Card className="p-4 bg-overlay-surface/30 border-overlay-border">

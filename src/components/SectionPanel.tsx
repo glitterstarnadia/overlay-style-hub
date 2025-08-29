@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ImageGallery } from './ImageGallery';
-import { ColorPickerPanel } from './ColorPickerPanel';
 
 interface SectionPanelProps {
   sectionId: string;
   sectionTitle: string;
+  selectedColor: string;
 }
 
 // Mock data for different sections - you can replace with real data
@@ -86,8 +86,8 @@ const sectionData = {
 export const SectionPanel: React.FC<SectionPanelProps> = ({
   sectionId,
   sectionTitle,
+  selectedColor,
 }) => {
-  const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const data = sectionData[sectionId as keyof typeof sectionData];
 
   if (!data) {
@@ -107,23 +107,11 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
       {/* Content */}
       <div className="flex-1 p-4">
-        <div className="flex gap-4 h-full">
-          {/* Image Gallery */}
-          <div className="flex-1">
-            <ImageGallery
-              mainImage={data.mainImage}
-              thumbnails={data.thumbnails}
-            />
-          </div>
-
-          {/* Color Picker */}
-          <div className="w-48">
-            <ColorPickerPanel
-              color={selectedColor}
-              onChange={setSelectedColor}
-            />
-          </div>
-        </div>
+        <ImageGallery
+          mainImage={data.mainImage}
+          thumbnails={data.thumbnails}
+          selectedColor={selectedColor}
+        />
       </div>
     </div>
   );

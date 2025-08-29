@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Settings, Move } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
+import { ColorPickerPanel } from './ColorPickerPanel';
 import { cn } from '@/lib/utils';
 
 interface CustomizationOverlayProps {
@@ -26,9 +27,13 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   onToggle,
 }) => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [size, setSize] = useState({ width: 800, height: 600 });
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -41,6 +46,18 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
   };
 
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsResizing(true);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: size.width,
+      height: size.height,
+    });
+  };
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging) {
@@ -49,13 +66,19 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           y: e.clientY - dragStart.y,
         });
       }
+      if (isResizing) {
+        const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
+        const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
+        setSize({ width: newWidth, height: newHeight });
+      }
     };
 
     const handleMouseUp = () => {
       setIsDragging(false);
+      setIsResizing(false);
     };
 
-    if (isDragging) {
+    if (isDragging || isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     }
@@ -64,7 +87,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, dragStart]);
+  }, [isDragging, isResizing, dragStart, resizeStart]);
 
   if (!isVisible) {
     return (
@@ -84,15 +107,17 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       ref={overlayRef}
       className={cn(
         "fixed z-50 select-none transition-all duration-300 ease-smooth",
-        isDragging ? "cursor-grabbing" : "cursor-grab"
+        (isDragging || isResizing) ? "cursor-grabbing" : "cursor-grab"
       )}
       style={{
         left: position.x,
         top: position.y,
+        width: size.width,
+        height: size.height,
       }}
       onMouseDown={handleMouseDown}
     >
-      <Card className="bg-overlay-bg/95 backdrop-blur-lg border-overlay-border shadow-overlay min-w-80 max-h-[600px] overflow-hidden">
+      <Card className="bg-overlay-bg/95 backdrop-blur-lg border-overlay-border shadow-overlay w-full h-full overflow-hidden relative">
         {/* Header */}
         <div
           data-drag-handle
@@ -113,10 +138,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex">
+        <div className="flex h-full">
           {/* Sidebar */}
-          <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border">
-            <nav className="p-2">
+          <div className="w-48 bg-overlay-surface/50 border-r border-overlay-border flex flex-col">
+            <nav className="p-2 flex-1">
               {sections.map((section) => (
                 <button
                   key={section.id}
@@ -135,14 +160,24 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                 </button>
               ))}
             </nav>
+            
+            {/* Always visible color picker */}
+            <div className="p-2 border-t border-overlay-border">
+              <ColorPickerPanel
+                color={selectedColor}
+                onChange={setSelectedColor}
+                compact={true}
+              />
+            </div>
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 min-h-[400px]">
+          <div className="flex-1 min-h-0">
             {activeSection ? (
               <SectionPanel
                 sectionId={activeSection}
                 sectionTitle={sections.find(s => s.id === activeSection)?.title || ''}
+                selectedColor={selectedColor}
               />
             ) : (
               <div className="flex items-center justify-center h-full p-8 text-center">
@@ -156,6 +191,15 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             )}
           </div>
         </div>
+        
+        {/* Resize Handle */}
+        <div
+          className="absolute bottom-0 right-0 w-4 h-4 cursor-nw-resize bg-primary/20 hover:bg-primary/40 transition-colors"
+          onMouseDown={handleResizeStart}
+          style={{
+            background: 'linear-gradient(-45deg, transparent 30%, currentColor 30%, currentColor 70%, transparent 70%)',
+          }}
+        />
       </Card>
     </div>
   );
