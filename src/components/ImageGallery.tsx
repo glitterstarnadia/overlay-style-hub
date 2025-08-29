@@ -23,6 +23,7 @@ interface Profile {
   name: string;
   createdAt: number;
   configurations: SavedConfiguration[];
+  thumbnail?: string;
 }
 
 interface ImageGalleryProps {
@@ -83,10 +84,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
+  const profileThumbnailInputRefs = useRef<Record<string, HTMLInputElement>>({});
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
   };
-  const handleImageUpload = (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string) => {
+  const handleImageUpload = (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string, profileId?: string) => {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = e => {
@@ -112,6 +114,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           toast({
             title: "🖼️ Transform Image Updated!",
             description: "Transform control image has been loaded"
+          });
+        } else if (profileId) {
+          setProfiles(prev => prev.map(profile => 
+            profile.id === profileId 
+              ? { ...profile, thumbnail: imageUrl }
+              : profile
+          ));
+          toast({
+            title: "👤 Profile Thumbnail Updated!",
+            description: "Profile image has been updated"
           });
         } else if (thumbnailIndex !== undefined) {
           const newThumbnails = [...currentThumbnails];
@@ -143,6 +155,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
   const triggerThumbnailUpload = (index: number) => {
     thumbnailInputRefs.current[index]?.click();
+  };
+  
+  const triggerProfileThumbnailUpload = (profileId: string) => {
+    profileThumbnailInputRefs.current[profileId]?.click();
   };
   const getImageSettings = (imageKey: string): ImageSettings => {
     return imageSettings[imageKey] || {
@@ -265,6 +281,44 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
+  const deleteProfile = (profileId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (profiles.length <= 1) {
+      toast({
+        title: "❌ Cannot Delete",
+        description: "You must have at least one profile",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (profileId === 'default') {
+      toast({
+        title: "❌ Cannot Delete",
+        description: "Cannot delete the default profile",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setProfiles(prev => prev.filter(profile => profile.id !== profileId));
+    
+    if (activeProfileId === profileId) {
+      const remainingProfile = profiles.find(p => p.id !== profileId);
+      if (remainingProfile) {
+        setActiveProfileId(remainingProfile.id);
+      }
+    }
+    
+    setSelectedConfiguration(null);
+    
+    toast({
+      title: "🗑️ Profile Deleted",
+      description: "Profile and all its configurations have been removed"
+    });
+  };
+
   const deleteConfiguration = (configId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setProfiles(prev => prev.map(profile => 
@@ -287,38 +341,112 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {/* Profile Selection Section */}
       <div className="flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-pink-700 flex items-center gap-2">
-            <span>👤</span> Profile: {activeProfile.name}
-          </h3>
-          <Button
-            onClick={createNewProfile}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
-            size="sm"
-          >
-            ➕ New Profile
-          </Button>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              {activeProfile.thumbnail ? (
+                <img 
+                  src={imageMap[activeProfile.thumbnail] || activeProfile.thumbnail} 
+                  alt={activeProfile.name}
+                  className="w-12 h-12 object-cover rounded-full border-2 border-pink-300 shadow-md"
+                />
+              ) : (
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full border-2 border-pink-300 shadow-md flex items-center justify-center">
+                  <span className="text-pink-600 text-lg">👤</span>
+                </div>
+              )}
+              <Button
+                onClick={() => triggerProfileThumbnailUpload(activeProfileId)}
+                className="absolute -bottom-1 -right-1 bg-pink-500/90 hover:bg-pink-600/90 text-white p-1 rounded-full shadow-lg backdrop-blur-sm"
+                size="sm"
+              >
+                <Upload className="w-2 h-2" />
+              </Button>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-pink-700">
+                {activeProfile.name}
+              </h3>
+              <p className="text-xs text-pink-500">
+                {activeProfile.configurations.length} configurations
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              onClick={createNewProfile}
+              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs"
+              size="sm"
+            >
+              ➕ New Profile
+            </Button>
+            {activeProfileId !== 'default' && profiles.length > 1 && (
+              <Button
+                onClick={(e) => deleteProfile(activeProfileId, e)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs"
+                size="sm"
+              >
+                🗑️ Delete
+              </Button>
+            )}
+          </div>
         </div>
         
         {profiles.length > 1 && (
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
             {profiles.map((profile) => (
-              <Button
-                key={profile.id}
-                onClick={() => switchProfile(profile.id)}
-                variant={profile.id === activeProfileId ? "default" : "outline"}
-                className={`text-xs px-3 py-1 ${
-                  profile.id === activeProfileId 
-                    ? "bg-pink-500 hover:bg-pink-600 text-white" 
-                    : "border-pink-300 text-pink-600 hover:bg-pink-50"
-                }`}
-                size="sm"
-              >
-                {profile.name} ({profile.configurations.length})
-              </Button>
+              <div key={profile.id} className="relative flex-shrink-0">
+                <Button
+                  onClick={() => switchProfile(profile.id)}
+                  variant={profile.id === activeProfileId ? "default" : "outline"}
+                  className={`text-xs px-3 py-2 flex items-center gap-2 ${
+                    profile.id === activeProfileId 
+                      ? "bg-pink-500 hover:bg-pink-600 text-white" 
+                      : "border-pink-300 text-pink-600 hover:bg-pink-50"
+                  }`}
+                  size="sm"
+                >
+                  {profile.thumbnail ? (
+                    <img 
+                      src={imageMap[profile.thumbnail] || profile.thumbnail} 
+                      alt={profile.name}
+                      className="w-4 h-4 object-cover rounded-full"
+                    />
+                  ) : (
+                    <span className="text-xs">👤</span>
+                  )}
+                  {profile.name} ({profile.configurations.length})
+                </Button>
+                {profile.id !== 'default' && profiles.length > 1 && (
+                  <Button
+                    onClick={(e) => deleteProfile(profile.id, e)}
+                    className="absolute -top-1 -right-1 bg-red-500/90 hover:bg-red-600/90 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity"
+                    size="sm"
+                  >
+                    <X className="w-2 h-2" />
+                  </Button>
+                )}
+              </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Profile Thumbnail Inputs */}
+      {profiles.map(profile => (
+        <input 
+          key={`profile-${profile.id}`}
+          ref={el => {
+            if (el) profileThumbnailInputRefs.current[profile.id] = el;
+          }} 
+          type="file" 
+          accept="image/*" 
+          className="hidden" 
+          onChange={e => {
+            const file = e.target.files?.[0];
+            if (file) handleImageUpload(file, false, false, undefined, undefined, profile.id);
+          }} 
+        />
+      ))}
 
       {/* Saved Configurations Section */}
       {activeProfile.configurations.length > 0 && (
