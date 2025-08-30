@@ -6,17 +6,17 @@ const isDev = process.env.NODE_ENV === 'development';
 let discordRPC = null;
 
 function createWindow() {
-  // Create the browser window with transparency and no frame
+  // Create the browser window as a normal desktop app
   const mainWindow = new BrowserWindow({
-    width: 400,
-    height: 600,
-    frame: false, // Remove window frame for clean look
-    transparent: true, // Enable transparency
-    alwaysOnTop: true, // Keep on top like an overlay
+    width: 800,
+    height: 900,
+    frame: true, // Show window frame 
+    transparent: false, // Disable transparency
+    alwaysOnTop: false, // Don't keep on top
     resizable: true,
-    minimizable: false,
-    maximizable: false,
-    skipTaskbar: true, // Don't show in taskbar
+    minimizable: true,
+    maximizable: true,
+    skipTaskbar: false, // Show in taskbar
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
