@@ -6,18 +6,19 @@ const isDev = process.env.NODE_ENV === 'development';
 let discordRPC = null;
 
 function createWindow() {
-  // Create the browser window as a normal desktop app
+  // Create the browser window as a floating app
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 900,
-    frame: true, // Show window frame 
-    transparent: false, // Disable transparency
-    alwaysOnTop: false, // Don't keep on top
+    frame: false, // Remove window frame for floating look
+    transparent: true, // Enable transparency
+    alwaysOnTop: true, // Keep on top for floating effect
     resizable: true,
-    minimizable: true,
-    maximizable: true,
+    minimizable: false,
+    maximizable: false,
     skipTaskbar: false, // Show in taskbar
     autoHideMenuBar: true, // Auto-hide menu bar
+    roundedCorners: true, // Rounded corners if supported
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
