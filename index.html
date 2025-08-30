@@ -7,31 +7,30 @@
     <meta name="description" content="A magical styling and customization application with sparkly interfaces. Install as a desktop app!" />
     <meta name="author" content="Lovable" />
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
+    <!-- PWA Meta Tags (disabled for Electron) -->
+    <!-- <link rel="manifest" href="./manifest.json" /> -->
     <meta name="theme-color" content="#ff66b3" />
     
-    <!-- PWA Meta Tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Nadia <3" />
-    
-    <!-- PWA Icons -->
-    <link rel="apple-touch-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Icons with relative paths -->
+    <link rel="apple-touch-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 
     <meta property="og:title" content="Nadia <3 - Desktop App" />
     <meta property="og:description" content="Magical styling application with sparkly interfaces" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
   </head>
 
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <!-- Fallback content for debugging -->
+      <div style="padding: 20px; font-family: Arial;">
+        <h1>Loading...</h1>
+        <p>If you see this message, React hasn't loaded yet.</p>
+      </div>
+    </div>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
