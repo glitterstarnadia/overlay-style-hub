@@ -15,11 +15,11 @@ html, body {
 
 /* Magic Cursor Styles */
 .magic-cursor {
-  cursor: url('./assets/magic-wand-cursor.png') 16 16, auto;
+  cursor: url('/magic-wand-cursor.png') 16 16, auto;
 }
 
 .magic-cursor * {
-  cursor: url('./assets/magic-wand-cursor.png') 16 16, auto;
+  cursor: url('/magic-wand-cursor.png') 16 16, auto;
 }
 
 /* Custom Scrollbar */
@@ -242,7 +242,7 @@ html, body {
 @layer base {
   * {
     @apply border-border;
-    cursor: url('./assets/magic-wand-cursor.png') 16 16, auto !important;
+    cursor: url('/magic-wand-cursor.png') 16 16, auto !important;
   }
 
   body {
@@ -250,7 +250,7 @@ html, body {
     background: transparent !important;
     margin: 0;
     padding: 0;
-    cursor: url('./assets/magic-wand-cursor.png') 16 16, auto !important;
+    cursor: url('/magic-wand-cursor.png') 16 16, auto !important;
   }
   
   html {
