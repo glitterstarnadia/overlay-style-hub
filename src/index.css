@@ -56,6 +56,75 @@ button, input, textarea, select, a {
   100% { background-position: 0% 50%; }
 }
 
+/* 3D Effects */
+.shadow-3d {
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-3d-button {
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transform: translateZ(0);
+}
+
+.shadow-3d-button:hover {
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px) translateZ(0);
+}
+
+.shadow-3d-button:active {
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0) translateZ(0);
+}
+
+.shadow-3d-resize {
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 0 8px rgba(255, 100, 180, 0.3);
+}
+
+.shadow-inner-3d {
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar-3d::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar-3d::-webkit-scrollbar-track {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.05));
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.custom-scrollbar-3d::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #ff99cc, #b399ff);
+  border-radius: 4px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.custom-scrollbar-3d::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ff64b4, #9966ff); 
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;

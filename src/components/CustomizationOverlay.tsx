@@ -449,14 +449,18 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     zIndex: alwaysOnTop ? 9999 : 50,
     opacity: opacity / 100
   }} onMouseDown={handleMouseDown}>
-      <Card className={cn("w-full h-full overflow-hidden relative magic-cursor", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-lg" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl")}>
+      <Card className={cn("w-full h-full overflow-hidden relative magic-cursor transform-gpu", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+        {/* 3D Inner Frame */}
+        <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
+        
         {/* Header */}
         <div 
           data-drag-handle 
-          className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative gradient-cycle" 
+          className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative gradient-cycle shadow-inner-3d" 
           style={{ 
             background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
-            backgroundSize: '400% 400%'
+            backgroundSize: '400% 400%',
+            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.2)'
           }}
         >
           <MenuSparkles />
@@ -469,8 +473,11 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               variant="ghost"
               size="sm"
               onClick={toggleAllSections}
-              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md"
+              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
               title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
+              style={{
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
             >
               {allCollapsed ? (
                 <ChevronDown className="w-4 h-4" />
@@ -493,34 +500,55 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               onExportAllProfiles={exportAllProfiles} 
               onImportAllProfiles={importAllProfiles} 
             />
-            <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white drop-shadow-md">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onToggle} 
+              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+              style={{
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
+            >
               <X className="w-4 h-4" />
             </Button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex h-full">
+        <div className="flex h-full relative">
+          {/* 3D Content Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-25/50 to-purple-50/50 rounded-b-lg" 
+               style={{
+                 boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
+               }} />
+          
           {/* Content Area - Full Width */}
-          <div className="flex-1 min-h-0 p-4">
-            <div className="h-full overflow-y-auto custom-scrollbar">
+          <div className="flex-1 min-h-0 p-4 relative z-10">
+            <div className="h-full overflow-y-auto custom-scrollbar-3d">
               {/* Display all sections content */}
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {sections.map(sectionId => (
-                  <SectionPanel 
+                  <div 
                     key={sectionId}
-                    sectionId={sectionId} 
-                    sectionTitle={getSectionTitle(sectionId)} 
-                    selectedColor={selectedColor}
-                    isCollapsed={collapsedSections.has(sectionId)}
-                    onToggleCollapse={() => toggleSection(sectionId)}
-                    isDragging={draggedSection === sectionId}
-                    isDragOver={dragOverSection === sectionId}
-                    onDragStart={() => handleSectionDragStart(sectionId)}
-                    onDragEnd={handleSectionDragEnd}
-                    onDragOver={() => handleSectionDragOver(sectionId)}
-                    onDrop={() => handleSectionDrop(sectionId)}
-                  />
+                    className="transform hover:scale-[1.02] transition-all duration-300"
+                    style={{
+                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))'
+                    }}
+                  >
+                    <SectionPanel 
+                      sectionId={sectionId} 
+                      sectionTitle={getSectionTitle(sectionId)} 
+                      selectedColor={selectedColor}
+                      isCollapsed={collapsedSections.has(sectionId)}
+                      onToggleCollapse={() => toggleSection(sectionId)}
+                      isDragging={draggedSection === sectionId}
+                      isDragOver={dragOverSection === sectionId}
+                      onDragStart={() => handleSectionDragStart(sectionId)}
+                      onDragEnd={handleSectionDragEnd}
+                      onDragOver={() => handleSectionDragOver(sectionId)}
+                      onDrop={() => handleSectionDrop(sectionId)}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -528,8 +556,25 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         </div>
         
         {/* Resize Handle */}
-        <div className={cn("absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-colors", isDragging || isResizing ? "bg-pink-400/50" : "bg-pink-400/30 hover:bg-pink-400/50")} onMouseDown={handleResizeStart} title="Drag to resize">
-          <div className="w-2 h-2 bg-pink-500 rounded-full" />
+        <div 
+          className={cn(
+            "absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110", 
+            isDragging || isResizing 
+              ? "bg-pink-400/60 shadow-inner" 
+              : "bg-gradient-to-br from-pink-400/40 to-pink-500/50 hover:from-pink-400/60 hover:to-pink-500/70 shadow-3d-resize"
+          )} 
+          onMouseDown={handleResizeStart} 
+          title="Drag to resize"
+          style={{
+            boxShadow: isDragging || isResizing 
+              ? 'inset 0 2px 4px rgba(0,0,0,0.3)' 
+              : '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3), 0 0 8px rgba(255,100,180,0.3)'
+          }}
+        >
+          <div className="w-2 h-2 bg-pink-600 rounded-full shadow-sm" 
+               style={{
+                 boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4)'
+               }} />
         </div>
       </Card>
       <SparkleEffect />

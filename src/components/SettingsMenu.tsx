@@ -100,13 +100,24 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         
         <DropdownMenuContent 
           align="end" 
-          className="w-72 bg-gradient-to-br from-white to-pink-50 border-pink-200 shadow-lg"
+          className="w-72 bg-gradient-to-br from-white to-pink-50 border-4 border-pink-200/60 shadow-3d backdrop-blur-lg"
+          style={{
+            boxShadow: '0 12px 24px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.05)'
+          }}
         >
-          <DropdownMenuLabel className="text-pink-600 font-bold">Settings</DropdownMenuLabel>
+          <DropdownMenuLabel 
+            className="text-pink-600 font-bold text-lg"
+            style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8)' }}
+          >
+            Settings
+          </DropdownMenuLabel>
           <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Window Opacity */}
-          <div className="p-3 space-y-3">
+          <div 
+            className="p-4 space-y-3 bg-gradient-to-r from-white/60 to-pink-25/60 rounded-lg m-2 shadow-inner"
+            style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05), inset 0 -1px 2px rgba(255,255,255,0.5)' }}
+          >
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4 text-pink-500" />
               <Label className="text-sm text-pink-600 font-medium">
@@ -119,7 +130,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               max={100}
               min={20}
               step={5}
-              className="w-full [&_[role=slider]]:bg-white [&_[role=slider]]:border-pink-400 [&_[role=slider]]:shadow-pink-200 [&>span:first-child]:bg-pink-100 [&>span:first-child>span]:bg-pink-400"
+              className="w-full [&_[role=slider]]:bg-white [&_[role=slider]]:border-pink-400 [&_[role=slider]]:shadow-3d-button [&>span:first-child]:bg-gradient-to-r [&>span:first-child]:from-pink-200 [&>span:first-child]:to-purple-200 [&>span:first-child]:shadow-inner [&>span:first-child>span]:bg-gradient-to-r [&>span:first-child>span]:from-pink-400 [&>span:first-child>span]:to-purple-400 [&>span:first-child>span]:shadow-sm"
             />
           </div>
           
@@ -135,7 +146,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <Switch
                 checked={alwaysOnTop}
                 onCheckedChange={onAlwaysOnTopChange}
-                className="data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-pink-100 border-pink-200"
+                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-400 data-[state=checked]:to-purple-400 data-[state=unchecked]:bg-gradient-to-r data-[state=unchecked]:from-pink-100 data-[state=unchecked]:to-purple-100 border-pink-200 shadow-3d-button"
               />
             </div>
           </div>
