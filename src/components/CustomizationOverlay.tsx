@@ -5,7 +5,6 @@ import { X, Settings, Move, ChevronDown, ChevronUp } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
-import { HeartColorPicker } from './HeartColorPicker';
 import MenuSparkles from './MenuSparkles';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -81,10 +80,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       (window as any).electronAPI.setWebBarVisibility(visible);
     }
   };
-  const [savedColors, setSavedColors] = useState<string[]>(() => {
-    const saved = localStorage.getItem(`customization-colors-${pageKey}`);
-    return saved ? JSON.parse(saved) : ['#ffb3ba', '#ffb3d6', '#d6b3ff', '#b3d6ff', '#b3ffb3', '#ffffb3', '#ffcc99', '#ff9999', '#ff66b3', '#b366ff', '#66b3ff', '#66ff66', '#ffff66', '#ff9966'];
-  });
   const overlayRef = useRef<HTMLDivElement>(null);
   const handleMouseDown = (e: React.MouseEvent) => {
     // Only start dragging when clicking on drag handles
@@ -560,22 +555,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               </div>
             </div>
           </div>
-          {/* Heart Color Picker */}
-          <HeartColorPicker 
-            currentColor={selectedColor} 
-            onColorSelect={setSelectedColor} 
-            savedColors={savedColors} 
-            onSaveColor={color => {
-              const newColors = [...savedColors, color];
-              setSavedColors(newColors);
-              localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
-            }} 
-            onDeleteColor={index => {
-              const newColors = savedColors.filter((_, i) => i !== index);
-              setSavedColors(newColors);
-              localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
-            }} 
-          />
         </div>
         
       </Card>
