@@ -63,6 +63,27 @@
   animation: gradient-cycle 12s ease infinite;
 }
 
+/* Glitter Border Animation */
+@keyframes glitter-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sparkle-dance {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
 .sparkle {
   position: absolute;
   pointer-events: none;

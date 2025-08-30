@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart } from 'lucide-react';
+import GlitterBorder from './GlitterBorder';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -598,11 +599,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <div className="flex gap-1">
             {/* Main Image Display */}
             <div className="flex-shrink-0">
-              <img
-                src={imageMap[currentMainImage] || currentMainImage}
-                alt="Main image"
-                className="w-20 h-20 object-cover rounded-lg shadow-md"
-              />
+              <GlitterBorder>
+                <img
+                  src={imageMap[currentMainImage] || currentMainImage}
+                  alt="Main image"
+                  className="w-20 h-20 object-cover rounded-lg shadow-md"
+                />
+              </GlitterBorder>
             </div>
             
             {/* Transform Controls */}
@@ -619,17 +622,19 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         {/* Image Upload for each Transform Set */}
                         <div className="flex-shrink-0">
                           <div className="relative">
-                            {transformImages[controlId] ? (
-                              <img
-                                src={imageMap[transformImages[controlId]] || transformImages[controlId]}
-                                alt={`Transform image ${index + 1}`}
-                                className="w-20 h-20 object-cover rounded shadow-md"
-                              />
-                            ) : (
-                              <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                <Upload className="w-5 h-5 text-pink-600" />
-                              </div>
-                            )}
+                            <GlitterBorder>
+                              {transformImages[controlId] ? (
+                                <img
+                                  src={imageMap[transformImages[controlId]] || transformImages[controlId]}
+                                  alt={`Transform image ${index + 1}`}
+                                  className="w-20 h-20 object-cover rounded shadow-md"
+                                />
+                              ) : (
+                                <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                  <Upload className="w-5 h-5 text-pink-600" />
+                                </div>
+                              )}
+                            </GlitterBorder>
                             
                             <Button
                               onClick={() => triggerTransformImageUpload(controlId)}
