@@ -122,12 +122,6 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
         isDragging && "opacity-50 scale-95 rotate-2 shadow-lg",
         isDragOver && "border-pink-400 bg-pink-50/50 scale-102"
       )}
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.effectAllowed = 'move';
-        onDragStart?.();
-      }}
-      onDragEnd={onDragEnd}
       onDragOver={(e) => {
         e.preventDefault();
         onDragOver?.();
@@ -145,7 +139,16 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
           : "py-2 border-pink-200 bg-white"
       )}>
         <div className="flex items-center gap-2 group">
-          <div title="Drag to reorder" className="cursor-grab active:cursor-grabbing">
+          <div 
+            title="Drag to reorder" 
+            className="cursor-grab active:cursor-grabbing p-1 -m-1 rounded hover:bg-pink-100/50"
+            draggable
+            onDragStart={(e) => {
+              e.dataTransfer.effectAllowed = 'move';
+              onDragStart?.();
+            }}
+            onDragEnd={onDragEnd}
+          >
             <GripVertical className="w-4 h-4 text-pink-400" />
           </div>
           <Heart 
