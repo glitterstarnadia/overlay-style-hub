@@ -488,7 +488,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 )}
 
                 {/* Action Buttons */}
-                <div className="absolute -top-0.5 -right-0.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-0.5 -right-0.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   {index > 0 && (
                     <Button
                       onClick={(e) => {
