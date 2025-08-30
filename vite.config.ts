@@ -26,6 +26,7 @@ export default defineConfig(({ command, mode }) => ({
     outDir: "dist",
     assetsDir: "assets",
     emptyOutDir: true,
+    sourcemap: false,
     // Critical for Electron: ensure all assets use relative paths
     rollupOptions: {
       output: {
