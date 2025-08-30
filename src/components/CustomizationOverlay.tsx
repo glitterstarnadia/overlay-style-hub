@@ -449,7 +449,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     zIndex: alwaysOnTop ? 9999 : 50,
     opacity: opacity / 100
   }} onMouseDown={handleMouseDown}>
-      <Card className={cn("w-full h-full overflow-hidden relative magic-cursor transform-gpu", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+      {/* Main Card Container */}
+      <div className="relative w-full h-full">
+      <Card className={cn("w-full h-full relative magic-cursor transform-gpu", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
         <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
         
@@ -560,28 +562,32 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           </div>
         </div>
         
-        {/* Resize Handle */}
-        <div 
-          className={cn(
-            "absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110", 
-            isDragging || isResizing 
-              ? "bg-pink-400/60 shadow-inner" 
-              : "bg-gradient-to-br from-pink-400/40 to-pink-500/50 hover:from-pink-400/60 hover:to-pink-500/70 shadow-3d-resize"
-          )} 
-          onMouseDown={handleResizeStart} 
-          title="Drag to resize"
-          style={{
-            boxShadow: isDragging || isResizing 
-              ? 'inset 0 2px 4px rgba(0,0,0,0.3)' 
-              : '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3), 0 0 8px rgba(255,100,180,0.3)'
-          }}
-        >
-          <div className="w-2 h-2 bg-pink-600 rounded-full shadow-sm" 
-               style={{
-                 boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.4)'
-               }} />
-        </div>
       </Card>
+      </div>
+      
+      {/* Resize Handle - Positioned outside card to prevent clipping */}
+      <div 
+        className={cn(
+          "absolute -bottom-1 -right-1 w-8 h-8 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
+          isDragging || isResizing 
+            ? "bg-pink-400/60 shadow-inner" 
+            : "bg-gradient-to-br from-pink-400/40 to-pink-500/50 hover:from-pink-400/60 hover:to-pink-500/70 shadow-3d-resize"
+        )} 
+        onMouseDown={handleResizeStart} 
+        title="Drag to resize"
+        style={{
+          boxShadow: isDragging || isResizing 
+            ? 'inset 0 2px 4px rgba(0,0,0,0.3)' 
+            : '0 4px 8px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 0 12px rgba(255,100,180,0.4)',
+          transform: isDragging || isResizing ? 'scale(0.9)' : 'scale(1)'
+        }}
+      >
+        <div className="w-3 h-3 bg-pink-600 rounded-full shadow-sm" 
+             style={{
+               boxShadow: '0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.5)'
+             }} />
+      </div>
+      
       <SparkleEffect />
       
       {/* Heart Color Picker */}
