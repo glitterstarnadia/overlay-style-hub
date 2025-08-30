@@ -4,7 +4,6 @@ import { Card } from '@/components/ui/card';
 import { X, Settings, Move, ChevronDown, ChevronUp } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
 import { SettingsMenu } from './SettingsMenu';
-import { SparkleEffect } from './SparkleEffect';
 import MenuSparkles from './MenuSparkles';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -583,6 +582,5 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
              }} />
       </div>
       
-      <SparkleEffect />
     </div>;
 };
