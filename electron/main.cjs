@@ -27,10 +27,16 @@ function createWindow() {
   });
 
   // Load the app
+  const htmlPath = path.join(__dirname, '../dist/index.html');
+  console.log('Electron __dirname:', __dirname);
+  console.log('Trying to load HTML from:', htmlPath);
+  console.log('HTML file exists:', require('fs').existsSync(htmlPath));
+  
   if (isDev) {
     mainWindow.loadURL('http://localhost:5173');
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    console.log('Loading file:', htmlPath);
+    mainWindow.loadFile(htmlPath);
   }
 
   // Force DevTools to open in all cases for debugging
@@ -45,11 +51,12 @@ function createWindow() {
 
   mainWindow.webContents.on('dom-ready', () => {
     console.log('DOM is ready, isDev:', isDev);
-    console.log('Loading from:', isDev ? 'http://localhost:5173' : path.join(__dirname, '../dist/index.html'));
+    console.log('Current URL:', mainWindow.webContents.getURL());
   });
 
   mainWindow.webContents.on('did-finish-load', () => {
     console.log('Page finished loading');
+    console.log('Final URL:', mainWindow.webContents.getURL());
   });
 
   // Make window draggable
