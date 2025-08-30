@@ -72,13 +72,23 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
             {/* Hex Input Field */}
             <div className="space-y-2">
               <Label className="text-xs font-medium text-pink-600">Enter Hex Code</Label>
-              <Input
-                type="text"
-                value={color}
-                onChange={handleInputChange}
-                className="text-sm font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center h-8"
-                placeholder="#000000"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  type="text"
+                  value={color}
+                  onChange={handleInputChange}
+                  className="text-sm font-mono bg-white/80 border-pink-200 focus:border-pink-400 text-center h-8 flex-1"
+                  placeholder="#000000"
+                />
+                <Heart 
+                  className="w-5 h-5 text-white flex-shrink-0" 
+                  style={{ 
+                    fill: color, 
+                    stroke: '#ffffff', 
+                    strokeWidth: 2 
+                  }} 
+                />
+              </div>
             </div>
 
             {/* Current Color Display */}
