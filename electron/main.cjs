@@ -35,6 +35,18 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
+  // Always open DevTools to debug blank screen
+  mainWindow.webContents.openDevTools();
+
+  // Add error handling
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.log('Failed to load:', errorCode, errorDescription);
+  });
+
+  mainWindow.webContents.on('dom-ready', () => {
+    console.log('DOM is ready');
+  });
+
   // Make window draggable
   mainWindow.setMovable(true);
   
