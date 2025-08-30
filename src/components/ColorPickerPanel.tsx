@@ -81,11 +81,11 @@ export const ColorPickerPanel: React.FC<ColorPickerPanelProps> = ({
                   placeholder="#000000"
                 />
                 <Heart 
-                  className="w-5 h-5 text-white flex-shrink-0" 
+                  className="w-5 h-5 flex-shrink-0 drop-shadow-sm" 
                   style={{ 
                     fill: color, 
-                    stroke: '#ffffff', 
-                    strokeWidth: 2 
+                    stroke: '#ec4899', 
+                    strokeWidth: 1.5 
                   }} 
                 />
               </div>
