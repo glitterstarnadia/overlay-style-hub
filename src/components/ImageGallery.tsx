@@ -366,6 +366,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setEditingName('');
   };
 
+  const copyToClipboard = (value: string | number, label: string) => {
+    navigator.clipboard.writeText(value.toString());
+    toast({
+      title: "📋 Copied!",
+      description: `${label}: ${value} copied to clipboard`,
+    });
+  };
+
   const clearImageSettings = (imageKey: string) => {
     const defaultSettings = {
       position: { x: 0, y: 0, z: 0 },
@@ -698,39 +706,45 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <div>
                         <p className="font-bold text-pink-600 mb-1 text-xs">Position</p>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">x</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.position.x}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">y</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.position.y}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">z</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
-                              value={settings.position.z}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">x</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.position.x}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.x, "Position X")}
+                               title="Click to copy value"
+                             />
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">y</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.position.y}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.y, "Position Y")}
+                               title="Click to copy value"
+                             />
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">z</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer"
+                               value={settings.position.z}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.z, "Position Z")}
+                               title="Click to copy value"
+                             />
+                           </div>
                         </div>
                       </div>
                       
@@ -738,39 +752,45 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <div>
                         <p className="font-bold text-pink-600 mb-1 text-xs">Rotation</p>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">x</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.rotation.x}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">y</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.rotation.y}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-pink-600">z</span>
-                            <input 
-                              type="number"
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
-                              value={settings.rotation.z}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                          </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">x</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.rotation.x}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.x, "Rotation X")}
+                               title="Click to copy value"
+                             />
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">y</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.rotation.y}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.y, "Rotation Y")}
+                               title="Click to copy value"
+                             />
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="text-xs text-pink-600">z</span>
+                             <input 
+                               type="number"
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer"
+                               value={settings.rotation.z}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.z, "Rotation Z")}
+                               title="Click to copy value"
+                             />
+                           </div>
                         </div>
                       </div>
                       
@@ -778,25 +798,29 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <div>
                         <p className="font-bold text-pink-600 mb-1 text-xs">Scale</p>
                         <div className="space-y-1">
-                          <input 
-                            type="text"
-                            step="0.1"
-                            className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                            value={settings.scale}
-                            onChange={(e) => handleScaleChange(imageKey, e.target.value)}
-                          />
+                           <input 
+                             type="text"
+                             step="0.1"
+                             className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                             value={settings.scale}
+                             onChange={(e) => handleScaleChange(imageKey, e.target.value)}
+                             onClick={() => copyToClipboard(settings.scale, "Scale")}
+                             title="Click to copy value"
+                           />
                           <div>
                             <label className="text-xs text-pink-600 mb-0.5 block font-bold">Hex Code</label>
                             <div className="flex items-center gap-1">
-                              <input 
-                                type="text"
-                                placeholder="#ffffff"
-                                className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
-                                value={settings.scaleHex || '#ffffff'}
-                                onChange={(e) => updateImageSettings(imageKey, { 
-                                  scaleHex: e.target.value 
-                                })}
-                              />
+                               <input 
+                                 type="text"
+                                 placeholder="#ffffff"
+                                 className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold cursor-pointer" 
+                                 value={settings.scaleHex || '#ffffff'}
+                                 onChange={(e) => updateImageSettings(imageKey, { 
+                                   scaleHex: e.target.value 
+                                 })}
+                                 onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
+                                 title="Click to copy value"
+                               />
                               <Heart 
                                 className="w-5 h-5 flex-shrink-0" 
                                 style={{ 
@@ -893,36 +917,42 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <div>
                       <p className="font-bold text-pink-600 mb-1">Position</p>
                       <div className="space-y-1">
-                       <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.position.x}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
-                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.position.y}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
-                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.position.z}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
+                        <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.position.x}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.x, "Position X")}
+                               title="Click to copy value"
+                             />
+                          </div>
+                          <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.position.y}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.y, "Position Y")}
+                               title="Click to copy value"
+                             />
+                          </div>
+                          <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.position.z}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.position.z, "Position Z")}
+                               title="Click to copy value"
+                             />
+                          </div>
                       </div>
                     </div>
                     
@@ -930,36 +960,42 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <div>
                       <p className="font-bold text-pink-600 mb-1">Rotate</p>
                       <div className="space-y-1">
-                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.rotation.x}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
-                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.rotation.y}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
-                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
-                            <input 
-                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                              value={settings.rotation.z}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
-                              })}
-                            />
-                         </div>
+                          <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.rotation.x}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.x, "Rotation X")}
+                               title="Click to copy value"
+                             />
+                          </div>
+                          <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.rotation.y}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.y, "Rotation Y")}
+                               title="Click to copy value"
+                             />
+                          </div>
+                          <div className="flex items-center gap-2">
+                             <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
+                             <input 
+                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                               value={settings.rotation.z}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
+                               })}
+                               onClick={() => copyToClipboard(settings.rotation.z, "Rotation Z")}
+                               title="Click to copy value"
+                             />
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -969,24 +1005,28 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <div className="flex-1">
                       <p className="font-bold text-pink-600 mb-1">Scale</p>
                         <div className="flex gap-2 items-center">
-                           <input 
-                             type="text"
-                             className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                             value={settings.scale}
-                             onChange={(e) => handleScaleChange(imageKey, e.target.value)}
-                           />
+                            <input 
+                              type="text"
+                              className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
+                              value={settings.scale}
+                              onChange={(e) => handleScaleChange(imageKey, e.target.value)}
+                              onClick={() => copyToClipboard(settings.scale, "Scale")}
+                              title="Click to copy value"
+                            />
                            <div className="flex flex-col">
                              <label className="text-xs text-pink-600 mb-0.5 font-bold">Hex Code</label>
                              <div className="flex items-center gap-1">
-                               <input 
-                                 type="text"
-                                 placeholder="#ffffff"
-                                 className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
-                                 value={settings.scaleHex || '#ffffff'}
-                                 onChange={(e) => updateImageSettings(imageKey, { 
-                                   scaleHex: e.target.value 
-                                 })}
-                               />
+                                <input 
+                                  type="text"
+                                  placeholder="#ffffff"
+                                  className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold cursor-pointer" 
+                                  value={settings.scaleHex || '#ffffff'}
+                                  onChange={(e) => updateImageSettings(imageKey, { 
+                                    scaleHex: e.target.value 
+                                  })}
+                                  onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
+                                  title="Click to copy value"
+                                />
                                <Heart 
                                  className="w-5 h-5 flex-shrink-0" 
                                  style={{ 
