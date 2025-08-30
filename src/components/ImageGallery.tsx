@@ -385,7 +385,54 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   // Save profiles to localStorage whenever savedProfiles changes
   React.useEffect(() => {
-    localStorage.setItem(`saved-profiles-${category}`, JSON.stringify(savedProfiles));
+    try {
+      const profilesData = JSON.stringify(savedProfiles);
+      
+      // Check if the data is too large (over 4MB to be safe)
+      if (profilesData.length > 4 * 1024 * 1024) {
+        // Remove oldest profiles to make space
+        const reducedProfiles = savedProfiles.slice(-5); // Keep only last 5 profiles
+        localStorage.setItem(`saved-profiles-${category}`, JSON.stringify(reducedProfiles));
+        setSavedProfiles(reducedProfiles);
+        
+        toast({
+          title: "⚠️ Storage Limit Reached",
+          description: "Removed older profiles to save new data. Consider using fewer or smaller images.",
+        });
+      } else {
+        localStorage.setItem(`saved-profiles-${category}`, profilesData);
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.code === 22) {
+        // QuotaExceededError - storage is full
+        try {
+          // Try to free up space by keeping only the 3 most recent profiles
+          const reducedProfiles = savedProfiles.slice(-3);
+          localStorage.setItem(`saved-profiles-${category}`, JSON.stringify(reducedProfiles));
+          setSavedProfiles(reducedProfiles);
+          
+          toast({
+            title: "💾 Storage Full",
+            description: "Kept only 3 most recent profiles. Consider using smaller images or fewer profiles.",
+          });
+        } catch (secondError) {
+          // If it still fails, clear all profiles
+          localStorage.removeItem(`saved-profiles-${category}`);
+          setSavedProfiles([]);
+          
+          toast({
+            title: "❌ Storage Error",
+            description: "Had to clear all profiles due to storage limitations. Try using smaller images.",
+          });
+        }
+      } else {
+        console.error("Error saving profiles:", error);
+        toast({
+          title: "❌ Save Error",
+          description: "Failed to save profiles. Please try again.",
+        });
+      }
+    }
   }, [savedProfiles, category]);
 
   return (
