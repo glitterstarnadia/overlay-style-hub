@@ -435,14 +435,15 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
-  return <div ref={overlayRef} className={cn("fixed select-none", theme === 'dark' ? 'dark' : '')} style={{
-    left: position.x,
-    top: position.y,
-    width: size.width,
-    height: size.height,
-    zIndex: alwaysOnTop ? 9999 : 50,
-    opacity: opacity / 100
-  }} onMouseDown={handleMouseDown}>
+  return (
+    <div ref={overlayRef} className={cn("fixed select-none", theme === 'dark' ? 'dark' : '')} style={{
+      left: position.x,
+      top: position.y,
+      width: size.width,
+      height: size.height,
+      zIndex: alwaysOnTop ? 9999 : 50,
+      opacity: opacity / 100
+    }} onMouseDown={handleMouseDown}>
       {/* Main Card Container */}
       <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
