@@ -649,7 +649,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main image"
-                className="w-20 h-20 object-cover rounded-lg shadow-md"
+                className="w-20 h-20 object-cover rounded-lg shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
               />
             </div>
             
