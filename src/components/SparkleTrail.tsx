@@ -90,7 +90,7 @@ const SparkleTrail: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50">
+    <div className="fixed inset-0 pointer-events-none z-[9999]">
       {sparkles.map(sparkle => (
         <div
           key={sparkle.id}
@@ -110,17 +110,19 @@ const SparkleTrail: React.FC = () => {
             style={{
               background: `radial-gradient(circle, ${sparkle.color} 0%, transparent 70%)`,
               borderRadius: '50%',
-              boxShadow: `0 0 ${sparkle.size}px ${sparkle.color}`,
+              boxShadow: `0 0 ${sparkle.size * 2}px ${sparkle.color}, 0 0 ${sparkle.size * 4}px ${sparkle.color}40`,
+              filter: 'brightness(1.5)',
             }}
           />
           {/* Star shape for some sparkles */}
-          {Math.random() < 0.3 && (
+          {Math.random() < 0.4 && (
             <div
               className="absolute inset-0 flex items-center justify-center text-white font-bold"
               style={{
-                fontSize: sparkle.size / 2,
+                fontSize: sparkle.size / 1.5,
                 color: sparkle.color,
-                textShadow: `0 0 ${sparkle.size}px ${sparkle.color}`,
+                textShadow: `0 0 ${sparkle.size * 2}px ${sparkle.color}, 0 0 ${sparkle.size * 4}px ${sparkle.color}`,
+                filter: 'brightness(2)',
               }}
             >
               ✨
