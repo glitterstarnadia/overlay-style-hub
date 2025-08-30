@@ -18,17 +18,17 @@ const MenuSparkles: React.FC = () => {
   const colors = ['#ffffff', '#ffb3d6', '#ffe6f2', '#f8bbd9', '#fce7f3'];
 
   useEffect(() => {
-    // Create initial sparkles - increased quantity to 35
-    const initialSparkles: MenuSparkle[] = Array.from({ length: 35 }, (_, i) => ({
+    // Create initial sparkles - increased quantity to 60 for more scattered effect
+    const initialSparkles: MenuSparkle[] = Array.from({ length: 60 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 4 + 1,
+      size: Math.random() * 6 + 0.5, // More size variation
       color: colors[Math.floor(Math.random() * colors.length)],
-      opacity: Math.random() * 0.9 + 0.1,
-      life: Math.random() * 120 + 60,
-      maxLife: Math.random() * 120 + 60,
-      delay: Math.random() * 3000,
+      opacity: Math.random() * 0.8 + 0.2,
+      life: Math.random() * 180 + 40, // More varied lifespans
+      maxLife: Math.random() * 180 + 40,
+      delay: Math.random() * 4000, // Longer staggered delays
     }));
 
     setSparkles(initialSparkles);
@@ -42,24 +42,27 @@ const MenuSparkles: React.FC = () => {
 
           const newLife = sparkle.life - 1;
           if (newLife <= 0) {
-            // Respawn sparkle
+            // Respawn sparkle with more scattered positioning
             return {
               ...sparkle,
               x: Math.random() * 100,
               y: Math.random() * 100,
-              size: Math.random() * 4 + 1,
+              size: Math.random() * 6 + 0.5, // More size variation
               color: colors[Math.floor(Math.random() * colors.length)],
-              life: Math.random() * 120 + 60,
-              maxLife: Math.random() * 120 + 60,
-              opacity: Math.random() * 0.9 + 0.1,
-              delay: Math.random() * 2000,
+              life: Math.random() * 180 + 40, // More varied lifespans
+              maxLife: Math.random() * 180 + 40,
+              opacity: Math.random() * 0.8 + 0.2,
+              delay: Math.random() * 3000, // More staggered timing
             };
           }
 
           return {
             ...sparkle,
             life: newLife,
-            opacity: Math.sin((sparkle.life / sparkle.maxLife) * Math.PI) * 0.7 + 0.2,
+            opacity: Math.sin((sparkle.life / sparkle.maxLife) * Math.PI) * 0.6 + 0.3,
+            // Add slight movement for more dynamic scattering
+            x: sparkle.x + (Math.sin(sparkle.life * 0.02) * 0.1),
+            y: sparkle.y + (Math.cos(sparkle.life * 0.015) * 0.05),
           };
         });
       });
@@ -93,8 +96,8 @@ const MenuSparkles: React.FC = () => {
                 filter: 'brightness(1.5)',
               }}
             />
-            {/* Random star shapes */}
-            {Math.random() < 0.3 && (
+            {/* More frequent star shapes for scattered effect */}
+            {Math.random() < 0.4 && (
               <div
                 className="absolute inset-0 flex items-center justify-center"
                 style={{
