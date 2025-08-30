@@ -109,10 +109,10 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
     )}>
       {/* Header */}
       <div className={cn(
-        "p-2 border-b-4 flex items-center justify-between",
+        "p-2 border-b-4 flex items-center justify-between transition-all duration-200 hover:scale-105 hover:shadow-lg cursor-pointer group",
         isCollapsed 
-          ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
-          : "py-2 border-pink-200 bg-white"
+          ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80 hover:from-pink-100/90 hover:to-pink-50/90" 
+          : "py-2 border-pink-200 bg-white hover:bg-gradient-to-r hover:from-pink-50/50 hover:to-white/50"
       )}>
         <div className="flex items-center gap-2">
           <Heart 
@@ -120,7 +120,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
             style={{ fill: '#ff66b3', color: '#ff66b3' }}
           />
           <h3 className={cn(
-            "font-bold",
+            "font-bold transition-all duration-200 group-hover:scale-110 group-hover:text-pink-700",
             isCollapsed ? "text-sm text-pink-600" : "text-lg text-pink-600"
           )}>{sectionTitle}</h3>
         </div>
