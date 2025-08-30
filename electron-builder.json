@@ -1,7 +1,6 @@
 {
   "appId": "com.nadia.app",
   "productName": "Nadia <3",
-  "main": "electron/main.cjs",
   "directories": {
     "output": "dist-electron"
   },
