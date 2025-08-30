@@ -322,39 +322,58 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }, [theme, pageKey]);
 
   useEffect(() => {
+    let animationId: number;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        setPosition({
-          x: e.clientX - dragStart.x,
-          y: e.clientY - dragStart.y
-        });
-      }
-      if (isResizing) {
-        const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
-        const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
-        setSize({
-          width: newWidth,
-          height: newHeight
+      if (isDragging || isResizing) {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        
+        animationId = requestAnimationFrame(() => {
+          if (isDragging) {
+            setPosition({
+              x: e.clientX - dragStart.x,
+              y: e.clientY - dragStart.y
+            });
+          }
+          if (isResizing) {
+            const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
+            const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
+            setSize({
+              width: newWidth,
+              height: newHeight
+            });
+          }
         });
       }
     };
+    
     const handleMouseUp = () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
       setIsDragging(false);
       setIsResizing(false);
     };
+    
     if (isDragging || isResizing) {
-      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseup', handleMouseUp);
     }
+    
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
     };
   }, [isDragging, isResizing, dragStart, resizeStart]);
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
-  return <div ref={overlayRef} className={cn("fixed select-none transition-all duration-300 ease-smooth", isDragging || isResizing ? "cursor-grabbing" : "cursor-grab", theme === 'dark' ? 'dark' : '')} style={{
+  return <div ref={overlayRef} className={cn("fixed select-none", isDragging || isResizing ? "cursor-grabbing transition-none" : "cursor-grab transition-all duration-200 ease-out", theme === 'dark' ? 'dark' : '')} style={{
     left: position.x,
     top: position.y,
     width: size.width,
@@ -362,7 +381,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     zIndex: alwaysOnTop ? 9999 : 50,
     opacity: opacity / 100
   }} onMouseDown={handleMouseDown}>
-      <Card className="bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl w-full h-full overflow-hidden relative magic-cursor">
+      <Card className={cn("w-full h-full overflow-hidden relative magic-cursor", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-lg" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl")}>
         {/* Header */}
         <div data-drag-handle className="flex items-center justify-between p-4 border-b-4 border-white cursor-move" style={{ backgroundColor: '#ff66b3' }}>
           <div className="flex items-center gap-2">
@@ -413,7 +432,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         </div>
         
         {/* Resize Handle */}
-        <div className="absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize bg-pink-400/30 hover:bg-pink-400/50 transition-colors rounded-full flex items-center justify-center" onMouseDown={handleResizeStart} title="Drag to resize">
+        <div className={cn("absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-colors", isDragging || isResizing ? "bg-pink-400/50" : "bg-pink-400/30 hover:bg-pink-400/50")} onMouseDown={handleResizeStart} title="Drag to resize">
           <div className="w-2 h-2 bg-pink-500 rounded-full" />
         </div>
       </Card>
