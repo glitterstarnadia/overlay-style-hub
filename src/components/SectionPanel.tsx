@@ -115,13 +115,24 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   return (
     <div 
       className={cn(
-        "border-4 rounded-lg overflow-hidden transition-all duration-200",
+        "border-4 rounded-lg overflow-visible transition-all duration-300 transform-gpu shadow-3d relative",
         isCollapsed 
-          ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
-          : "border-white bg-white",
-        isDragging && "opacity-50 scale-95 rotate-2 shadow-lg",
-        isDragOver && "border-pink-400 bg-pink-50/50 scale-102"
+          ? "border-pink-300/60 bg-gradient-to-br from-white/95 to-pink-100/95 shadow-lg hover:shadow-xl" 
+          : "border-pink-400/70 bg-gradient-to-br from-white/98 to-pink-50/98 shadow-2xl",
+        isDragging && "rotate-2 scale-105 shadow-3xl border-pink-500 z-50",
+        isDragOver && "ring-4 ring-pink-400 ring-opacity-50 scale-102 z-40"
       )}
+      style={{
+        boxShadow: isCollapsed 
+          ? '0 4px 12px rgba(0,0,0,0.15), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.05)'
+          : '0 8px 24px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.05)',
+        transform: isDragging ? 'rotate(2deg) scale(1.05)' : isDragOver ? 'scale(1.02)' : 'none',
+        zIndex: isDragging ? 50 : isDragOver ? 40 : 'auto',
+        position: 'relative'
+      }}
+      draggable={true}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
       onDragOver={(e) => {
         e.preventDefault();
         onDragOver?.();

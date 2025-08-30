@@ -526,13 +526,18 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <div className="flex-1 min-h-0 p-4 relative z-10">
             <div className="h-full overflow-y-auto custom-scrollbar-3d">
               {/* Display all sections content */}
-              <div className="space-y-3">
-                {sections.map(sectionId => (
+              <div className="space-y-3 relative">
+                {sections.map((sectionId, index) => (
                   <div 
                     key={sectionId}
-                    className="transform hover:scale-[1.02] transition-all duration-300"
+                    className={cn(
+                      "transform hover:scale-[1.02] transition-all duration-300 relative",
+                      draggedSection === sectionId && "z-50 scale-105",
+                      dragOverSection === sectionId && "z-40 scale-102"
+                    )}
                     style={{
-                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))'
+                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
+                      zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10
                     }}
                   >
                     <SectionPanel 

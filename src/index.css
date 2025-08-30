@@ -100,6 +100,10 @@ button, input, textarea, select, a {
     0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.custom-scrollbar-3d {
+  overflow: visible !important;
+}
+
 .custom-scrollbar-3d::-webkit-scrollbar {
   width: 8px;
 }
