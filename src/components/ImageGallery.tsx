@@ -55,6 +55,7 @@ interface ImageGalleryProps {
   mainImage: string;
   thumbnails: string[];
   selectedColor: string;
+  category?: string; // Add category prop to identify which section this is for
 }
 
 // Map the imported images
@@ -88,6 +89,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   mainImage,
   thumbnails,
   selectedColor,
+  category = 'default', // Default category if not provided
 }) => {
   const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState('');
@@ -97,7 +99,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [smallerImage, setSmallerImage] = useState('');
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
-  const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
+  
+  // Load saved profiles from localStorage on component mount
+  const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>(() => {
+    const saved = localStorage.getItem(`saved-profiles-${category}`);
+    return saved ? JSON.parse(saved) : [];
+  });
+  
   const [activeProfileId, setActiveProfileId] = useState<string | null>(null);
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
@@ -373,6 +381,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       description: `Reset to default values`,
     });
   };
+
+  // Save profiles to localStorage whenever savedProfiles changes
+  React.useEffect(() => {
+    localStorage.setItem(`saved-profiles-${category}`, JSON.stringify(savedProfiles));
+  }, [savedProfiles, category]);
 
   return (
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">

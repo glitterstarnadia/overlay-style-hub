@@ -185,6 +185,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
             mainImage={data.mainImage}
             thumbnails={data.thumbnails}
             selectedColor={selectedColor}
+            category={sectionId}
           />
         </div>
       </div>
