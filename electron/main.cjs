@@ -17,6 +17,7 @@ function createWindow() {
     minimizable: true,
     maximizable: true,
     skipTaskbar: false, // Show in taskbar
+    autoHideMenuBar: true, // Auto-hide menu bar
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
