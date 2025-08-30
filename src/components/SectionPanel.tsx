@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageGallery } from './ImageGallery';
+import { HexCodeConfiguration } from './HexCodeConfiguration';
 import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -148,12 +149,19 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
           : "max-h-[75vh] opacity-100 scale-y-100 translate-y-0"
       )}>
         <div className="p-4 h-full overflow-y-auto custom-scrollbar">
-          <ImageGallery
-            mainImage={data.mainImage}
-            thumbnails={data.thumbnails}
-            selectedColor={selectedColor}
-            category={sectionId}
-          />
+          {(sectionId === 'patterns' || sectionId === 'colours') ? (
+            <HexCodeConfiguration
+              category={sectionId}
+              previewImage={data.mainImage}
+            />
+          ) : (
+            <ImageGallery
+              mainImage={data.mainImage}
+              thumbnails={data.thumbnails}
+              selectedColor={selectedColor}
+              category={sectionId}
+            />
+          )}
         </div>
       </div>
     </div>
