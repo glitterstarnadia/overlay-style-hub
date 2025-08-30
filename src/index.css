@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Transparent Background for Desktop App */
+html, body {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#root {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Magic Cursor Styles */
 .magic-cursor {
   cursor: url('./assets/magic-wand-cursor.png') 16 16, auto;

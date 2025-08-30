@@ -4,10 +4,11 @@
   "description": "A magical styling and customization application with sparkly interfaces",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ff69b4",
+  "background_color": "transparent",
   "theme_color": "#ff66b3",
   "orientation": "portrait-primary",
   "categories": ["lifestyle", "personalization", "productivity"],
+  "display_override": ["window-controls-overlay"],
   "icons": [
     {
       "src": "/favicon.ico",
