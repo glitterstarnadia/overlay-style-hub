@@ -40,24 +40,29 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:5173');
   } else {
     console.log('Loading production file...');
-    // Try alternative path if first doesn't work
-    const altPath = path.join(__dirname, '../app.asar.unpacked/dist/index.html');
-    const appPath = path.join(process.resourcesPath, 'app.asar.unpacked/dist/index.html');
     
-    console.log('Alternative paths:');
-    console.log('Alt path exists:', require('fs').existsSync(altPath));
-    console.log('App path exists:', require('fs').existsSync(appPath));
+    // Multiple possible paths for packaged app
+    const paths = [
+      path.join(__dirname, '../dist/index.html'),
+      path.join(__dirname, '../app.asar.unpacked/dist/index.html'),
+      path.join(process.resourcesPath, 'app/dist/index.html'),
+      path.join(process.resourcesPath, 'dist/index.html')
+    ];
     
-    if (require('fs').existsSync(htmlPath)) {
-      mainWindow.loadFile(htmlPath);
-    } else if (require('fs').existsSync(altPath)) {
-      mainWindow.loadFile(altPath);
-    } else if (require('fs').existsSync(appPath)) {
-      mainWindow.loadFile(appPath);
-    } else {
+    let loaded = false;
+    for (const htmlPath of paths) {
+      console.log('Trying path:', htmlPath, 'exists:', require('fs').existsSync(htmlPath));
+      if (require('fs').existsSync(htmlPath)) {
+        console.log('Loading from:', htmlPath);
+        mainWindow.loadFile(htmlPath);
+        loaded = true;
+        break;
+      }
+    }
+    
+    if (!loaded) {
       console.error('NO HTML FILE FOUND IN ANY LOCATION!');
-      // Load a simple error page
-      mainWindow.loadURL(`data:text/html,<html><body><h1>Error: Could not find app files</h1><p>HTML path: ${htmlPath}</p></body></html>`);
+      mainWindow.loadURL(`data:text/html,<html><body><h1>Build Error</h1><p>Run: npm run build</p><p>Then: electron-builder</p></body></html>`);
     }
   }
 
