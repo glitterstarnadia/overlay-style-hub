@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Download, FileDown } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -106,7 +106,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
-  const importInputRef = useRef<HTMLInputElement>(null);
 
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
@@ -375,96 +374,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
-  const exportAllProfiles = () => {
-    if (savedProfiles.length === 0) {
-      toast({
-        title: "❌ No Profiles to Export",
-        description: "Please create some profiles first",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const dataStr = JSON.stringify(savedProfiles, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `image-profiles-${new Date().toISOString().split('T')[0]}.json`;
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    toast({
-      title: "📥 Profiles Exported!",
-      description: `Exported ${savedProfiles.length} profiles to JSON file`,
-    });
-  };
-
-  const importAllProfiles = () => {
-    importInputRef.current?.click();
-  };
-
-  const handleImportProfiles = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    if (file.type !== 'application/json') {
-      toast({
-        title: "❌ Invalid File Type",
-        description: "Please select a valid JSON file",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const profilesData = JSON.parse(e.target?.result as string);
-        
-        if (!Array.isArray(profilesData)) {
-          throw new Error('Invalid format');
-        }
-
-        // Validate that each profile has the required structure
-        const validProfiles = profilesData.filter(profile => 
-          profile.id && profile.name && profile.thumbnail && profile.mainImage
-        );
-
-        if (validProfiles.length === 0) {
-          toast({
-            title: "❌ No Valid Profiles",
-            description: "No valid profiles found in the file",
-            variant: "destructive",
-          });
-          return;
-        }
-
-        setSavedProfiles(validProfiles);
-        setActiveProfileId(null);
-        
-        toast({
-          title: "📤 Profiles Imported!",
-          description: `Successfully imported ${validProfiles.length} profiles`,
-        });
-      } catch (error) {
-        toast({
-          title: "❌ Import Failed",
-          description: "Failed to parse the JSON file",
-          variant: "destructive",
-        });
-      }
-    };
-    
-    reader.readAsText(file);
-    // Reset the input value so the same file can be selected again
-    event.target.value = '';
-  };
-
   return (
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
       
@@ -491,24 +400,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               size="sm"
             >
               💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
-            </Button>
-            <Button
-              onClick={exportAllProfiles}
-              className="px-3 py-1 text-xs font-bold text-white"
-              style={{ backgroundColor: '#ffb3d6' }}
-              size="sm"
-            >
-              <Download className="w-3 h-3 mr-1" />
-              Export
-            </Button>
-            <Button
-              onClick={importAllProfiles}
-              className="px-3 py-1 text-xs font-bold text-white"
-              style={{ backgroundColor: '#ffb3d6' }}
-              size="sm"
-            >
-              <Upload className="w-3 h-3 mr-1" />
-              Import
             </Button>
           </div>
         </div>
@@ -682,15 +573,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           }}
         />
       ))}
-      
-      {/* Import Profiles Input */}
-      <input
-        ref={importInputRef}
-        type="file"
-        accept=".json"
-        className="hidden"
-        onChange={handleImportProfiles}
-      />
       
 
       {/* Main Image Subsection - Only show when main image is uploaded */}

@@ -20,7 +20,10 @@ import {
   Pin, 
   Eye,
   Sun,
-  Moon 
+  Moon,
+  Database,
+  FolderDown,
+  FolderUp
 } from 'lucide-react';
 
 interface SettingsMenuProps {
@@ -33,6 +36,8 @@ interface SettingsMenuProps {
   onResetPosition: () => void;
   onExportConfig: () => void;
   onImportConfig: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onExportAllProfiles: () => void;
+  onImportAllProfiles: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const SettingsMenu: React.FC<SettingsMenuProps> = ({
@@ -45,11 +50,18 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onResetPosition,
   onExportConfig,
   onImportConfig,
+  onExportAllProfiles,
+  onImportAllProfiles,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const profileImportRef = useRef<HTMLInputElement>(null);
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleProfileImportClick = () => {
+    profileImportRef.current?.click();
   };
 
   return (
@@ -59,6 +71,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         type="file"
         accept=".json"
         onChange={onImportConfig}
+        style={{ display: 'none' }}
+      />
+      
+      <input
+        ref={profileImportRef}
+        type="file"
+        accept=".json"
+        onChange={onImportAllProfiles}
         style={{ display: 'none' }}
       />
       
@@ -141,6 +161,30 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             <div className="flex items-center gap-2">
               <RotateCcw className="w-4 h-4" />
               <span>Reset Position & Size</span>
+            </div>
+          </DropdownMenuItem>
+          
+          <DropdownMenuSeparator className="bg-overlay-border" />
+          
+          {/* Export All Profiles */}
+          <DropdownMenuItem 
+            onClick={onExportAllProfiles}
+            className="cursor-pointer hover:bg-overlay-hover"
+          >
+            <div className="flex items-center gap-2">
+              <FolderDown className="w-4 h-4" />
+              <span>Export All Profiles</span>
+            </div>
+          </DropdownMenuItem>
+          
+          {/* Import All Profiles */}
+          <DropdownMenuItem 
+            onClick={handleProfileImportClick}
+            className="cursor-pointer hover:bg-overlay-hover"
+          >
+            <div className="flex items-center gap-2">
+              <FolderUp className="w-4 h-4" />
+              <span>Import All Profiles</span>
             </div>
           </DropdownMenuItem>
           

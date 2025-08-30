@@ -187,6 +187,128 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       reader.readAsText(file);
     }
   };
+
+  // Global profile management
+  const exportAllProfiles = () => {
+    const categories = ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
+    const allProfiles: Record<string, any[]> = {};
+    let totalProfiles = 0;
+
+    categories.forEach(category => {
+      const profilesKey = `saved-profiles-${category}`;
+      const profilesData = localStorage.getItem(profilesKey);
+      if (profilesData) {
+        try {
+          const profiles = JSON.parse(profilesData);
+          if (Array.isArray(profiles) && profiles.length > 0) {
+            allProfiles[category] = profiles;
+            totalProfiles += profiles.length;
+          }
+        } catch (error) {
+          console.warn(`Failed to parse profiles for category ${category}:`, error);
+        }
+      }
+    });
+
+    if (totalProfiles === 0) {
+      toast({
+        title: "❌ No Profiles to Export",
+        description: "No profiles found across any category",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const exportData = {
+      exportDate: new Date().toISOString(),
+      version: '1.0',
+      totalProfiles,
+      categories: Object.keys(allProfiles),
+      profiles: allProfiles
+    };
+
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `all-profiles-${new Date().toISOString().split('T')[0]}.json`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "📥 All Profiles Exported!",
+      description: `Exported ${totalProfiles} profiles across ${Object.keys(allProfiles).length} categories`,
+    });
+  };
+
+  const importAllProfiles = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/json') {
+      toast({
+        title: "❌ Invalid File Type",
+        description: "Please select a valid JSON file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importData = JSON.parse(e.target?.result as string);
+        
+        if (!importData.profiles || typeof importData.profiles !== 'object') {
+          throw new Error('Invalid file format');
+        }
+
+        let totalImported = 0;
+        const importedCategories: string[] = [];
+
+        Object.entries(importData.profiles).forEach(([category, profiles]) => {
+          if (Array.isArray(profiles) && profiles.length > 0) {
+            const profilesKey = `saved-profiles-${category}`;
+            localStorage.setItem(profilesKey, JSON.stringify(profiles));
+            totalImported += profiles.length;
+            importedCategories.push(category);
+          }
+        });
+
+        if (totalImported === 0) {
+          toast({
+            title: "❌ No Valid Profiles",
+            description: "No valid profiles found in the file",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "📤 Profiles Imported!",
+          description: `Successfully imported ${totalImported} profiles across ${importedCategories.length} categories: ${importedCategories.join(', ')}`,
+        });
+        
+        // Reload the page to refresh all components with new data
+        window.location.reload();
+        
+      } catch (error) {
+        toast({
+          title: "❌ Import Failed",
+          description: "Failed to parse the profiles file. Please check the file format.",
+          variant: "destructive",
+        });
+      }
+    };
+    
+    reader.readAsText(file);
+    event.target.value = '';
+  };
   useEffect(() => {
     localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
   }, [opacity, pageKey]);
@@ -264,7 +386,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                 <ChevronUp className="w-4 h-4" />
               )}
             </Button>
-            <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} />
+            <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} onExportAllProfiles={exportAllProfiles} onImportAllProfiles={importAllProfiles} />
             <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white">
               <X className="w-4 h-4" />
             </Button>
