@@ -560,6 +560,22 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               </div>
             </div>
           </div>
+          {/* Heart Color Picker */}
+          <HeartColorPicker 
+            currentColor={selectedColor} 
+            onColorSelect={setSelectedColor} 
+            savedColors={savedColors} 
+            onSaveColor={color => {
+              const newColors = [...savedColors, color];
+              setSavedColors(newColors);
+              localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
+            }} 
+            onDeleteColor={index => {
+              const newColors = savedColors.filter((_, i) => i !== index);
+              setSavedColors(newColors);
+              localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
+            }} 
+          />
         </div>
         
       </Card>
@@ -589,22 +605,5 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       </div>
       
       <SparkleEffect />
-      
-      {/* Heart Color Picker */}
-      <HeartColorPicker 
-        currentColor={selectedColor} 
-        onColorSelect={setSelectedColor} 
-        savedColors={savedColors} 
-        onSaveColor={color => {
-          const newColors = [...savedColors, color];
-          setSavedColors(newColors);
-          localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
-        }} 
-        onDeleteColor={index => {
-          const newColors = savedColors.filter((_, i) => i !== index);
-          setSavedColors(newColors);
-          localStorage.setItem(`customization-colors-${pageKey}`, JSON.stringify(newColors));
-        }} 
-      />
     </div>;
 };
