@@ -444,7 +444,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <input
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="w-16 px-1 py-0.5 text-xs rounded border border-purple-300 bg-white/80"
+                      className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') saveProfileName();
                         if (e.key === 'Escape') cancelEditingName();
