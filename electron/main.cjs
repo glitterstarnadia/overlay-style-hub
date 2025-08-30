@@ -37,7 +37,7 @@ function createWindow() {
   
   if (isDev) {
     console.log('Loading dev server...');
-    mainWindow.loadURL('http://localhost:5173');
+    mainWindow.loadURL('http://localhost:8080');
   } else {
     console.log('Loading production file...');
     
@@ -113,10 +113,14 @@ ipcMain.handle('discord-update-state', (event, state) => {
 });
 
 // This method will be called when Electron has finished initialization
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  console.log('=== ELECTRON APP READY ===');
+  createWindow();
+});
 
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
+  console.log('=== ALL WINDOWS CLOSED ===');
   if (discordRPC) {
     discordRPC.disconnect();
   }
@@ -126,6 +130,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
+  console.log('=== APP ACTIVATED ===');
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
