@@ -102,7 +102,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
   return (
     <div className={cn(
-      "border-4 rounded-lg overflow-hidden",
+      "border-4 rounded-lg relative",
       isCollapsed 
         ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
         : "border-white bg-white"
@@ -116,11 +116,11 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
       )}>
         <div className="flex items-center gap-2 relative">
           <Heart 
-            className="w-5 h-5 stroke-white stroke-2 transition-all duration-200 group-hover:scale-125 group-hover:drop-shadow-md relative z-50" 
+            className="w-5 h-5 stroke-white stroke-2 transition-all duration-200 group-hover:scale-125 group-hover:drop-shadow-md relative z-50 group-hover:absolute group-hover:-left-1" 
             style={{ fill: '#ff66b3', color: '#ff66b3' }}
           />
           <h3 className={cn(
-            "font-bold transition-all duration-200 group-hover:scale-110 group-hover:text-pink-700 group-hover:drop-shadow-sm relative z-50",
+            "font-bold transition-all duration-200 group-hover:scale-110 group-hover:text-pink-700 group-hover:drop-shadow-sm relative z-40",
             isCollapsed ? "text-sm text-pink-600" : "text-lg text-pink-600"
           )}>{sectionTitle}</h3>
         </div>
