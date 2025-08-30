@@ -560,13 +560,13 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       </Card>
       </div>
       
-      {/* Resize Handle - Positioned outside card to prevent clipping */}
+      {/* Resize Handle - Positioned at bottom right corner */}
       <div 
         className={cn(
-          "absolute -bottom-1 -right-1 w-8 h-8 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
+          "absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
           isDragging || isResizing 
-            ? "bg-pink-400/60 shadow-inner" 
-            : "bg-gradient-to-br from-pink-400/40 to-pink-500/50 hover:from-pink-400/60 hover:to-pink-500/70 shadow-3d-resize"
+            ? "bg-pink-400/80 shadow-inner" 
+            : "bg-gradient-to-br from-pink-400/60 to-pink-500/70 hover:from-pink-400/80 hover:to-pink-500/90 shadow-3d-resize"
         )} 
         onMouseDown={handleResizeStart} 
         title="Drag to resize"
@@ -577,9 +577,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           transform: isDragging || isResizing ? 'scale(0.9)' : 'scale(1)'
         }}
       >
-        <div className="w-3 h-3 bg-pink-600 rounded-full shadow-sm" 
+        <div className="w-2 h-2 bg-pink-700 rounded-full shadow-sm" 
              style={{
-               boxShadow: '0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.5)'
+               boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5)'
              }} />
       </div>
       
