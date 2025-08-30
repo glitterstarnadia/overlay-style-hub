@@ -13,11 +13,15 @@ interface CustomizationOverlayProps {
   isVisible: boolean;
   onToggle: () => void;
   pageKey?: string;
+  onSizeChange?: (size: { width: number; height: number }) => void;
+  onPositionChange?: (position: { x: number; y: number }) => void;
 }
 export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
   onToggle,
-  pageKey = 'default'
+  pageKey = 'default',
+  onSizeChange,
+  onPositionChange
 }) => {
   const { toast } = useToast();
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
@@ -145,14 +149,12 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     return titles[id] || id;
   };
   const resetPositionAndSize = () => {
-    setPosition({
-      x: 50,
-      y: 50
-    });
-    setSize({
-      width: 800,
-      height: 600
-    });
+    const newPosition = { x: 50, y: 50 };
+    const newSize = { width: 800, height: 600 };
+    setPosition(newPosition);
+    setSize(newSize);
+    onPositionChange?.(newPosition);
+    onSizeChange?.(newSize);
     toast({
       title: "Window Reset",
       description: "Position and size have been reset to default."
@@ -394,18 +396,22 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         
         animationId = requestAnimationFrame(() => {
           if (isDragging) {
-            setPosition({
+            const newPosition = {
               x: e.clientX - dragStart.x,
               y: e.clientY - dragStart.y
-            });
+            };
+            setPosition(newPosition);
+            onPositionChange?.(newPosition);
           }
           if (isResizing) {
             const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
             const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
-            setSize({
+            const newSize = {
               width: newWidth,
               height: newHeight
-            });
+            };
+            setSize(newSize);
+            onSizeChange?.(newSize);
           }
         });
       }
