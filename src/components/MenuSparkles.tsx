@@ -18,8 +18,8 @@ const MenuSparkles: React.FC = () => {
   const colors = ['#ffffff', '#ffb3d6', '#ffe6f2', '#f8bbd9', '#fce7f3'];
 
   useEffect(() => {
-    // Create initial sparkles - increased quantity
-    const initialSparkles: MenuSparkle[] = Array.from({ length: 20 }, (_, i) => ({
+    // Create initial sparkles - increased quantity to 35
+    const initialSparkles: MenuSparkle[] = Array.from({ length: 35 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
