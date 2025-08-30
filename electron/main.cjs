@@ -29,22 +29,27 @@ function createWindow() {
   // Load the app
   if (isDev) {
     mainWindow.loadURL('http://localhost:5173');
-    // Open DevTools in development
-    // mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
-  // Always open DevTools to debug blank screen
-  mainWindow.webContents.openDevTools();
+  // Force DevTools to open in all cases for debugging
+  setTimeout(() => {
+    mainWindow.webContents.openDevTools();
+  }, 1000);
 
-  // Add error handling
-  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
-    console.log('Failed to load:', errorCode, errorDescription);
+  // Add comprehensive error handling
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.log('Failed to load:', errorCode, errorDescription, validatedURL);
   });
 
   mainWindow.webContents.on('dom-ready', () => {
-    console.log('DOM is ready');
+    console.log('DOM is ready, isDev:', isDev);
+    console.log('Loading from:', isDev ? 'http://localhost:5173' : path.join(__dirname, '../dist/index.html'));
+  });
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    console.log('Page finished loading');
   });
 
   // Make window draggable
