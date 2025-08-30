@@ -598,7 +598,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           
           <div className="flex gap-1">
             {/* Main Image Display */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 p-2">
               <GlitterBorder>
                 <img
                   src={imageMap[currentMainImage] || currentMainImage}
@@ -620,7 +620,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <span>Set {index + 1}</span>
                       <div className="flex items-center gap-1">
                         {/* Image Upload for each Transform Set */}
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 p-2">
                           <div className="relative">
                             <GlitterBorder>
                               {transformImages[controlId] ? (
@@ -638,7 +638,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             
                             <Button
                               onClick={() => triggerTransformImageUpload(controlId)}
-                              className="absolute -top-0.5 -right-0.5 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
+                              className="absolute -top-0.5 -right-0.5 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
                               style={{ backgroundColor: '#ffb3d6' }}
                               size="sm"
                               title={`Upload image for Set ${index + 1}`}
