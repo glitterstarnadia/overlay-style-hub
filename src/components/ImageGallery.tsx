@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import hairMain from '@/assets/hair-main.jpg';
@@ -739,15 +739,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           />
                           <div>
                             <label className="text-xs text-pink-600 mb-0.5 block font-bold">Hex Code</label>
-                            <input 
-                              type="text"
-                              placeholder="#ffffff"
-                              className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
-                              value={settings.scaleHex || '#ffffff'}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                scaleHex: e.target.value 
-                              })}
-                            />
+                            <div className="flex items-center gap-1">
+                              <input 
+                                type="text"
+                                placeholder="#ffffff"
+                                className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                value={settings.scaleHex || '#ffffff'}
+                                onChange={(e) => updateImageSettings(imageKey, { 
+                                  scaleHex: e.target.value 
+                                })}
+                              />
+                              <Heart 
+                                className="w-3 h-3 flex-shrink-0" 
+                                style={{ 
+                                  fill: settings.scaleHex || '#ffffff', 
+                                  stroke: '#ec4899', 
+                                  strokeWidth: 1 
+                                }} 
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -919,15 +929,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                            />
                            <div className="flex flex-col">
                              <label className="text-xs text-pink-600 mb-0.5 font-bold">Hex Code</label>
-                             <input 
-                               type="text"
-                               placeholder="#ffffff"
-                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
-                               value={settings.scaleHex || '#ffffff'}
-                               onChange={(e) => updateImageSettings(imageKey, { 
-                                 scaleHex: e.target.value 
-                               })}
-                             />
+                             <div className="flex items-center gap-1">
+                               <input 
+                                 type="text"
+                                 placeholder="#ffffff"
+                                 className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                 value={settings.scaleHex || '#ffffff'}
+                                 onChange={(e) => updateImageSettings(imageKey, { 
+                                   scaleHex: e.target.value 
+                                 })}
+                               />
+                               <Heart 
+                                 className="w-3 h-3 flex-shrink-0" 
+                                 style={{ 
+                                   fill: settings.scaleHex || '#ffffff', 
+                                   stroke: '#ec4899', 
+                                   strokeWidth: 1 
+                                 }} 
+                               />
+                             </div>
                            </div>
                         </div>
                     </div>
