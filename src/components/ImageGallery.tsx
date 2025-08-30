@@ -471,7 +471,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <div key={profile.id} className="flex-shrink-0 relative group p-2">
                 <div 
                   className={cn(
-                    "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-105",
+                    "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-125",
                     activeProfileId === profile.id 
                       ? "border-pink-400 ring-2 ring-pink-200" 
                       : "border-pink-200 hover:border-pink-400"
@@ -864,7 +864,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <img
                     src={imageMap[thumbnail] || thumbnail}
                     alt={`Variation ${index + 1}`}
-                    className="w-12 h-12 object-cover rounded-md group-hover:scale-105 transition-transform duration-300 shadow-sm"
+                    className="w-12 h-12 object-cover rounded-md group-hover:scale-125 transition-transform duration-300 shadow-sm"
                     onClick={() => setSelectedImage(thumbnail)}
                   />
                   <div 
