@@ -6,6 +6,7 @@ import { SectionPanel } from './SectionPanel';
 import { SettingsMenu } from './SettingsMenu';
 import { SparkleEffect } from './SparkleEffect';
 import { HeartColorPicker } from './HeartColorPicker';
+import MenuSparkles from './MenuSparkles';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 interface CustomizationOverlayProps {
@@ -383,12 +384,13 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }} onMouseDown={handleMouseDown}>
       <Card className={cn("w-full h-full overflow-hidden relative magic-cursor", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-lg" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl")}>
         {/* Header */}
-        <div data-drag-handle className="flex items-center justify-between p-4 border-b-4 border-white cursor-move" style={{ backgroundColor: '#ff66b3' }}>
-          <div className="flex items-center gap-2">
+        <div data-drag-handle className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative" style={{ backgroundColor: '#ff66b3' }}>
+          <MenuSparkles />
+          <div className="flex items-center gap-2 relative z-10">
             <Move className="w-4 h-4 text-white" />
             <h2 className="text-lg font-semibold text-white">Menu</h2>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative z-10">
             <Button
               variant="ghost"
               size="sm"
