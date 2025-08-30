@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const DiscordRPC = require('./discord-rpc');
+const DiscordRPC = require('./discord-rpc.cjs');
 
 const isDev = process.env.NODE_ENV === 'development';
 let discordRPC = null;
@@ -22,7 +22,7 @@ function createWindow() {
       contextIsolation: true,
       enableRemoteModule: false,
       webSecurity: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.cjs')
     }
   });
 
