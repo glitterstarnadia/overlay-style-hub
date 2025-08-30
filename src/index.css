@@ -6,11 +6,38 @@
 html, body {
   background: transparent !important;
   background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: none !important;
+  outline: none !important;
 }
 
 #root {
   background: transparent !important;
   background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove browser chrome for floating app appearance */
+body {
+  -webkit-app-region: drag;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Make interactive elements non-draggable */
+button, input, textarea, select, a {
+  -webkit-app-region: no-drag;
+  user-select: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
 }
 
 /* Magic Cursor Styles */
