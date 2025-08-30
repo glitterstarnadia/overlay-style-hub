@@ -352,10 +352,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     };
   }, [isDragging, isResizing, dragStart, resizeStart]);
   if (!isVisible) {
-    return <Button onClick={onToggle} className="fixed top-4 right-4 z-50 bg-gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300 ease-smooth" size="lg">
-        <Settings className="w-5 h-5 mr-2" />
-        Customize
-      </Button>;
+    return null; // Don't show any button when overlay is hidden
   }
   return <div ref={overlayRef} className={cn("fixed select-none transition-all duration-300 ease-smooth", isDragging || isResizing ? "cursor-grabbing" : "cursor-grab", theme === 'dark' ? 'dark' : '')} style={{
     left: position.x,
