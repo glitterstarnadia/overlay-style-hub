@@ -750,7 +750,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 })}
                               />
                               <Heart 
-                                className="w-4 h-4 flex-shrink-0" 
+                                className="w-5 h-5 flex-shrink-0" 
                                 style={{ 
                                   fill: settings.scaleHex || '#ffffff', 
                                   stroke: '#ec4899', 
@@ -940,7 +940,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  })}
                                />
                                <Heart 
-                                 className="w-4 h-4 flex-shrink-0" 
+                                 className="w-5 h-5 flex-shrink-0" 
                                  style={{ 
                                    fill: settings.scaleHex || '#ffffff', 
                                    stroke: '#ec4899', 
