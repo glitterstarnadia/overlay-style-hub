@@ -3,6 +3,11 @@ import { ImageGallery } from './ImageGallery';
 import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import hairMain from '@/assets/hair-main.jpg';
+import hair1 from '@/assets/hair-1.jpg';
+import hair2 from '@/assets/hair-2.jpg';
+import hair3 from '@/assets/hair-3.jpg';
+import hair4 from '@/assets/hair-4.jpg';
 
 /* Custom Scrollbar Styles for SectionPanel */
 const scrollbarStyles = `
@@ -45,76 +50,36 @@ interface SectionPanelProps {
 // Mock data for different sections - you can replace with real data
 const sectionData = {
   hair: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   patterns: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   colours: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   tops: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   dresses: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   pants: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   shoes: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
   adjustments: {
-    mainImage: '/src/assets/hair-main.jpg',
-    thumbnails: [
-      '/src/assets/hair-1.jpg',
-      '/src/assets/hair-2.jpg',
-      '/src/assets/hair-3.jpg',
-      '/src/assets/hair-4.jpg',
-    ],
+    mainImage: hairMain,
+    thumbnails: [hair1, hair2, hair3, hair4],
   },
 };
 

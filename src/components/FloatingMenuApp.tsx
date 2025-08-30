@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { CustomizationOverlay } from '@/components/CustomizationOverlay';
 import { useDiscordRPC } from '@/hooks/useDiscordRPC';
+import DebugInfo from '@/components/DebugInfo';
+
+console.log('=== FLOATINGMENUAPP LOADING ===');
 
 const FloatingMenuApp = () => {
+  console.log('=== FLOATINGMENUAPP RENDERING ===');
   const [overlayVisible, setOverlayVisible] = useState(true);
+  const [showDebug, setShowDebug] = useState(true);
   const { activities } = useDiscordRPC();
 
   const toggleOverlay = () => {
@@ -12,6 +17,7 @@ const FloatingMenuApp = () => {
 
   // Initialize Discord RPC
   useEffect(() => {
+    console.log('=== FLOATINGMENUAPP USEEFFECT ===');
     // Set initial Discord activity
     activities.browsing();
     
@@ -20,8 +26,18 @@ const FloatingMenuApp = () => {
       setOverlayVisible(true);
     }, 1000);
 
-    return () => clearTimeout(timer);
+    // Hide debug info after 5 seconds
+    const debugTimer = setTimeout(() => {
+      setShowDebug(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(debugTimer);
+    };
   }, [activities]);
+
+  console.log('=== FLOATINGMENUAPP ABOUT TO RETURN JSX ===');
 
   return (
     <div 
@@ -31,6 +47,9 @@ const FloatingMenuApp = () => {
         backgroundColor: 'transparent'
       }}
     >
+      {/* Debug component to verify React is working */}
+      {showDebug && <DebugInfo />}
+      
       {/* Only the floating menu, no other content */}
       <CustomizationOverlay 
         isVisible={overlayVisible} 
@@ -48,5 +67,7 @@ const FloatingMenuApp = () => {
     </div>
   );
 };
+
+console.log('=== FLOATINGMENUAPP DEFINED ===');
 
 export default FloatingMenuApp;
