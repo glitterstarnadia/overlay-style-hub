@@ -1,8 +1,16 @@
 // Preload script for Electron security
-const { contextBridge } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 // Expose protected methods that allow the renderer process to use
 contextBridge.exposeInMainWorld('electronAPI', {
-  // Add any electron-specific APIs here if needed
-  platform: process.platform
+  platform: process.platform,
+  
+  // Discord RPC functions
+  updateDiscordActivity: (details, state) => {
+    return ipcRenderer.invoke('discord-update-activity', { details, state });
+  },
+  
+  updateDiscordState: (state) => {
+    return ipcRenderer.invoke('discord-update-state', state);
+  }
 });

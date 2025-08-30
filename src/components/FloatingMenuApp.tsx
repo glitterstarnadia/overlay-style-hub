@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { CustomizationOverlay } from '@/components/CustomizationOverlay';
+import { useDiscordRPC } from '@/hooks/useDiscordRPC';
 
 const FloatingMenuApp = () => {
   const [overlayVisible, setOverlayVisible] = useState(true);
+  const { activities } = useDiscordRPC();
 
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
 
-  // Hide the overlay temporarily when not in use to show only when needed
+  // Initialize Discord RPC
   useEffect(() => {
+    // Set initial Discord activity
+    activities.browsing();
+    
     // Auto-show menu after 1 second for better UX
     const timer = setTimeout(() => {
       setOverlayVisible(true);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [activities]);
 
   return (
     <div 

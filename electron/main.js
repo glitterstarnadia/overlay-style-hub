@@ -1,6 +1,9 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const DiscordRPC = require('./discord-rpc');
+
 const isDev = process.env.NODE_ENV === 'development';
+let discordRPC = null;
 
 function createWindow() {
   // Create the browser window with transparency and no frame
@@ -18,7 +21,8 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      webSecurity: false
+      webSecurity: false,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
@@ -36,13 +40,35 @@ function createWindow() {
   
   // Hide menu bar
   mainWindow.setMenuBarVisibility(false);
+
+  // Initialize Discord RPC
+  discordRPC = new DiscordRPC();
+  discordRPC.connect();
+
+  return mainWindow;
 }
+
+// Handle Discord RPC events from renderer process
+ipcMain.handle('discord-update-activity', (event, activityData) => {
+  if (discordRPC) {
+    discordRPC.updateDetails(activityData.details, activityData.state);
+  }
+});
+
+ipcMain.handle('discord-update-state', (event, state) => {
+  if (discordRPC) {
+    discordRPC.updateState(state);
+  }
+});
 
 // This method will be called when Electron has finished initialization
 app.whenReady().then(createWindow);
 
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
+  if (discordRPC) {
+    discordRPC.disconnect();
+  }
   if (process.platform !== 'darwin') {
     app.quit();
   }
