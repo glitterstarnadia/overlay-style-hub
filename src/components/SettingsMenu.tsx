@@ -95,16 +95,16 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         
         <DropdownMenuContent 
           align="end" 
-          className="w-72 bg-overlay-bg border-overlay-border"
+          className="w-72 bg-gradient-to-br from-white to-pink-50 border-pink-200 shadow-lg"
         >
-          <DropdownMenuLabel className="text-foreground">Settings</DropdownMenuLabel>
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuLabel className="text-pink-600 font-bold">Settings</DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Window Opacity */}
           <div className="p-3 space-y-3">
             <div className="flex items-center gap-2">
-              <Eye className="w-4 h-4 text-muted-foreground" />
-              <Label className="text-sm text-foreground">
+              <Eye className="w-4 h-4 text-pink-500" />
+              <Label className="text-sm text-pink-600 font-medium">
                 Opacity: {opacity}%
               </Label>
             </div>
@@ -118,14 +118,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             />
           </div>
           
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Always on Top */}
           <div className="p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Pin className="w-4 h-4 text-muted-foreground" />
-                <Label className="text-sm text-foreground">Always on Top</Label>
+                <Pin className="w-4 h-4 text-pink-500" />
+                <Label className="text-sm text-pink-600 font-medium">Always on Top</Label>
               </div>
               <Switch
                 checked={alwaysOnTop}
@@ -134,81 +134,81 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             </div>
           </div>
           
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Theme Toggle */}
           <DropdownMenuItem 
             onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4" />
+                <Sun className="w-4 h-4 text-pink-500" />
               ) : (
-                <Moon className="w-4 h-4" />
+                <Moon className="w-4 h-4 text-pink-500" />
               )}
-              <span>Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
+              <span className="font-medium">Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Reset Position */}
           <DropdownMenuItem 
             onClick={onResetPosition}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
-              <RotateCcw className="w-4 h-4" />
-              <span>Reset Position & Size</span>
+              <RotateCcw className="w-4 h-4 text-pink-500" />
+              <span className="font-medium">Reset Position & Size</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Export All Profiles */}
           <DropdownMenuItem 
             onClick={onExportAllProfiles}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
-              <FolderDown className="w-4 h-4" />
-              <span>Export All Profiles</span>
+              <FolderDown className="w-4 h-4 text-pink-500" />
+              <span className="font-medium">Export All Profiles</span>
             </div>
           </DropdownMenuItem>
           
           {/* Import All Profiles */}
           <DropdownMenuItem 
             onClick={handleProfileImportClick}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
-              <FolderUp className="w-4 h-4" />
-              <span>Import All Profiles</span>
+              <FolderUp className="w-4 h-4 text-pink-500" />
+              <span className="font-medium">Import All Profiles</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-overlay-border" />
+          <DropdownMenuSeparator className="bg-pink-200" />
           
           {/* Export Configuration */}
           <DropdownMenuItem 
             onClick={onExportConfig}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              <span>Export Configuration</span>
+              <Download className="w-4 h-4 text-pink-500" />
+              <span className="font-medium">Export Configuration</span>
             </div>
           </DropdownMenuItem>
           
           {/* Import Configuration */}
           <DropdownMenuItem 
             onClick={handleImportClick}
-            className="cursor-pointer hover:bg-overlay-hover"
+            className="cursor-pointer hover:bg-pink-100 text-pink-600"
           >
             <div className="flex items-center gap-2">
-              <Upload className="w-4 h-4" />
-              <span>Import Configuration</span>
+              <Upload className="w-4 h-4 text-pink-500" />
+              <span className="font-medium">Import Configuration</span>
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

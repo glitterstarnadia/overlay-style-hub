@@ -164,7 +164,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
             variant="ghost"
             size="sm"
             onClick={onToggleCollapse}
-            className="text-pink-600 hover:text-pink-700"
+            className="text-pink-600 hover:text-white"
           >
             {isCollapsed ? (
               <ChevronDown className="w-4 h-4" />
