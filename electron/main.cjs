@@ -114,6 +114,20 @@ ipcMain.handle('discord-update-state', (event, state) => {
   }
 });
 
+// IPC handler for web bar visibility
+ipcMain.handle('set-web-bar-visibility', (event, visible) => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow) {
+    if (visible) {
+      // Show web bar (add frame)
+      focusedWindow.setMenuBarVisibility(true);
+    } else {
+      // Hide web bar (remove frame)
+      focusedWindow.setMenuBarVisibility(false);
+    }
+  }
+});
+
 // This method will be called when Electron has finished initialization
 app.whenReady().then(() => {
   console.log('=== ELECTRON APP READY ===');

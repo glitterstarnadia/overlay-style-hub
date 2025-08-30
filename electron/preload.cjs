@@ -12,5 +12,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   updateDiscordState: (state) => {
     return ipcRenderer.invoke('discord-update-state', state);
+  },
+  
+  // Web bar visibility function
+  setWebBarVisibility: (visible) => {
+    return ipcRenderer.invoke('set-web-bar-visibility', visible);
   }
 });

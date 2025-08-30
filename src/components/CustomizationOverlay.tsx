@@ -64,13 +64,27 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     const saved = localStorage.getItem(`customization-theme-${pageKey}`);
     return saved ? saved as 'dark' | 'light' : 'dark';
   });
+  const [webBarVisible, setWebBarVisible] = useState(() => {
+    const saved = localStorage.getItem(`customization-webBar-${pageKey}`);
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  // Handle web bar visibility change
+  const handleWebBarVisibilityChange = (visible: boolean) => {
+    setWebBarVisible(visible);
+    // Call Electron API if available
+    if (typeof window !== 'undefined' && (window as any).electronAPI?.setWebBarVisibility) {
+      (window as any).electronAPI.setWebBarVisibility(visible);
+    }
+  };
   const [savedColors, setSavedColors] = useState<string[]>(() => {
     const saved = localStorage.getItem(`customization-colors-${pageKey}`);
     return saved ? JSON.parse(saved) : ['#ffb3ba', '#ffb3d6', '#d6b3ff', '#b3d6ff', '#b3ffb3', '#ffffb3', '#ffcc99', '#ff9999', '#ff66b3', '#b366ff', '#66b3ff', '#66ff66', '#ffff66', '#ff9966'];
   });
   const overlayRef = useRef<HTMLDivElement>(null);
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget || (e.target as HTMLElement).closest('[data-drag-handle]')) {
+    // Only start dragging when clicking on drag handles
+    if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,
@@ -366,6 +380,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }, [theme, pageKey]);
 
   useEffect(() => {
+    localStorage.setItem(`customization-webBar-${pageKey}`, JSON.stringify(webBarVisible));
+  }, [webBarVisible, pageKey]);
+
+  useEffect(() => {
     let animationId: number;
     
     const handleMouseMove = (e: MouseEvent) => {
@@ -417,7 +435,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
-  return <div ref={overlayRef} className={cn("fixed select-none", isDragging || isResizing ? "cursor-grabbing transition-none" : "cursor-grab transition-all duration-200 ease-out", theme === 'dark' ? 'dark' : '')} style={{
+  return <div ref={overlayRef} className={cn("fixed select-none", theme === 'dark' ? 'dark' : '')} style={{
     left: position.x,
     top: position.y,
     width: size.width,
@@ -454,7 +472,21 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                 <ChevronUp className="w-4 h-4" />
               )}
             </Button>
-            <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} onExportAllProfiles={exportAllProfiles} onImportAllProfiles={importAllProfiles} />
+            <SettingsMenu 
+              opacity={opacity} 
+              onOpacityChange={setOpacity} 
+              alwaysOnTop={alwaysOnTop} 
+              onAlwaysOnTopChange={setAlwaysOnTop} 
+              theme={theme} 
+              onThemeChange={setTheme} 
+              webBarVisible={webBarVisible}
+              onWebBarVisibleChange={handleWebBarVisibilityChange}
+              onResetPosition={resetPositionAndSize} 
+              onExportConfig={exportConfiguration} 
+              onImportConfig={importConfiguration} 
+              onExportAllProfiles={exportAllProfiles} 
+              onImportAllProfiles={importAllProfiles} 
+            />
             <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white drop-shadow-md">
               <X className="w-4 h-4" />
             </Button>

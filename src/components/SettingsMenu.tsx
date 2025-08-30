@@ -23,7 +23,8 @@ import {
   Moon,
   Database,
   FolderDown,
-  FolderUp
+  FolderUp,
+  Globe
 } from 'lucide-react';
 
 interface SettingsMenuProps {
@@ -33,6 +34,8 @@ interface SettingsMenuProps {
   onAlwaysOnTopChange: (value: boolean) => void;
   theme: 'dark' | 'light';
   onThemeChange: (theme: 'dark' | 'light') => void;
+  webBarVisible: boolean;
+  onWebBarVisibleChange: (value: boolean) => void;
   onResetPosition: () => void;
   onExportConfig: () => void;
   onImportConfig: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -47,6 +50,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onAlwaysOnTopChange,
   theme,
   onThemeChange,
+  webBarVisible,
+  onWebBarVisibleChange,
   onResetPosition,
   onExportConfig,
   onImportConfig,
@@ -130,6 +135,23 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <Switch
                 checked={alwaysOnTop}
                 onCheckedChange={onAlwaysOnTopChange}
+                className="data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-pink-100 border-pink-200"
+              />
+            </div>
+          </div>
+          
+          <DropdownMenuSeparator className="bg-pink-200" />
+          
+          {/* Web Bar Toggle */}
+          <div className="p-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-pink-500" />
+                <Label className="text-sm text-pink-600 font-medium">Show Web Bar</Label>
+              </div>
+              <Switch
+                checked={webBarVisible}
+                onCheckedChange={onWebBarVisibleChange}
                 className="data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-pink-100 border-pink-200"
               />
             </div>
