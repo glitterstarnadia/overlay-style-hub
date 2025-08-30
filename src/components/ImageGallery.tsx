@@ -793,7 +793,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               className="text-white px-3 py-1 text-xs font-bold"
               style={{ backgroundColor: '#ffb3d6' }}
             >
-              ➕ Add
+              <Plus className="w-3 h-3 text-white mr-1" /> Add
             </Button>
           </div>
         </div>
