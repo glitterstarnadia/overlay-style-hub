@@ -444,8 +444,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     opacity: opacity / 100
   }} onMouseDown={handleMouseDown}>
       {/* Main Card Container */}
-      <div className="relative w-full h-full">
-      <Card className={cn("w-full h-full relative magic-cursor transform-gpu", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+      <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
         <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
         
@@ -557,7 +556,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         </div>
         
       </Card>
-      </div>
       
       {/* Resize Handle - Positioned at bottom right corner */}
       <div 
@@ -582,5 +580,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
              }} />
       </div>
       
-    </div>;
+    </div>
+  );
 };
