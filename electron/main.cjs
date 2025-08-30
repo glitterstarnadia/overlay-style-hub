@@ -26,17 +26,39 @@ function createWindow() {
     }
   });
 
-  // Load the app
+  // Load the app with better error handling
   const htmlPath = path.join(__dirname, '../dist/index.html');
+  console.log('=== ELECTRON DEBUG INFO ===');
   console.log('Electron __dirname:', __dirname);
   console.log('Trying to load HTML from:', htmlPath);
   console.log('HTML file exists:', require('fs').existsSync(htmlPath));
+  console.log('isDev:', isDev);
+  console.log('NODE_ENV:', process.env.NODE_ENV);
   
   if (isDev) {
+    console.log('Loading dev server...');
     mainWindow.loadURL('http://localhost:5173');
   } else {
-    console.log('Loading file:', htmlPath);
-    mainWindow.loadFile(htmlPath);
+    console.log('Loading production file...');
+    // Try alternative path if first doesn't work
+    const altPath = path.join(__dirname, '../app.asar.unpacked/dist/index.html');
+    const appPath = path.join(process.resourcesPath, 'app.asar.unpacked/dist/index.html');
+    
+    console.log('Alternative paths:');
+    console.log('Alt path exists:', require('fs').existsSync(altPath));
+    console.log('App path exists:', require('fs').existsSync(appPath));
+    
+    if (require('fs').existsSync(htmlPath)) {
+      mainWindow.loadFile(htmlPath);
+    } else if (require('fs').existsSync(altPath)) {
+      mainWindow.loadFile(altPath);
+    } else if (require('fs').existsSync(appPath)) {
+      mainWindow.loadFile(appPath);
+    } else {
+      console.error('NO HTML FILE FOUND IN ANY LOCATION!');
+      // Load a simple error page
+      mainWindow.loadURL(`data:text/html,<html><body><h1>Error: Could not find app files</h1><p>HTML path: ${htmlPath}</p></body></html>`);
+    }
   }
 
   // Force DevTools to open in all cases for debugging

@@ -4,8 +4,10 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: "./", // Use relative paths for Electron compatibility
+export default defineConfig(({ command, mode }) => ({
+  // Critical: Use relative paths for Electron
+  base: mode === 'production' ? './' : '/',
+  
   server: {
     host: "::",
     port: 8080,
@@ -23,10 +25,14 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     assetsDir: "assets",
-    // Ensure assets use relative paths
+    emptyOutDir: true,
+    // Critical for Electron: ensure all assets use relative paths
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js'
       },
     },
   },
