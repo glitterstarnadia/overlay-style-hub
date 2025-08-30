@@ -142,8 +142,10 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
       {/* Content */}
       <div className={cn(
-        "transition-all duration-300 ease-in-out overflow-hidden",
-        isCollapsed ? "max-h-0 opacity-0" : "max-h-[75vh] opacity-100"
+        "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden transform-gpu",
+        isCollapsed 
+          ? "max-h-0 opacity-0 scale-y-95 -translate-y-2" 
+          : "max-h-[75vh] opacity-100 scale-y-100 translate-y-0"
       )}>
         <div className="p-4 h-full overflow-y-auto custom-scrollbar">
           <ImageGallery
