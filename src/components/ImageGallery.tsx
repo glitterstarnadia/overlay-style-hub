@@ -419,9 +419,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         </div>
         
         {savedProfiles.length > 0 ? (
-          <div className="flex gap-4 overflow-x-auto pb-4 px-2">
+          <div className="flex gap-4 overflow-x-auto pb-4 px-3">
             {savedProfiles.map((profile, index) => (
-              <div key={profile.id} className="flex-shrink-0 relative group p-1">
+              <div key={profile.id} className="flex-shrink-0 relative group p-2">
                 <div 
                   className={cn(
                     "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-105",
@@ -488,14 +488,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 )}
 
                 {/* Action Buttons */}
-                <div className="absolute -top-1 -right-1 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute -top-0.5 -right-0.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   {index > 0 && (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
                         moveProfile(profile.id, 'up');
                       }}
-                      className="w-4 h-4 text-white rounded-full p-0"
+                      className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
                       style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
@@ -508,7 +508,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         e.stopPropagation();
                         moveProfile(profile.id, 'down');
                       }}
-                      className="w-4 h-4 text-white rounded-full p-0"
+                      className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
                       style={{ backgroundColor: '#ffb3d6' }}
                       size="sm"
                     >
@@ -520,7 +520,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       e.stopPropagation();
                       deleteProfile(profile.id);
                     }}
-                    className="w-4 h-4 text-white rounded-full p-0"
+                    className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
                     style={{ backgroundColor: '#ffb3d6' }}
                     size="sm"
                   >
