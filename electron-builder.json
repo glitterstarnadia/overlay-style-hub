@@ -1,6 +1,6 @@
 {
-  "appId": "com.overlaystylehub.app",
-  "productName": "Overlay Style Hub",
+  "appId": "com.nadia.app",
+  "productName": "Nadia <3",
   "directories": {
     "output": "dist-electron"
   },

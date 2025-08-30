@@ -19,18 +19,12 @@ class DiscordRPC {
       // Set initial presence
       this.setActivity({
         state: 'Customizing Styles',
-        details: 'Using Overlay Style Hub',
+        details: 'Using Nadia <3',
         startTimestamp: Date.now(),
         largeImageKey: 'app-logo',
-        largeImageText: 'Overlay Style Hub',
+        largeImageText: 'Nadia <3',
         smallImageKey: 'sparkles',
-        smallImageText: 'Creating Magic ✨',
-        buttons: [
-          {
-            label: 'Get Style Hub',
-            url: 'https://your-website.com' // Replace with your app's website
-          }
-        ]
+        smallImageText: 'Creating Magic ✨'
       });
     } catch (error) {
       console.log('Discord not detected or failed to connect:', error.message);
