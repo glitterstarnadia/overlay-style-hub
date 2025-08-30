@@ -384,18 +384,25 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }} onMouseDown={handleMouseDown}>
       <Card className={cn("w-full h-full overflow-hidden relative magic-cursor", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-lg" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-xl")}>
         {/* Header */}
-        <div data-drag-handle className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative" style={{ backgroundColor: '#ff66b3' }}>
+        <div 
+          data-drag-handle 
+          className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative gradient-cycle" 
+          style={{ 
+            background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
+            backgroundSize: '400% 400%'
+          }}
+        >
           <MenuSparkles />
           <div className="flex items-center gap-2 relative z-10">
-            <Move className="w-4 h-4 text-white" />
-            <h2 className="text-lg font-semibold text-white">Menu</h2>
+            <Move className="w-4 h-4 text-white drop-shadow-md" />
+            <h2 className="text-lg font-semibold text-white drop-shadow-md">Menu</h2>
           </div>
           <div className="flex items-center gap-2 relative z-10">
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleAllSections}
-              className="hover:bg-white/20 text-white hover:text-white"
+              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md"
               title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
             >
               {allCollapsed ? (
@@ -405,7 +412,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               )}
             </Button>
             <SettingsMenu opacity={opacity} onOpacityChange={setOpacity} alwaysOnTop={alwaysOnTop} onAlwaysOnTopChange={setAlwaysOnTop} theme={theme} onThemeChange={setTheme} onResetPosition={resetPositionAndSize} onExportConfig={exportConfiguration} onImportConfig={importConfiguration} onExportAllProfiles={exportAllProfiles} onImportAllProfiles={importAllProfiles} />
-            <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white">
+            <Button variant="ghost" size="sm" onClick={onToggle} className="hover:bg-white/20 text-white hover:text-white drop-shadow-md">
               <X className="w-4 h-4" />
             </Button>
           </div>

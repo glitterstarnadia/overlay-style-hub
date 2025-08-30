@@ -18,17 +18,17 @@ const MenuSparkles: React.FC = () => {
   const colors = ['#ffffff', '#ffb3d6', '#ffe6f2', '#f8bbd9', '#fce7f3'];
 
   useEffect(() => {
-    // Create initial sparkles
-    const initialSparkles: MenuSparkle[] = Array.from({ length: 12 }, (_, i) => ({
+    // Create initial sparkles - increased quantity
+    const initialSparkles: MenuSparkle[] = Array.from({ length: 20 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
+      size: Math.random() * 4 + 1,
       color: colors[Math.floor(Math.random() * colors.length)],
-      opacity: Math.random() * 0.8 + 0.2,
-      life: Math.random() * 100 + 50,
-      maxLife: Math.random() * 100 + 50,
-      delay: Math.random() * 2000,
+      opacity: Math.random() * 0.9 + 0.1,
+      life: Math.random() * 120 + 60,
+      maxLife: Math.random() * 120 + 60,
+      delay: Math.random() * 3000,
     }));
 
     setSparkles(initialSparkles);
@@ -47,19 +47,19 @@ const MenuSparkles: React.FC = () => {
               ...sparkle,
               x: Math.random() * 100,
               y: Math.random() * 100,
-              size: Math.random() * 3 + 1,
+              size: Math.random() * 4 + 1,
               color: colors[Math.floor(Math.random() * colors.length)],
-              life: Math.random() * 100 + 50,
-              maxLife: Math.random() * 100 + 50,
-              opacity: Math.random() * 0.8 + 0.2,
-              delay: Math.random() * 1000,
+              life: Math.random() * 120 + 60,
+              maxLife: Math.random() * 120 + 60,
+              opacity: Math.random() * 0.9 + 0.1,
+              delay: Math.random() * 2000,
             };
           }
 
           return {
             ...sparkle,
             life: newLife,
-            opacity: Math.sin((sparkle.life / sparkle.maxLife) * Math.PI) * 0.6 + 0.2,
+            opacity: Math.sin((sparkle.life / sparkle.maxLife) * Math.PI) * 0.7 + 0.2,
           };
         });
       });

@@ -46,6 +46,23 @@
   }
 }
 
+/* Gradient Cycle Animation */
+@keyframes gradient-cycle {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-cycle {
+  animation: gradient-cycle 6s ease infinite;
+}
+
 .sparkle {
   position: absolute;
   pointer-events: none;
