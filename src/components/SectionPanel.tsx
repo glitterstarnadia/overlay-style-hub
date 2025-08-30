@@ -45,8 +45,6 @@ interface SectionPanelProps {
   selectedColor: string;
   isCollapsed?: boolean;
   onToggleCollapse?: () => void;
-  isDragging?: boolean;
-  onDragStart?: (e: React.MouseEvent) => void;
 }
 
 // Mock data for different sections - you can replace with real data
@@ -91,8 +89,6 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   selectedColor,
   isCollapsed = false,
   onToggleCollapse,
-  isDragging = false,
-  onDragStart,
 }) => {
   const data = sectionData[sectionId as keyof typeof sectionData];
 
@@ -106,22 +102,18 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
   return (
     <div className={cn(
-      "border-4 rounded-lg overflow-hidden w-64 shadow-lg transition-all duration-200",
+      "border-4 rounded-lg overflow-hidden",
       isCollapsed 
         ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
-        : "border-white bg-white",
-      isDragging ? "cursor-grabbing shadow-2xl scale-105 rotate-1" : "cursor-move hover:shadow-xl"
+        : "border-white bg-white"
     )}>
       {/* Header */}
-      <div 
-        className={cn(
-          "p-2 border-b-4 flex items-center justify-between cursor-move",
-          isCollapsed 
-            ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
-            : "py-2 border-pink-200 bg-white"
-        )}
-        onMouseDown={onDragStart}
-      >
+      <div className={cn(
+        "p-2 border-b-4 flex items-center justify-between",
+        isCollapsed 
+          ? "py-1 border-pink-200 bg-gradient-to-r from-pink-50/80 to-white/80" 
+          : "py-2 border-pink-200 bg-white"
+      )}>
         <div className="flex items-center gap-2 group">
           <Heart 
             className="w-5 h-5 stroke-white stroke-2" 

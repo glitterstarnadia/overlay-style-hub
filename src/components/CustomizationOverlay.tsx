@@ -23,11 +23,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const [allCollapsed, setAllCollapsed] = useState(false);
-  const [sectionPositions, setSectionPositions] = useState<Record<string, { x: number; y: number }>>(() => {
-    const saved = localStorage.getItem(`section-positions-${pageKey}`);
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [draggingSection, setDraggingSection] = useState<string | null>(null);
 
   const sections = ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
   const [position, setPosition] = useState({
@@ -121,28 +116,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     
     // Update allCollapsed state
     setAllCollapsed(newCollapsed.size === sections.length);
-  };
-
-  const handleSectionDragStart = (sectionId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setDraggingSection(sectionId);
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
-    const containerRect = overlayRef.current?.getBoundingClientRect();
-    if (containerRect) {
-      setDragStart({
-        x: e.clientX - (sectionPositions[sectionId]?.x || rect.left - containerRect.left),
-        y: e.clientY - (sectionPositions[sectionId]?.y || rect.top - containerRect.top)
-      });
-    }
-  };
-
-  const updateSectionPosition = (sectionId: string, x: number, y: number) => {
-    const newPositions = {
-      ...sectionPositions,
-      [sectionId]: { x, y }
-    };
-    setSectionPositions(newPositions);
-    localStorage.setItem(`section-positions-${pageKey}`, JSON.stringify(newPositions));
   };
 
   const getSectionTitle = (id: string) => {
@@ -353,7 +326,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     let animationId: number;
     
     const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging || isResizing || draggingSection) {
+      if (isDragging || isResizing) {
         if (animationId) {
           cancelAnimationFrame(animationId);
         }
@@ -373,14 +346,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               height: newHeight
             });
           }
-          if (draggingSection) {
-            const containerRect = overlayRef.current?.getBoundingClientRect();
-            if (containerRect) {
-              const x = Math.max(0, Math.min(e.clientX - dragStart.x - containerRect.left, size.width - 300));
-              const y = Math.max(0, Math.min(e.clientY - dragStart.y - containerRect.top, size.height - 100));
-              updateSectionPosition(draggingSection, x, y);
-            }
-          }
         });
       }
     };
@@ -391,10 +356,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       }
       setIsDragging(false);
       setIsResizing(false);
-      setDraggingSection(null);
     };
     
-    if (isDragging || isResizing || draggingSection) {
+    if (isDragging || isResizing) {
       document.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseup', handleMouseUp);
     }
@@ -406,7 +370,7 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         cancelAnimationFrame(animationId);
       }
     };
-  }, [isDragging, isResizing, draggingSection, dragStart, resizeStart]);
+  }, [isDragging, isResizing, dragStart, resizeStart]);
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
@@ -457,32 +421,22 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         {/* Content */}
         <div className="flex h-full">
           {/* Content Area - Full Width */}
-          <div className="flex-1 min-h-0 p-4 relative overflow-hidden">
-            {/* Display all sections content */}
-            {sections.map(sectionId => {
-              const position = sectionPositions[sectionId];
-              return (
-                <div
-                  key={sectionId}
-                  className="absolute"
-                  style={{
-                    left: position?.x || (sections.indexOf(sectionId) % 3) * 260 + 10,
-                    top: position?.y || Math.floor(sections.indexOf(sectionId) / 3) * 200 + 10,
-                    zIndex: draggingSection === sectionId ? 100 : 10
-                  }}
-                >
+          <div className="flex-1 min-h-0 p-4">
+            <div className="h-full overflow-y-auto custom-scrollbar">
+              {/* Display all sections content */}
+              <div className="space-y-2">
+                {sections.map(sectionId => (
                   <SectionPanel 
+                    key={sectionId}
                     sectionId={sectionId} 
                     sectionTitle={getSectionTitle(sectionId)} 
                     selectedColor={selectedColor}
                     isCollapsed={collapsedSections.has(sectionId)}
                     onToggleCollapse={() => toggleSection(sectionId)}
-                    isDragging={draggingSection === sectionId}
-                    onDragStart={(e) => handleSectionDragStart(sectionId, e)}
                   />
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         
