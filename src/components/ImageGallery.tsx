@@ -671,7 +671,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <img
                                 src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                 alt={`Transform image ${index + 1}`}
-                                className="w-20 h-20 object-cover rounded shadow-md"
+                                className="w-20 h-20 object-cover rounded shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
                               />
                             ) : (
                               <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
