@@ -24,7 +24,10 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const [allCollapsed, setAllCollapsed] = useState(false);
 
-  const sections = ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
+  const [sections, setSections] = useState<string[]>(() => {
+    const saved = localStorage.getItem(`sections-order-${pageKey}`);
+    return saved ? JSON.parse(saved) : ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
+  });
   const [position, setPosition] = useState({
     x: 50,
     y: 50
@@ -45,6 +48,8 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     width: 0,
     height: 0
   });
+  const [draggedSection, setDraggedSection] = useState<string | null>(null);
+  const [dragOverSection, setDragOverSection] = useState<string | null>(null);
 
   // Settings state - using pageKey to isolate state per page
   const [opacity, setOpacity] = useState(() => {
@@ -310,6 +315,44 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     reader.readAsText(file);
     event.target.value = '';
   };
+
+  const handleSectionDragStart = (sectionId: string) => {
+    setDraggedSection(sectionId);
+  };
+
+  const handleSectionDragEnd = () => {
+    setDraggedSection(null);
+    setDragOverSection(null);
+  };
+
+  const handleSectionDragOver = (sectionId: string) => {
+    if (draggedSection && draggedSection !== sectionId) {
+      setDragOverSection(sectionId);
+    }
+  };
+
+  const handleSectionDrop = (targetSectionId: string) => {
+    if (draggedSection && draggedSection !== targetSectionId) {
+      const newSections = [...sections];
+      const draggedIndex = newSections.indexOf(draggedSection);
+      const targetIndex = newSections.indexOf(targetSectionId);
+      
+      // Remove dragged section and insert at new position
+      newSections.splice(draggedIndex, 1);
+      newSections.splice(targetIndex, 0, draggedSection);
+      
+      setSections(newSections);
+      localStorage.setItem(`sections-order-${pageKey}`, JSON.stringify(newSections));
+      
+      toast({
+        title: "Section Reordered",
+        description: `Moved ${getSectionTitle(draggedSection)} to new position`
+      });
+    }
+    
+    setDraggedSection(null);
+    setDragOverSection(null);
+  };
   useEffect(() => {
     localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
   }, [opacity, pageKey]);
@@ -433,6 +476,12 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                     selectedColor={selectedColor}
                     isCollapsed={collapsedSections.has(sectionId)}
                     onToggleCollapse={() => toggleSection(sectionId)}
+                    isDragging={draggedSection === sectionId}
+                    isDragOver={dragOverSection === sectionId}
+                    onDragStart={() => handleSectionDragStart(sectionId)}
+                    onDragEnd={handleSectionDragEnd}
+                    onDragOver={() => handleSectionDragOver(sectionId)}
+                    onDrop={() => handleSectionDrop(sectionId)}
                   />
                 ))}
               </div>

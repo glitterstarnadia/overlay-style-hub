@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageGallery } from './ImageGallery';
-import { ChevronDown, ChevronUp, Heart } from 'lucide-react';
+import { ChevronDown, ChevronUp, Heart, GripVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import hairMain from '@/assets/hair-main.jpg';
@@ -45,6 +45,12 @@ interface SectionPanelProps {
   selectedColor: string;
   isCollapsed?: boolean;
   onToggleCollapse?: () => void;
+  isDragging?: boolean;
+  isDragOver?: boolean;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
+  onDragOver?: () => void;
+  onDrop?: () => void;
 }
 
 // Mock data for different sections - you can replace with real data
@@ -89,6 +95,12 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   selectedColor,
   isCollapsed = false,
   onToggleCollapse,
+  isDragging = false,
+  isDragOver = false,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDrop,
 }) => {
   const data = sectionData[sectionId as keyof typeof sectionData];
 
@@ -101,12 +113,30 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   }
 
   return (
-    <div className={cn(
-      "border-4 rounded-lg overflow-hidden",
-      isCollapsed 
-        ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
-        : "border-white bg-white"
-    )}>
+    <div 
+      className={cn(
+        "border-4 rounded-lg overflow-hidden transition-all duration-200",
+        isCollapsed 
+          ? "border-pink-300 bg-gradient-to-r from-white/90 to-pink-100/90" 
+          : "border-white bg-white",
+        isDragging && "opacity-50 scale-95 rotate-2 shadow-lg",
+        isDragOver && "border-pink-400 bg-pink-50/50 scale-102"
+      )}
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = 'move';
+        onDragStart?.();
+      }}
+      onDragEnd={onDragEnd}
+      onDragOver={(e) => {
+        e.preventDefault();
+        onDragOver?.();
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        onDrop?.();
+      }}
+    >
       {/* Header */}
       <div className={cn(
         "p-2 border-b-4 flex items-center justify-between",
@@ -115,6 +145,9 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
           : "py-2 border-pink-200 bg-white"
       )}>
         <div className="flex items-center gap-2 group">
+          <div title="Drag to reorder" className="cursor-grab active:cursor-grabbing">
+            <GripVertical className="w-4 h-4 text-pink-400" />
+          </div>
           <Heart 
             className="w-5 h-5 stroke-white stroke-2" 
             style={{ fill: '#ff66b3', color: '#ff66b3' }}
