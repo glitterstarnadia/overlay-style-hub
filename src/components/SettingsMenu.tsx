@@ -87,7 +87,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            className="hover:bg-overlay-hover text-muted-foreground hover:text-foreground"
+            className="hover:bg-pink-100 text-pink-500 hover:text-pink-600"
           >
             <Settings className="w-4 h-4" />
           </Button>
@@ -114,7 +114,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               max={100}
               min={20}
               step={5}
-              className="w-full"
+              className="w-full [&_[role=slider]]:bg-white [&_[role=slider]]:border-pink-400 [&_[role=slider]]:shadow-pink-200 [&>span:first-child]:bg-pink-100 [&>span:first-child>span]:bg-pink-400"
             />
           </div>
           
@@ -130,6 +130,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <Switch
                 checked={alwaysOnTop}
                 onCheckedChange={onAlwaysOnTopChange}
+                className="data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-pink-100 border-pink-200"
               />
             </div>
           </div>
