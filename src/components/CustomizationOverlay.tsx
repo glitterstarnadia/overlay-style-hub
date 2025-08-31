@@ -67,10 +67,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-  const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [draggedSection, setDraggedSection] = useState<string | null>(null);
   const [dragOverSection, setDragOverSection] = useState<string | null>(null);
@@ -98,17 +96,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
   const overlayRef = useRef<HTMLDivElement>(null);
   
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // Only start dragging when clicking on drag handles
-    if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
-      setIsDragging(true);
-      setDragStart({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y
-      });
-    }
-  }, [position.x, position.y]);
-
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -418,23 +405,15 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     let animationId: number;
     
     const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging || isResizing) {
+      if (isResizing) {
         if (animationId) {
           cancelAnimationFrame(animationId);
         }
         
         animationId = requestAnimationFrame(() => {
-          if (isDragging) {
-            const newPosition = {
-              x: e.clientX - dragStart.x,
-              y: e.clientY - dragStart.y
-            };
-            setPosition(newPosition);
-            onPositionChange?.(newPosition);
-          }
           if (isResizing) {
-            const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
-            const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
+            const newWidth = Math.max(400, resizeStart.width + (e.clientX - resizeStart.x));
+            const newHeight = Math.max(300, resizeStart.height + (e.clientY - resizeStart.y));
             const newSize = {
               width: newWidth,
               height: newHeight
@@ -450,11 +429,10 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
-      setIsDragging(false);
       setIsResizing(false);
     };
     
-    if (isDragging || isResizing) {
+    if (isResizing) {
       document.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseup', handleMouseUp);
     }
@@ -466,7 +444,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         cancelAnimationFrame(animationId);
       }
     };
-  }, [isDragging, isResizing, dragStart, resizeStart]);
+  }, [isResizing, resizeStart, onSizeChange]);
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
@@ -482,19 +460,17 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         zIndex: alwaysOnTop ? 9999 : 50,
         opacity: opacity / 100
       }} 
-      onMouseDown={handleMouseDown}
     >
       {/* Sparkle Trail Effects */}
       <SparkleTrail />
       {/* Main Card Container */}
-      <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+      <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
         <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
         
         {/* Header */}
         <div 
-          data-drag-handle 
-          className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative gradient-cycle shadow-inner-3d" 
+          className="flex items-center justify-between p-4 border-b-4 border-white relative gradient-cycle shadow-inner-3d" 
           style={{ 
             background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
             backgroundSize: '400% 400%',
@@ -503,8 +479,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         >
           <MenuSparkles />
           <div className="flex items-center gap-2 relative z-10">
-            <Move className="w-4 h-4 text-white drop-shadow-md" />
-            <h2 className="text-lg font-semibold text-white drop-shadow-md">Menu</h2>
+            <Settings className="w-4 h-4 text-white drop-shadow-md" />
+            <h2 className="text-lg font-semibold text-white drop-shadow-md">Character Customization</h2>
           </div>
           <div className="flex items-center gap-2 relative z-10">
             <Button
@@ -604,21 +580,21 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       <div 
         data-resize-handle
         className={cn(
-          "absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
-          isDragging || isResizing 
+          "absolute bottom-2 right-2 w-8 h-8 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
+          isResizing 
             ? "bg-pink-400/80 shadow-inner" 
             : "bg-gradient-to-br from-pink-400/60 to-pink-500/70 hover:from-pink-400/80 hover:to-pink-500/90 shadow-3d-resize"
         )} 
-        onMouseDown={handleResizeStart}
+        onMouseDown={handleResizeStart} 
         title="Drag to resize"
         style={{
-          boxShadow: isDragging || isResizing 
+          boxShadow: isResizing 
             ? 'inset 0 2px 4px rgba(0,0,0,0.3)' 
             : '0 4px 8px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 0 12px rgba(255,100,180,0.4)',
-          transform: isDragging || isResizing ? 'scale(0.9)' : 'scale(1)'
+          transform: isResizing ? 'scale(0.9)' : 'scale(1)'
         }}
       >
-        <div className="w-2 h-2 bg-pink-700 rounded-full shadow-sm" 
+        <div className="w-3 h-3 bg-pink-700 rounded-full shadow-sm" 
              style={{
                boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5)'
              }} />
