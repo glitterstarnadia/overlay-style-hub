@@ -74,12 +74,12 @@ interface ImageSettings {
   rotation: { x: number; y: number; z: number };
   scale: string | number;
   scaleHex?: string;
+  notes?: string;
 }
 
 interface SavedProfile {
   id: string;
   name: string;
-  notes: string;
   thumbnail: string;
   mainImage: string;
   settings: Record<string, ImageSettings>;
@@ -107,22 +107,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   // Load saved profiles from localStorage on component mount
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>(() => {
     const saved = localStorage.getItem(`saved-profiles-${category}`);
-    if (saved) {
-      const profiles = JSON.parse(saved);
-      // Migrate existing profiles to include notes field if missing
-      return profiles.map((profile: any) => ({
-        ...profile,
-        notes: profile.notes || ''
-      }));
-    }
-    return [];
+    return saved ? JSON.parse(saved) : [];
   });
   
   const [activeProfileId, setActiveProfileId] = useState<string | null>(null);
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
-  const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
-  const [editingNotes, setEditingNotes] = useState('');
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -213,7 +203,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       position: { x: 0.50, y: 0.50, z: 0.50 },
       rotation: { x: 0.50, y: 0.50, z: 0.50 },
       scale: 0.50,
-      scaleHex: '#ffffff'
+      scaleHex: '#ffffff',
+      notes: ''
     };
   };
 
@@ -311,7 +302,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       const newProfile: SavedProfile = {
         id: `profile-${Date.now()}`,
         name: `Profile ${savedProfiles.length + 1}`,
-        notes: '',
         thumbnail: currentMainImage,
         mainImage: currentMainImage,
         settings: { ...imageSettings },
@@ -415,31 +405,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setEditingName('');
   };
 
-  const startEditingNotes = (profile: SavedProfile) => {
-    setEditingNotesId(profile.id);
-    setEditingNotes(profile.notes || '');
-  };
-
-  const saveProfileNotes = () => {
-    if (!editingNotesId) return;
-    setSavedProfiles(prev => prev.map(profile => 
-      profile.id === editingNotesId 
-        ? { ...profile, notes: editingNotes }
-        : profile
-    ));
-    setEditingNotesId(null);
-    setEditingNotes('');
-    toast({
-      title: "📝 Notes Updated!",
-      description: "Profile notes have been saved",
-    });
-  };
-
-  const cancelEditingNotes = () => {
-    setEditingNotesId(null);
-    setEditingNotes('');
-  };
-
   const copyToClipboard = (value: string | number, label: string) => {
     navigator.clipboard.writeText(value.toString());
     toast({
@@ -453,7 +418,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       position: { x: 0.50, y: 0.50, z: 0.50 },
       rotation: { x: 0.50, y: 0.50, z: 0.50 },
       scale: 0.50,
-      scaleHex: '#ffffff'
+      scaleHex: '#ffffff',
+      notes: ''
     };
     setImageSettings(prev => ({
       ...prev,
@@ -606,7 +572,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 ) : (
                   <div className="mt-1 flex items-center justify-center">
                     <p 
-                      className="text-xs text-pink-600 text-center truncate w-16 cursor-pointer hover:text-pink-600 font-bold"
+                      className="text-xs text-pink-600 text-center w-20 cursor-pointer hover:text-pink-600 font-bold break-words"
                       onClick={() => startEditingName(profile)}
                     >
                       {profile.name}
@@ -621,62 +587,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     </Button>
                   </div>
                 )}
-
-                {/* Profile Notes Section */}
-                <div className="mt-1 w-20">
-                  {editingNotesId === profile.id ? (
-                    <div className="flex flex-col gap-1">
-                      <textarea
-                        value={editingNotes}
-                        onChange={(e) => setEditingNotes(e.target.value)}
-                        className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 resize-none"
-                        rows={2}
-                        placeholder="Add notes..."
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault();
-                            saveProfileNotes();
-                          }
-                          if (e.key === 'Escape') cancelEditingNotes();
-                        }}
-                        autoFocus
-                      />
-                      <div className="flex justify-center gap-1">
-                        <Button
-                          onClick={saveProfileNotes}
-                          className="w-3 h-3 text-white rounded-full p-0"
-                          style={{ backgroundColor: '#ffb3d6' }}
-                          size="sm"
-                        >
-                          <Check className="w-2 h-2" />
-                        </Button>
-                        <Button
-                          onClick={cancelEditingNotes}
-                          className="w-3 h-3 text-white rounded-full p-0"
-                          style={{ backgroundColor: '#ffb3d6' }}
-                          size="sm"
-                        >
-                          <X className="w-2 h-2" />
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div 
-                      className="cursor-pointer hover:bg-pink-50 rounded p-1 transition-colors"
-                      onClick={() => startEditingNotes(profile)}
-                    >
-                      {profile.notes ? (
-                        <p className="text-xs text-pink-600 text-center truncate font-medium">
-                          {profile.notes}
-                        </p>
-                      ) : (
-                        <p className="text-xs text-pink-400 text-center italic">
-                          Click to add notes
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
 
                 {/* Action Buttons */}
                 <div className="absolute top-0.5 -right-0.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1012,10 +922,26 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
                                     />
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                               </div>
+                             </div>
+                           </div>
+                           
+                           {/* Notes Control */}
+                           <div>
+                             <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
+                             <div className="space-y-0">
+                               <textarea
+                                 className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
+                                 value={settings.notes || ''}
+                                 onChange={(e) => updateImageSettings(imageKey, { 
+                                   notes: e.target.value 
+                                 })}
+                                 placeholder="Add notes..."
+                                 rows={3}
+                               />
+                             </div>
+                           </div>
+                         </div>
                           
                         {/* Save and Clear Buttons */}
                         <div className="flex justify-between mt-1">
@@ -1237,9 +1163,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
                                  />
                              </div>
-                           </div>
-                        </div>
-                    </div>
+                         </div>
+                     </div>
+                     
+                     {/* Notes Control */}
+                     <div className="flex-1">
+                        <p className="font-bold text-pink-600 mb-1">Notes</p>
+                         <div className="flex gap-2 items-center">
+                            <textarea 
+                              className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
+                              value={settings.notes || ''}
+                              onChange={(e) => updateImageSettings(imageKey, { 
+                                notes: e.target.value 
+                              })}
+                              placeholder="Add notes..."
+                              rows={2}
+                            />
+                         </div>
+                     </div>
+                   </div>
                     
                     {/* Action Buttons */}
                     <div className="flex gap-2">
