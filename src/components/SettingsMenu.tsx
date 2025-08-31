@@ -92,7 +92,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            className="hover:bg-pink-100 text-pink-500 hover:text-pink-600"
+            className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+            style={{
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+            }}
           >
             <Settings className="w-4 h-4" />
           </Button>
