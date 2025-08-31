@@ -527,7 +527,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         boxShadow: 'var(--shadow-panel)'
       }}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-bold text-primary flex items-center gap-2">
+          <h3 className="text-lg font-bold theme-title-primary flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
            <div className="flex gap-2">
@@ -694,7 +694,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             ))}
           </div>
         ) : (
-          <p className="text-sm text-foreground text-center py-4 font-bold">
+          <p className="text-sm theme-text-muted text-center py-4 font-bold">
             No saved profiles yet. Click "New Profile" to get started!
           </p>
         )}
@@ -774,7 +774,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           borderColor: 'hsl(var(--overlay-border))',
           boxShadow: 'var(--shadow-panel)'
         }}>
-          <h3 className="text-base font-bold text-primary mb-2 flex items-center gap-2">
+          <h3 className="text-base font-bold theme-title-primary mb-2 flex items-center gap-2">
             <span>🎨</span> {(() => {
               if (activeProfileId) {
                 const currentProfile = savedProfiles.find(p => p.id === activeProfileId);

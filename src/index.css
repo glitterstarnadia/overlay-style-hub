@@ -179,8 +179,21 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
   color: hsl(var(--primary));
 }
 
-.theme-text-foreground {
-  color: hsl(var(--foreground));
+/* Custom theme-aware text colors */
+.theme-title-primary {
+  color: #ec4899; /* pink-600 for light mode */
+}
+
+.dark .theme-title-primary {
+  color: hsl(var(--primary)); /* primary color for dark mode */
+}
+
+.theme-text-muted {
+  color: #ec4899; /* pink-600 for light mode */
+}
+
+.dark .theme-text-muted {
+  color: hsl(var(--primary)); /* primary color for dark mode */
 }
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -329,7 +342,7 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
     --overlay-active: 330 81% 60%;
     
     /* Gradients - Light mode */
-    --gradient-primary: linear-gradient(135deg, hsl(330 81% 60%), hsl(270 80% 70%));
+    --gradient-primary: linear-gradient(135deg, hsl(330 81% 70%), hsl(270 80% 75%));
     --gradient-surface: linear-gradient(145deg, hsl(330 60% 95%), hsl(330 100% 98%));
     
     /* Shadows - Light mode */
