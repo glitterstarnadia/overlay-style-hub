@@ -206,7 +206,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   // Memoize section titles
   const getSectionTitle = useMemo(() => {
     const titles: Record<string, string> = {
-      hair: 'Hair', colours: 'Colours & Patterns', tops: 'Tops',
+      hair: 'Hair', colours: 'Colours', tops: 'Tops',
       dresses: 'Dresses', pants: 'Pants', shoes: 'Shoes', adjustments: 'Adjustments'
     };
     return (id: string) => titles[id] || id;
