@@ -663,7 +663,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       {currentMainImage && (
         <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-3 shadow-lg border border-pink-200 max-h-80 overflow-y-auto custom-scrollbar">
           <h3 className="text-base font-bold text-pink-600 mb-2 flex items-center gap-2">
-            <span>🎨</span> {activeProfileId ? savedProfiles.find(p => p.id === activeProfileId)?.name || 'Image Configuration' : 'Image Configuration'}
+            <span>🎨</span> {(() => {
+              if (activeProfileId) {
+                const currentProfile = savedProfiles.find(p => p.id === activeProfileId);
+                return currentProfile?.name || `Profile ${savedProfiles.findIndex(p => p.id === activeProfileId) + 1}`;
+              }
+              return 'New Configuration';
+            })()}
           </h3>
           
           <div className="flex gap-1">
