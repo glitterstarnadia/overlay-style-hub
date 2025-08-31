@@ -897,14 +897,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <div className="flex justify-between mt-1">
                           <Button
                             onClick={() => clearImageSettings(imageKey)}
-                            className="text-white px-2 py-0.5 text-xs font-bold"
+                            className="text-white px-1 py-0 text-xs font-bold"
                             style={{ backgroundColor: '#ffb3d6' }}
                           >
                             Clear
                           </Button>
                           <Button
                             onClick={() => saveImageSettings(imageKey)}
-                            className="text-white px-2 py-0.5 text-xs font-bold"
+                            className="text-white px-1 py-0 text-xs font-bold"
                             style={{ backgroundColor: '#ffb3d6' }}
                           >
                             Save
