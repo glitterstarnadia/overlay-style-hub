@@ -521,7 +521,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
       
       {/* Saved Profiles Section */}
-      <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-4 shadow-lg border border-pink-200 max-h-60 overflow-y-auto custom-scrollbar">
+      <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-4 shadow-lg border border-pink-200 max-h-96 overflow-y-auto custom-scrollbar">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-bold text-pink-600 flex items-center gap-2">
             <span>📁</span> Saved Profiles
@@ -568,7 +568,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <div key={profile.id} className="flex-shrink-0 relative group p-2">
                 <div 
                   className={cn(
-                    "w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-125",
+                    "w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110",
                     activeProfileId === profile.id 
                       ? "border-pink-400 ring-2 ring-pink-200" 
                       : "border-pink-200 hover:border-pink-400"
@@ -755,7 +755,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
-        <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-3 shadow-lg border border-pink-200 max-h-[400px] overflow-y-auto custom-scrollbar">
+        <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-4 shadow-lg border border-pink-200 max-h-[600px] overflow-y-auto custom-scrollbar">
           <h3 className="text-base font-bold text-pink-600 mb-2 flex items-center gap-2">
             <span>🎨</span> {(() => {
               if (activeProfileId) {
@@ -772,7 +772,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main image"
-                className="w-24 h-24 object-cover rounded-lg shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
+                className="w-32 h-32 object-cover rounded-lg shadow-md hover:scale-110 transition-transform duration-300 cursor-pointer"
                 style={{ 
                   imageRendering: 'auto', 
                   maxWidth: 'none',
@@ -797,7 +797,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  <img
                                    src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                                    alt={`Transform image ${index + 1}`}
-                                   className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                    className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
                                    style={{ 
                                      imageRendering: 'auto', 
                                      maxWidth: 'none',
@@ -805,8 +805,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    }}
                                  />
                                ) : (
-                                 <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                   <Upload className="w-5 h-5 text-pink-600" />
+                                  <div className="w-28 h-28 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                    <Upload className="w-7 h-7 text-pink-600" />
                                  </div>
                                )}
                                
@@ -828,7 +828,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    <img
                                      src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
                                      alt={`Second transform image ${index + 1}`}
-                                     className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
                                      style={{ 
                                        imageRendering: 'auto', 
                                        maxWidth: 'none',
@@ -836,8 +836,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      }}
                                    />
                                  ) : (
-                                   <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                     <Upload className="w-5 h-5 text-pink-600" />
+                                    <div className="w-28 h-28 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                      <Upload className="w-7 h-7 text-pink-600" />
                                    </div>
                                  )}
                                  
