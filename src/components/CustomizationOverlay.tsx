@@ -8,7 +8,7 @@ import MenuSparkles from './MenuSparkles';
 import SparkleTrail from './SparkleTrail';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import '../types/electron';
+import '../types/global';
 
 // Move localStorage access outside of render
 const getStoredValue = (key: string, defaultValue: any) => {

@@ -1,13 +1,5 @@
 import { useEffect, useCallback } from 'react';
-
-declare global {
-  interface Window {
-    electronAPI?: {
-      updateDiscordActivity: (details: string, state: string) => Promise<void>;
-      updateDiscordState: (state: string) => Promise<void>;
-    };
-  }
-}
+import '../types/global';
 
 export const useDiscordRPC = () => {
   const updateActivity = useCallback(async (details: string, state?: string) => {
