@@ -538,9 +538,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           
            {/* Content Area - Full Width with Proper Scrolling */}
           <div className="flex-1 min-h-0 relative z-10 flex flex-col">
-            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" data-sparkle-zone style={{ maxHeight: 'calc(100vh - 200px)' }}>
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" data-sparkle-zone style={{ height: '100%' }}>
               {/* Display all sections content */}
-              <div className="space-y-3 relative pb-4">
+              <div className="space-y-3 relative">
                 {sections.map((sectionId, index) => (
                   <div 
                     key={sectionId}
@@ -580,7 +580,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       <div 
         data-resize-handle
         className={cn(
-          "absolute bottom-2 right-2 w-8 h-8 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
+          "absolute bottom-1 right-1 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50",
           isResizing 
             ? "bg-pink-400/80 shadow-inner" 
             : "bg-gradient-to-br from-pink-400/60 to-pink-500/70 hover:from-pink-400/80 hover:to-pink-500/90 shadow-3d-resize"
@@ -594,7 +594,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           transform: isResizing ? 'scale(0.9)' : 'scale(1)'
         }}
       >
-        <div className="w-3 h-3 bg-pink-700 rounded-full shadow-sm" 
+        <div className="w-2 h-2 bg-pink-700 rounded-full shadow-sm" 
              style={{
                boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5)'
              }} />
