@@ -688,7 +688,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 const currentProfile = savedProfiles.find(p => p.id === activeProfileId);
                 return currentProfile?.name || `Profile ${savedProfiles.findIndex(p => p.id === activeProfileId) + 1}`;
               }
-              return 'New Configuration';
+              return 'New Profile';
             })()}
           </h3>
           
@@ -875,14 +875,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
                                      title="Click to copy value"
                                    />
-                                  <Heart 
-                                    className="w-5 h-5 flex-shrink-0" 
-                                    style={{ 
-                                      fill: settings.scaleHex || '#ffffff', 
-                                      stroke: '#ec4899', 
-                                      strokeWidth: 1 
-                                    }} 
-                                  />
+                                   <Heart 
+                                     className="w-6 h-6 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                     style={{ 
+                                       fill: settings.scaleHex || '#ffffff', 
+                                       stroke: '#ec4899', 
+                                       strokeWidth: 1 
+                                     }}
+                                     onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
+                                   />
                                 </div>
                               </div>
                             </div>
@@ -1083,14 +1084,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
                                   title="Click to copy value"
                                 />
-                               <Heart 
-                                 className="w-5 h-5 flex-shrink-0" 
-                                 style={{ 
-                                   fill: settings.scaleHex || '#ffffff', 
-                                   stroke: '#ec4899', 
-                                   strokeWidth: 1 
-                                 }} 
-                               />
+                                <Heart 
+                                  className="w-6 h-6 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                  style={{ 
+                                    fill: settings.scaleHex || '#ffffff', 
+                                    stroke: '#ec4899', 
+                                    strokeWidth: 1 
+                                  }}
+                                  onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
+                                />
                              </div>
                            </div>
                         </div>
