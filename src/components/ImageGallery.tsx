@@ -831,14 +831,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  </div>
                                )}
                                
-                               <Button
-                                 onClick={() => triggerTransformImageUpload(controlId)}
-                                 className="absolute -top-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
-                                 style={{ backgroundColor: '#ffb3d6' }}
-                                 size="sm"
-                                 title={`Upload image for Set ${index + 1}`}
-                               >
-                                 <Upload className="w-2 h-2" />
+                                <Button
+                                  onClick={() => triggerTransformImageUpload(controlId)}
+                                  className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                  size="sm"
+                                  title={`Upload image for Set ${index + 1}`}
+                                >
+                                  <Upload className="w-2 h-2" />
                                </Button>
                              </div>
                              
@@ -862,14 +861,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    </div>
                                  )}
                                  
-                                 <Button
-                                   onClick={() => triggerTransformImage2Upload(controlId)}
-                                   className="absolute -top-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
-                                   style={{ backgroundColor: '#ffb3d6' }}
-                                   size="sm"
-                                   title={`Upload second image for Set ${index + 1}`}
-                                 >
-                                   <Upload className="w-2 h-2" />
+                                  <Button
+                                    onClick={() => triggerTransformImage2Upload(controlId)}
+                                    className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                    size="sm"
+                                    title={`Upload second image for Set ${index + 1}`}
+                                  >
+                                    <Upload className="w-2 h-2" />
                                  </Button>
                                </div>
                              )}
@@ -880,14 +878,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <h4 className="text-xs font-bold theme-text-primary mb-1 flex items-center justify-between">
                           <div className="flex items-center gap-1">
                             <span>Set {index + 1}</span>
-                            <Button
-                              onClick={() => removeTransformControl(controlId)}
-                              className="w-3 h-3 text-white rounded-full p-0 hover:scale-110 transition-transform"
-                              style={{ backgroundColor: '#ffb3d6' }}
-                              size="sm"
-                              title={`Remove Set ${index + 1}`}
-                            >
-                              <X className="w-1.5 h-1.5" />
+             <Button
+               onClick={() => removeTransformControl(controlId)}
+               className="w-3 h-3 text-primary-foreground rounded-full p-0 hover:scale-110 transition-transform bg-primary hover:bg-primary/90"
+               size="sm"
+               title={`Remove Set ${index + 1}`}
+             >
+               <X className="w-1.5 h-1.5" />
                             </Button>
                           </div>
                         </h4>
@@ -1254,20 +1251,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           
                         {/* Save and Clear Buttons */}
                         <div className="flex justify-between mt-1">
-                          <Button
-                            onClick={() => clearImageSettings(imageKey)}
-                            className="text-white px-1 py-0 text-xs font-bold"
-                            style={{ backgroundColor: '#ffb3d6' }}
-                          >
-                            Clear
-                          </Button>
-                          <Button
-                            onClick={() => saveImageSettings(imageKey)}
-                            className="text-white px-1 py-0 text-xs font-bold"
-                            style={{ backgroundColor: '#ffb3d6' }}
-                          >
-                            Save
-                          </Button>
+                           <Button
+                             onClick={() => clearImageSettings(imageKey)}
+                             className="text-primary-foreground px-1 py-0 text-xs font-bold bg-primary hover:bg-primary/90"
+                           >
+                             Clear
+                           </Button>
+                           <Button
+                             onClick={() => saveImageSettings(imageKey)}
+                             className="text-primary-foreground px-1 py-0 text-xs font-bold bg-primary hover:bg-primary/90"
+                           >
+                             Save
+                           </Button>
                         </div>
                       </div>
                     </div>
@@ -1279,13 +1274,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           
           {/* Add Transform Control Button */}
           <div className="mt-2 flex justify-center">
-            <Button
-              onClick={addTransformControl}
-              className="text-white px-3 py-1 text-xs font-bold"
-              style={{ backgroundColor: '#ffb3d6' }}
-            >
-              <Plus className="w-3 h-3 text-white mr-1" /> Add
-            </Button>
+             <Button
+               onClick={addTransformControl}
+               className="text-primary-foreground px-3 py-1 text-xs font-bold bg-primary hover:bg-primary/90"
+             >
+               <Plus className="w-3 h-3 text-primary-foreground mr-1" /> Add
+             </Button>
           </div>
         </div>
       )}
@@ -1321,8 +1315,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       e.stopPropagation();
                       triggerThumbnailUpload(index);
                     }}
-                    className="absolute -bottom-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm"
-                    style={{ backgroundColor: '#ffb3d6' }}
+                     className="absolute -bottom-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm bg-primary hover:bg-primary/90"
                     size="sm"
                   >
                     <Upload className="w-2 h-2" />
@@ -1494,24 +1487,22 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        onClick={() => saveImageSettings(imageKey)}
-                         className="text-white px-3 py-1 text-xs font-bold"
-                        style={{ backgroundColor: '#ffb3d6' }}
-                      >
-                        <Save className="w-3 h-3 mr-1" />
-                        Save
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => clearImageSettings(imageKey)}
-                        className="text-white px-3 py-1 text-xs font-bold"
-                        style={{ backgroundColor: '#ffb3d6' }}
-                      >
-                        <RotateCcw className="w-3 h-3 mr-1" />
-                        Clear
-                      </Button>
+                       <Button
+                         size="sm"
+                         onClick={() => saveImageSettings(imageKey)}
+                          className="text-primary-foreground px-3 py-1 text-xs font-bold bg-primary hover:bg-primary/90"
+                       >
+                         <Save className="w-3 h-3 mr-1" />
+                         Save
+                       </Button>
+                       <Button
+                         size="sm"
+                         onClick={() => clearImageSettings(imageKey)}
+                         className="text-primary-foreground px-3 py-1 text-xs font-bold bg-primary hover:bg-primary/90"
+                       >
+                         <RotateCcw className="w-3 h-3 mr-1" />
+                         Clear
+                       </Button>
                     </div>
                   </div>
                 </div>

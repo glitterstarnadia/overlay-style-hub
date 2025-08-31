@@ -122,7 +122,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   return (
     <div 
       className={cn(
-        "border-2 rounded-lg overflow-visible transition-[border-color,box-shadow,transform] duration-200 ease-out transform-gpu relative bg-overlay-surface border-overlay-border shadow-panel",
+        "rounded-lg overflow-visible transition-[border-color,box-shadow,transform] duration-200 ease-out transform-gpu relative bg-overlay-surface shadow-panel",
         isCollapsed 
           ? "hover:shadow-glow" 
           : "shadow-panel",
@@ -131,7 +131,6 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
       )}
       style={{
         backgroundColor: 'hsl(var(--overlay-surface))',
-        borderColor: 'hsl(var(--overlay-border))',
         boxShadow: isCollapsed 
           ? 'var(--shadow-panel)' 
           : 'var(--shadow-panel)',
@@ -150,13 +149,12 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
     >
       {/* Header */}
       <div className={cn(
-        "p-2 border-b-2 flex items-center justify-between border-overlay-border",
+        "p-2 flex items-center justify-between",
         isCollapsed 
           ? "py-1 bg-overlay-surface" 
           : "py-2 bg-overlay-surface"
       )} style={{
-        backgroundColor: 'hsl(var(--overlay-surface))',
-        borderBottomColor: 'hsl(var(--overlay-border))'
+        backgroundColor: 'hsl(var(--overlay-surface))'
       }}>
         <div className="flex items-center gap-2 group">
           <div 
