@@ -72,20 +72,16 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-surface': 'var(--gradient-surface)',
-				'gradient-ornate': 'var(--gradient-ornate)',
-				'gradient-border': 'var(--gradient-border)'
+				'gradient-surface': 'var(--gradient-surface)'
 			},
 			boxShadow: {
 				'overlay': 'var(--shadow-overlay)',
 				'panel': 'var(--shadow-panel)',
-				'glow': 'var(--shadow-glow)',
-				'ornate': 'var(--shadow-ornate)'
+				'glow': 'var(--shadow-glow)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--ease-smooth)',
-				'bounce': 'var(--ease-bounce)',
-				'dramatic': 'var(--ease-dramatic)'
+				'bounce': 'var(--ease-bounce)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -111,8 +107,6 @@ export default {
 				}
 			},
 			animation: {
-				'ornate-border': 'ornate-border 8s ease-in-out infinite',
-				'shimmer': 'shimmer 3s ease-in-out infinite',
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
 			}

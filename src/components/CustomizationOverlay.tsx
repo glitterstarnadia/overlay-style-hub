@@ -467,21 +467,16 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       opacity: opacity / 100
     }} onMouseDown={handleMouseDown}>
       {/* Main Card Container */}
-      <Card className={cn(
-        "w-full h-full relative magic-cursor transform-gpu overflow-hidden ornate-panel decorative-corners", 
-        isDragging || isResizing 
-          ? "bg-gradient-ornate border-4 border-primary/60 shadow-glow animate-shimmer" 
-          : "bg-gradient-ornate backdrop-blur-lg border-4 border-primary/40 shadow-ornate"
-      )}>
-        {/* Ornate Inner Frame with animated border */}
-        <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/10 to-transparent border border-primary/20 pointer-events-none ornate-border" />
+      <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+        {/* 3D Inner Frame */}
+        <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
         
         {/* Header */}
         <div 
           data-drag-handle 
-          className="flex items-center justify-between p-4 border-b-4 border-primary/30 cursor-move relative ornate-header shimmer-effect" 
+          className="flex items-center justify-between p-4 border-b-4 border-white cursor-move relative gradient-cycle shadow-inner-3d" 
           style={{ 
-            background: 'var(--gradient-primary)',
+            background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
             backgroundSize: '400% 400%',
             boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.2)'
           }}
@@ -489,19 +484,18 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <MenuSparkles />
           <div className="flex items-center gap-2 relative z-10">
             <Move className="w-4 h-4 text-white drop-shadow-md" />
-            <h2 className="text-lg font-semibold text-white drop-shadow-md flex items-center gap-2">
-              <span className="animate-pulse">✨</span>
-              Character Customization
-              <span className="animate-pulse">✨</span>
-            </h2>
+            <h2 className="text-lg font-semibold text-white drop-shadow-md">Menu</h2>
           </div>
           <div className="flex items-center gap-2 relative z-10">
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleAllSections}
-              className="ornate-button text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-300 ease-dramatic hover:shadow-glow"
+              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
               title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
+              style={{
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
             >
               {allCollapsed ? (
                 <ChevronDown className="w-4 h-4" />
@@ -528,7 +522,10 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={handleClose} 
-              className="ornate-button text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-300 ease-dramatic hover:rotate-90 hover:shadow-glow"
+              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+              style={{
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
             >
               <X className="w-4 h-4" />
             </Button>
@@ -537,27 +534,27 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
         {/* Content */}
         <div className="flex h-full relative">
-          {/* Ornate Content Background */}
-          <div className="absolute inset-0 bg-gradient-surface rounded-b-lg ornate-panel" 
+          {/* 3D Content Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-25/50 to-purple-50/50 rounded-b-lg" 
                style={{
-                 boxShadow: 'inset 0 4px 8px hsl(var(--overlay-bg) / 0.2), inset 0 -2px 4px hsl(var(--primary) / 0.1)'
+                 boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
                }} />
           
           {/* Content Area - Full Width */}
           <div className="flex-1 min-h-0 p-4 relative z-10">
-            <div className="h-full overflow-y-auto ornate-scrollbar">
+            <div className="h-full overflow-y-auto custom-scrollbar-3d">
               {/* Display all sections content */}
               <div className="space-y-3 relative">
                 {sections.map((sectionId, index) => (
                   <div 
                     key={sectionId}
                     className={cn(
-                      "transform hover:scale-[1.02] transition-all duration-300 ease-dramatic relative ornate-border",
-                      draggedSection === sectionId && "z-50 scale-105 shadow-glow",
-                      dragOverSection === sectionId && "z-40 scale-102 shadow-ornate"
+                      "transform hover:scale-[1.02] transition-all duration-300 relative",
+                      draggedSection === sectionId && "z-50 scale-105",
+                      dragOverSection === sectionId && "z-40 scale-102"
                     )}
                     style={{
-                      filter: 'drop-shadow(0 4px 6px hsl(var(--overlay-bg) / 0.3))',
+                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
                       zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10
                     }}
                   >

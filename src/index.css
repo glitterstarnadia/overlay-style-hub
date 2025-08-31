@@ -49,39 +49,11 @@ button, input, textarea, select, a {
   cursor: url('/magic-wand-cursor.png') 16 16, auto;
 }
 
-/* Ornate Background Animations */
+/* Background Animation */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-@keyframes ornate-border {
-  0% { 
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg) brightness(1);
-  }
-  25% { 
-    background-position: 25% 25%;
-    filter: hue-rotate(15deg) brightness(1.1);
-  }
-  50% { 
-    background-position: 100% 50%;
-    filter: hue-rotate(30deg) brightness(1.2);
-  }
-  75% { 
-    background-position: 75% 75%;
-    filter: hue-rotate(15deg) brightness(1.1);
-  }
-  100% { 
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg) brightness(1);
-  }
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%) skewX(-15deg); }
-  100% { transform: translateX(200%) skewX(-15deg); }
 }
 
 /* 3D Effects */
@@ -262,150 +234,7 @@ button, input, textarea, select, a {
   z-index: 9999;
 }
 
-/* Ornate Border and Decorative Elements */
-.ornate-border {
-  position: relative;
-  overflow: visible;
-}
-
-.ornate-border::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  padding: 4px;
-  background: var(--gradient-border);
-  background-size: 400% 400%;
-  border-radius: inherit;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
-  animation: ornate-border 8s ease-in-out infinite;
-  z-index: -1;
-}
-
-.ornate-panel {
-  background: var(--gradient-ornate);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  overflow: hidden;
-}
-
-.ornate-panel::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: var(--gradient-border);
-  background-size: 400% 400%;
-  border-radius: inherit;
-  z-index: -1;
-  animation: ornate-border 6s ease-in-out infinite;
-}
-
-.shimmer-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer-effect::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    hsl(320 85% 65% / 0.4),
-    transparent
-  );
-  animation: shimmer 3s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.ornate-header {
-  background: var(--gradient-primary);
-  background-size: 200% 200%;
-  animation: gradient-cycle 8s ease infinite;
-}
-
-/* Ornate Decorative Corners */
-.decorative-corners {
-  position: relative;
-}
-
-.decorative-corners::before,
-.decorative-corners::after {
-  content: '✦';
-  position: absolute;
-  font-size: 0.75rem;
-  color: hsl(var(--primary));
-  text-shadow: 0 0 10px hsl(var(--primary) / 0.8);
-  animation: sparkle-dance 4s ease-in-out infinite;
-}
-
-.decorative-corners::before {
-  top: -8px;
-  left: -8px;
-}
-
-.decorative-corners::after {
-  bottom: -8px;
-  right: -8px;
-  animation-delay: 2s;
-}
-
-/* Ornate Button Styles */
-.ornate-button {
-  background: var(--gradient-primary);
-  background-size: 200% 200%;
-  border: 1px solid hsl(var(--primary) / 0.5);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s var(--ease-dramatic);
-}
-
-.ornate-button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, transparent 30%, hsl(320 85% 65% / 0.3) 50%, transparent 70%);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-
-.ornate-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
-  background-position: 100% 0;
-}
-
-.ornate-button:hover::before {
-  transform: translateX(100%);
-}
-
-.ornate-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary)) hsl(var(--overlay-surface));
-}
-
-.ornate-scrollbar::-webkit-scrollbar {
-  width: 10px;
-}
-
-.ornate-scrollbar::-webkit-scrollbar-track {
-  background: var(--gradient-surface);
-  border-radius: 8px;
-  box-shadow: inset 0 2px 4px hsl(320 40% 8% / 0.5);
-}
-
-.ornate-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--gradient-primary);
-  background-size: 200% 200%;
-  border-radius: 8px;
-  border: 1px solid hsl(var(--primary) / 0.3);
-  animation: gradient-cycle 6s ease infinite;
-}
+/* Character Customization Overlay Design System */
 
 @layer base {
   :root {
@@ -419,51 +248,47 @@ button, input, textarea, select, a {
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     
-    /* Dramatic Ornate Colors */
-    --primary: 320 85% 65%;
+    /* Vibrant accent colors */
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 98%;
     
-    --secondary: 330 60% 50%;
+    --secondary: 240 4.8% 15.9%;
     --secondary-foreground: 0 0% 98%;
     
-    --muted: 315 25% 25%;
-    --muted-foreground: 315 15% 70%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
     
-    --accent: 310 80% 60%;
+    --accent: 240 4.8% 15.9%;
     --accent-foreground: 0 0% 98%;
     
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 320 30% 30%;
-    --input: 315 25% 20%;
-    --ring: 320 85% 65%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 262 83% 58%;
     
-    --radius: 1rem;
+    --radius: 0.75rem;
     
-    /* Ornate Overlay Colors */
-    --overlay-bg: 320 40% 8%;
-    --overlay-surface: 315 35% 12%;
-    --overlay-border: 320 50% 40%;
-    --overlay-hover: 315 40% 18%;
-    --overlay-active: 320 85% 65%;
+    /* Custom overlay colors */
+    --overlay-bg: 240 10% 3.9%;
+    --overlay-surface: 240 8% 8%;
+    --overlay-border: 240 6% 20%;
+    --overlay-hover: 240 6% 12%;
+    --overlay-active: 262 83% 58%;
     
-    /* Dramatic Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(320 85% 65%), hsl(340 90% 70%), hsl(280 80% 60%));
-    --gradient-surface: linear-gradient(145deg, hsl(315 35% 12%), hsl(320 40% 8%), hsl(310 30% 10%));
-    --gradient-ornate: radial-gradient(ellipse at center, hsl(320 60% 25%), hsl(315 50% 15%), hsl(310 40% 8%));
-    --gradient-border: linear-gradient(90deg, hsl(320 85% 65%), hsl(340 90% 70%), hsl(300 80% 60%), hsl(320 85% 65%));
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(292 84% 61%));
+    --gradient-surface: linear-gradient(145deg, hsl(240 8% 8%), hsl(240 6% 6%));
     
-    /* Ornate Shadows & Effects */
-    --shadow-overlay: 0 30px 60px -12px hsl(320 40% 8% / 0.9), 0 0 40px hsl(320 85% 65% / 0.15);
-    --shadow-panel: 0 15px 35px -10px hsl(315 35% 12% / 0.8), 0 0 25px hsl(320 85% 65% / 0.1);
-    --shadow-glow: 0 0 30px hsl(320 85% 65% / 0.4), 0 0 60px hsl(340 90% 70% / 0.2);
-    --shadow-ornate: 0 8px 32px hsl(320 40% 8% / 0.6), inset 0 1px 0 hsl(320 85% 65% / 0.2), inset 0 -1px 0 hsl(320 40% 20%);
+    /* Shadows */
+    --shadow-overlay: 0 25px 50px -12px hsl(240 10% 3.9% / 0.8);
+    --shadow-panel: 0 10px 30px -10px hsl(240 10% 3.9% / 0.6);
+    --shadow-glow: 0 0 20px hsl(262 83% 58% / 0.3);
     
     /* Animation curves */
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --ease-dramatic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     --sidebar-background: 0 0% 98%;
 
