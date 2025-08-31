@@ -55,7 +55,8 @@ const SparkleTrail: React.FC<SparkleTrailProps> = ({ containerRef }) => {
         e.clientY >= rect.top && 
         e.clientY <= rect.bottom;
       
-      if (isWithinContainer && Math.random() < 0.3) {
+      if (isWithinContainer && Math.random() < 0.4) {
+        // Use global coordinates for sparkle positioning since they're fixed positioned
         const newSparkle = createSparkle(e.clientX, e.clientY);
         setSparkles(prev => [...prev, newSparkle]);
       }
@@ -73,7 +74,8 @@ const SparkleTrail: React.FC<SparkleTrailProps> = ({ containerRef }) => {
         e.clientY <= rect.bottom;
       
       if (isWithinContainer) {
-        const newSparkles = Array.from({ length: 8 }, () => 
+        // Use global coordinates for sparkle positioning since they're fixed positioned
+        const newSparkles = Array.from({ length: 12 }, () => 
           createSparkle(e.clientX, e.clientY, true)
         );
         setSparkles(prev => [...prev, ...newSparkles]);
