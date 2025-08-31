@@ -181,19 +181,11 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
 
 /* Custom theme-aware text colors */
 .theme-title-primary {
-  color: #ec4899; /* pink-600 for light mode */
-}
-
-.dark .theme-title-primary {
-  color: hsl(var(--primary)); /* primary color for dark mode */
+  color: hsl(var(--primary));
 }
 
 .theme-text-muted {
-  color: #ec4899; /* pink-600 for light mode */
-}
-
-.dark .theme-text-muted {
-  color: hsl(var(--primary)); /* primary color for dark mode */
+  color: hsl(var(--primary));
 }
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
