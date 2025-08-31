@@ -233,6 +233,30 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
+  const removeTransformControl = (controlId: string) => {
+    // Don't allow removing the last set
+    if (transformControls.length <= 1) {
+      toast({
+        title: "❌ Cannot Remove",
+        description: "At least one set is required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setTransformControls(prev => prev.filter(id => id !== controlId));
+    // Clean up transform image for the removed control
+    setTransformImages(prev => {
+      const newImages = { ...prev };
+      delete newImages[controlId];
+      return newImages;
+    });
+    toast({
+      title: "🗑️ Set Removed!",
+      description: "Transform control set deleted",
+    });
+  };
+
   const saveProfile = () => {
     if (!currentMainImage) {
       toast({
@@ -691,7 +715,18 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 return (
                   <div key={controlId} className="p-0.5 bg-white/80 rounded-lg border border-pink-200">
                     <h4 className="text-xs font-bold text-pink-600 mb-0.5 flex items-center justify-between">
-                      <span>Set {index + 1}</span>
+                      <div className="flex items-center gap-1">
+                        <span>Set {index + 1}</span>
+                        <Button
+                          onClick={() => removeTransformControl(controlId)}
+                          className="w-3 h-3 text-white rounded-full p-0 hover:scale-110 transition-transform"
+                          style={{ backgroundColor: '#ffb3d6' }}
+                          size="sm"
+                          title={`Remove Set ${index + 1}`}
+                        >
+                          <X className="w-1.5 h-1.5" />
+                        </Button>
+                      </div>
                       <div className="flex items-center gap-1">
                         {/* Image Upload for each Transform Set */}
                         <div className="flex-shrink-0">
