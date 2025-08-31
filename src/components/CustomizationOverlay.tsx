@@ -665,13 +665,14 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                   <div 
                     key={sectionId}
                     className={cn(
-                      "transform hover:scale-[1.02] transition-all duration-300 relative",
+                      "relative transition-transform duration-150 ease-out",
+                      "hover:scale-[1.01]",
                       draggedSection === sectionId && "z-50 scale-105",
-                      dragOverSection === sectionId && "z-40 scale-102"
+                      dragOverSection === sectionId && "z-40 scale-[1.02]"
                     )}
                     style={{
-                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
-                      zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10
+                      zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10,
+                      filter: draggedSection === sectionId ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))' : 'none'
                     }}
                   >
                     <SectionPanel 

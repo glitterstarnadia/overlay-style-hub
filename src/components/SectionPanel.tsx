@@ -122,12 +122,12 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   return (
     <div 
       className={cn(
-        "border-2 rounded-lg overflow-visible transition-all duration-300 transform-gpu relative bg-overlay-surface border-overlay-border shadow-panel",
+        "border-2 rounded-lg overflow-visible transition-[border-color,box-shadow,transform] duration-200 ease-out transform-gpu relative bg-overlay-surface border-overlay-border shadow-panel",
         isCollapsed 
           ? "hover:shadow-glow" 
           : "shadow-panel",
         isDragging && "rotate-2 scale-105 shadow-glow border-overlay-active z-50",
-        isDragOver && "ring-2 ring-overlay-active ring-opacity-50 scale-102 z-40"
+        isDragOver && "ring-2 ring-overlay-active ring-opacity-50 scale-[1.02] z-40"
       )}
       style={{
         backgroundColor: 'hsl(var(--overlay-surface))',
@@ -176,7 +176,8 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
             style={{ fill: 'hsl(var(--primary))', color: 'hsl(var(--primary))' }}
           />
           <h3 className={cn(
-            "font-bold transition-all duration-200 group-hover:scale-110 group-hover:text-primary",
+            "font-bold transition-[color,transform] duration-150 ease-out",
+            "group-hover:scale-105 group-hover:text-primary",
             isCollapsed ? "text-sm text-primary" : "text-lg text-primary"
           )}>{sectionTitle}</h3>
         </div>
@@ -198,9 +199,9 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
 
       {/* Content */}
       <div className={cn(
-        "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden transform-gpu",
+        "transition-[max-height,opacity,transform] duration-200 ease-out overflow-hidden transform-gpu",
         isCollapsed 
-          ? "max-h-0 opacity-0 scale-y-95 -translate-y-2" 
+          ? "max-h-0 opacity-0 scale-y-95 -translate-y-1" 
           : "max-h-[75vh] opacity-100 scale-y-100 translate-y-0"
       )}>
         <div className="p-4 h-full overflow-y-auto custom-scrollbar">
@@ -215,3 +216,5 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
     </div>
   );
 };
+
+export default React.memo(SectionPanel);
