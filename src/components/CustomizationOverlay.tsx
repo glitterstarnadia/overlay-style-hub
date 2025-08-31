@@ -63,6 +63,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const [allCollapsed, setAllCollapsed] = useState(false);
+  const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
   const [sections, setSections] = useState<string[]>(initialSections);
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -88,11 +89,10 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
   }, []);
 
-  // Custom close handler that resets alwaysOnTop
-  const handleClose = useCallback(() => {
-    setAlwaysOnTop(false);
-    onToggle();
-  }, [onToggle]);
+  // Toggle menu collapse instead of closing
+  const handleToggleCollapse = useCallback(() => {
+    setIsMenuCollapsed(prev => !prev);
+  }, []);
 
   const overlayRef = useRef<HTMLDivElement>(null);
   
@@ -464,7 +464,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       {/* Sparkle Trail Effects */}
       <SparkleTrail />
       {/* Main Card Container */}
-      <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
+      <Card className={cn("w-full relative magic-cursor transform-gpu overflow-hidden transition-all duration-300", isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")} style={{ height: isMenuCollapsed ? 'auto' : '100%' }}>
         
         {/* Header */}
         <div 
@@ -478,7 +478,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           <MenuSparkles />
           <div className="flex items-center gap-2 relative z-10">
             <Settings className="w-4 h-4 text-white drop-shadow-md" />
-            <h2 className="text-lg font-semibold text-white drop-shadow-md">Character Customization</h2>
+            <h2 className="text-lg font-semibold text-white drop-shadow-md">Nadia&apos;s Menu</h2>
           </div>
           <div className="flex items-center gap-2 relative z-10">
             <Button
@@ -515,8 +515,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             <Button 
               variant="ghost" 
               size="sm" 
-              onClick={handleClose} 
+              onClick={handleToggleCollapse} 
               className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+              title={isMenuCollapsed ? "Expand Menu" : "Collapse Menu"}
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
               }}
@@ -525,8 +526,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             </Button>
           </div>
         </div>
-
-        {/* Content */}
+        
+        {/* Content - Hidden when collapsed */}
+        {!isMenuCollapsed && (
         <div className="flex h-full relative">
           
           {/* Content Area - Full Width */}
@@ -582,6 +584,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             </div>
           </div>
         </div>
+        )}
         
       </Card>
       
