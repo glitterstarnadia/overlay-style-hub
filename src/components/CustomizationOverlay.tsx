@@ -68,8 +68,10 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [draggedSection, setDraggedSection] = useState<string | null>(null);
   const [dragOverSection, setDragOverSection] = useState<string | null>(null);
@@ -89,12 +91,38 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
   }, []);
 
-  // Toggle menu collapse instead of closing
+  // Toggle menu collapse and resize window
   const handleToggleCollapse = useCallback(() => {
-    setIsMenuCollapsed(prev => !prev);
-  }, []);
+    const newCollapsed = !isMenuCollapsed;
+    setIsMenuCollapsed(newCollapsed);
+    
+    // Resize window based on collapse state
+    if (newCollapsed) {
+      // Collapsed: resize to just hotbar height (approximately 80px)
+      const newSize = { width: size.width, height: 80 };
+      setSize(newSize);
+      onSizeChange?.(newSize);
+    } else {
+      // Expanded: resize back to full screen
+      const newSize = { width: window.innerWidth, height: window.innerHeight };
+      setSize(newSize);
+      onSizeChange?.(newSize);
+    }
+  }, [isMenuCollapsed, size.width, onSizeChange]);
 
   const overlayRef = useRef<HTMLDivElement>(null);
+  
+  // Handle dragging the hotbar
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only start dragging when clicking on the header/hotbar
+    if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
+    }
+  }, [position.x, position.y]);
   
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -151,16 +179,18 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }, []);
   const resetPositionAndSize = useCallback(() => {
     const newPosition = { x: 0, y: 0 };
-    const newSize = { width: window.innerWidth, height: window.innerHeight };
+    const newSize = isMenuCollapsed 
+      ? { width: window.innerWidth, height: 80 }
+      : { width: window.innerWidth, height: window.innerHeight };
     setPosition(newPosition);
     setSize(newSize);
     onPositionChange?.(newPosition);
     onSizeChange?.(newSize);
     toast({
       title: "Window Reset",
-      description: "Position and size have been reset to fullscreen."
+      description: "Position and size have been reset."
     });
-  }, [onPositionChange, onSizeChange, toast]);
+  }, [onPositionChange, onSizeChange, toast, isMenuCollapsed]);
   const exportConfiguration = useCallback(() => {
     const config = {
       selectedColor,
@@ -374,17 +404,19 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     setDragOverSection(null);
   };
 
-  // Add window resize listener to keep menu fullscreen
+  // Add window resize listener to keep menu responsive
   useEffect(() => {
     const handleResize = () => {
-      const newSize = { width: window.innerWidth, height: window.innerHeight };
-      setSize(newSize);
-      onSizeChange?.(newSize);
+      if (!isMenuCollapsed) {
+        const newSize = { width: window.innerWidth, height: window.innerHeight };
+        setSize(newSize);
+        onSizeChange?.(newSize);
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [onSizeChange]);
+  }, [onSizeChange, isMenuCollapsed]);
   useEffect(() => {
     localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
   }, [opacity, pageKey]);
@@ -405,12 +437,20 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     let animationId: number;
     
     const handleMouseMove = (e: MouseEvent) => {
-      if (isResizing) {
+      if (isDragging || isResizing) {
         if (animationId) {
           cancelAnimationFrame(animationId);
         }
         
         animationId = requestAnimationFrame(() => {
+          if (isDragging) {
+            const newPosition = {
+              x: e.clientX - dragStart.x,
+              y: e.clientY - dragStart.y
+            };
+            setPosition(newPosition);
+            onPositionChange?.(newPosition);
+          }
           if (isResizing) {
             const newWidth = Math.max(400, resizeStart.width + (e.clientX - resizeStart.x));
             const newHeight = Math.max(300, resizeStart.height + (e.clientY - resizeStart.y));
@@ -429,10 +469,11 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
+      setIsDragging(false);
       setIsResizing(false);
     };
     
-    if (isResizing) {
+    if (isDragging || isResizing) {
       document.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseup', handleMouseUp);
     }
@@ -444,7 +485,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         cancelAnimationFrame(animationId);
       }
     };
-  }, [isResizing, resizeStart, onSizeChange]);
+  }, [isDragging, isResizing, dragStart, resizeStart, onPositionChange, onSizeChange]);
   if (!isVisible) {
     return null; // Don't show any button when overlay is hidden
   }
@@ -460,15 +501,17 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         zIndex: alwaysOnTop ? 9999 : 50,
         opacity: opacity / 100
       }} 
+      onMouseDown={handleMouseDown}
     >
       {/* Sparkle Trail Effects */}
       <SparkleTrail />
       {/* Main Card Container */}
-      <Card className={cn("w-full relative magic-cursor transform-gpu overflow-hidden transition-all duration-300", isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")} style={{ height: isMenuCollapsed ? 'auto' : '100%' }}>
+      <Card className={cn("w-full relative magic-cursor transform-gpu overflow-hidden transition-all duration-300", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")} style={{ height: isMenuCollapsed ? 'auto' : '100%' }}>
         
-        {/* Header */}
+        {/* Header - Draggable hotbar */}
         <div 
-          className="flex items-center justify-between p-4 border-b-4 border-white relative gradient-cycle shadow-inner-3d" 
+          data-drag-handle
+          className="flex items-center justify-between p-4 border-b-4 border-white relative gradient-cycle shadow-inner-3d cursor-move"
           style={{ 
             background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
             backgroundSize: '400% 400%',
