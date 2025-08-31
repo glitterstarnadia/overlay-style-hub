@@ -589,11 +589,11 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                  boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
                }} />
           
-          {/* Content Area - Full Width */}
-          <div className="flex-1 min-h-0 p-4 relative z-10">
-            <div className="h-full overflow-y-auto custom-scrollbar-3d">
+          {/* Content Area - Full Width with Proper Scrolling */}
+          <div className="flex-1 min-h-0 relative z-10 flex flex-col">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" style={{ maxHeight: 'calc(100vh - 200px)' }}>
               {/* Display all sections content */}
-              <div className="space-y-3 relative">
+              <div className="space-y-3 relative pb-4">
                 {sections.map((sectionId, index) => (
                   <div 
                     key={sectionId}

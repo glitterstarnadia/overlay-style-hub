@@ -101,22 +101,24 @@ button, input, textarea, select, a {
 }
 
 .custom-scrollbar-3d {
-  overflow: visible !important;
+  scrollbar-width: thin;
+  scrollbar-color: #ff99cc rgba(255, 255, 255, 0.1);
 }
 
 .custom-scrollbar-3d::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 .custom-scrollbar-3d::-webkit-scrollbar-track {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.05));
-  border-radius: 4px;
+  border-radius: 6px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .custom-scrollbar-3d::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #ff99cc, #b399ff);
-  border-radius: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.3);
