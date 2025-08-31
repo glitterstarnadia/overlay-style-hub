@@ -12,7 +12,11 @@ interface Sparkle {
   maxLife: number;
 }
 
-const SparkleTrail: React.FC = () => {
+interface SparkleTrailProps {
+  containerRef?: React.RefObject<HTMLElement>;
+}
+
+const SparkleTrail: React.FC<SparkleTrailProps> = ({ containerRef }) => {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
 
   const colors = ['#ff69b4', '#ffc0cb', '#da70d6', '#ba55d3', '#9370db', '#ffffff', '#ffb3d6', '#f8bbd9'];
@@ -42,19 +46,40 @@ const SparkleTrail: React.FC = () => {
   }, []);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (Math.random() < 0.3) { // 30% chance to create sparkle on mouse move
-      const newSparkle = createSparkle(e.clientX, e.clientY);
-      setSparkles(prev => [...prev, newSparkle]);
+    // Only create sparkles if mouse is within the container
+    if (containerRef?.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const isWithinContainer = 
+        e.clientX >= rect.left && 
+        e.clientX <= rect.right && 
+        e.clientY >= rect.top && 
+        e.clientY <= rect.bottom;
+      
+      if (isWithinContainer && Math.random() < 0.3) {
+        const newSparkle = createSparkle(e.clientX, e.clientY);
+        setSparkles(prev => [...prev, newSparkle]);
+      }
     }
-  }, [createSparkle]);
+  }, [createSparkle, containerRef]);
 
   const handleClick = useCallback((e: MouseEvent) => {
-    // Create burst of sparkles on click
-    const newSparkles = Array.from({ length: 8 }, () => 
-      createSparkle(e.clientX, e.clientY, true)
-    );
-    setSparkles(prev => [...prev, ...newSparkles]);
-  }, [createSparkle]);
+    // Only create sparkles if click is within the container
+    if (containerRef?.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const isWithinContainer = 
+        e.clientX >= rect.left && 
+        e.clientX <= rect.right && 
+        e.clientY >= rect.top && 
+        e.clientY <= rect.bottom;
+      
+      if (isWithinContainer) {
+        const newSparkles = Array.from({ length: 8 }, () => 
+          createSparkle(e.clientX, e.clientY, true)
+        );
+        setSparkles(prev => [...prev, ...newSparkles]);
+      }
+    }
+  }, [createSparkle, containerRef]);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);

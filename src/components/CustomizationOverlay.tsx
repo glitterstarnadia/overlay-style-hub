@@ -485,7 +485,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       onMouseDown={handleMouseDown}
     >
       {/* Sparkle Trail Effects */}
-      <SparkleTrail />
+      <SparkleTrail containerRef={overlayRef} />
       {/* Main Card Container */}
       <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
