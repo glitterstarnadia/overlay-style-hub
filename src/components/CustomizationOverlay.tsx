@@ -515,15 +515,23 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           style={{ 
             background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
             backgroundSize: '400% 400%',
-            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.2)'
-          }}
+            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.2)',
+            // @ts-ignore - Electron specific property
+            WebkitAppRegion: 'drag'
+          } as any}
         >
           <MenuSparkles />
-          <div className="flex items-center gap-2 relative z-10">
+          <div className="flex items-center gap-2 relative z-10" style={{ 
+            // @ts-ignore - Electron specific property
+            WebkitAppRegion: 'no-drag' 
+          } as any}>
             <Settings className="w-4 h-4 text-white drop-shadow-md" />
             <h2 className="text-lg font-semibold text-white drop-shadow-md">Nadia&apos;s Menu</h2>
           </div>
-          <div className="flex items-center gap-2 relative z-10">
+          <div className="flex items-center gap-2 relative z-10" style={{ 
+            // @ts-ignore - Electron specific property
+            WebkitAppRegion: 'no-drag' 
+          } as any}>
             <Button
               variant="ghost"
               size="sm"
@@ -574,9 +582,14 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         {!isMenuCollapsed && (
         <div className="flex h-full relative">
           
+          {/* Scroll bar on the left */}
+          <div className="w-4 bg-gradient-to-b from-pink-200/50 to-purple-200/50 border-r-2 border-white/30 relative">
+            <div className="absolute inset-1 bg-gradient-to-b from-pink-300/60 to-purple-300/60 rounded-full"></div>
+          </div>
+          
           {/* Content Area - Full Width */}
           <div 
-            className="flex-1 min-h-0 relative z-10 cursor-pointer" 
+            className="flex-1 min-h-0 relative z-10 cursor-pointer overflow-y-auto custom-scrollbar-3d" 
             data-sparkle-zone 
             style={{ 
               height: '100%',
