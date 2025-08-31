@@ -145,7 +145,43 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
     inset 0 1px 2px rgba(255, 255, 255, 0.4);
 }
 
-/* Custom Scrollbar */
+/* Form Controls for Theme-Aware Components */
+.theme-input {
+  background-color: hsl(var(--overlay-surface));
+  border-color: hsl(var(--overlay-border));
+  color: hsl(var(--foreground));
+}
+
+.theme-input:focus {
+  border-color: hsl(var(--primary));
+  outline: none;
+}
+
+.theme-label {
+  color: hsl(var(--primary));
+}
+
+.theme-label:hover {
+  color: hsl(var(--primary));
+  opacity: 0.8;
+}
+
+.theme-placeholder-bg {
+  background-color: hsl(var(--overlay-surface));
+  border-color: hsl(var(--overlay-border));
+}
+
+.theme-icon-primary {
+  color: hsl(var(--primary));
+}
+
+.theme-text-primary {
+  color: hsl(var(--primary));
+}
+
+.theme-text-foreground {
+  color: hsl(var(--foreground));
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }

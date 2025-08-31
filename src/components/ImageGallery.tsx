@@ -521,42 +521,46 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
       
       {/* Saved Profiles Section */}
-      <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-4 shadow-lg border border-pink-200 max-h-96 overflow-y-auto custom-scrollbar">
+      <div className="bg-overlay-surface rounded-xl p-4 shadow-panel border border-overlay-border max-h-96 overflow-y-auto custom-scrollbar" style={{
+        backgroundColor: 'hsl(var(--overlay-surface))',
+        borderColor: 'hsl(var(--overlay-border))',
+        boxShadow: 'var(--shadow-panel)'
+      }}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-bold text-pink-600 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-primary flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
            <div className="flex gap-2">
-            <Button
-              onClick={newProfile}
-              variant="ghost"
-              size="sm"
-              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
-              style={{
-                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
-                backgroundSize: '400% 400%',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
-              }}
-            >
-              <Plus className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
+             <Button
+               onClick={newProfile}
+               variant="ghost"
+               size="sm"
+               className="relative overflow-hidden text-primary-foreground hover:text-primary-foreground font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
+               style={{
+                 background: 'var(--gradient-primary)',
+                 backgroundSize: '400% 400%',
+                 boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+               }}
+             >
+              <Plus className="w-3 h-3 mr-1 text-primary-foreground drop-shadow-sm" />
               New Profile
             </Button>
-            <Button
-              onClick={saveProfile}
-              variant="ghost"
-              size="sm"
-              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
-              style={{
-                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
-                backgroundSize: '400% 400%',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
-              }}
-            >
-              {activeProfileId ? (
-                <User className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
-              ) : (
-                <Save className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
-              )}
+             <Button
+               onClick={saveProfile}
+               variant="ghost"
+               size="sm"
+               className="relative overflow-hidden text-primary-foreground hover:text-primary-foreground font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
+               style={{
+                 background: 'var(--gradient-primary)',
+                 backgroundSize: '400% 400%',
+                 boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+               }}
+             >
+               {activeProfileId ? (
+                 <User className="w-3 h-3 mr-1 text-primary-foreground drop-shadow-sm" />
+               ) : (
+                 <Save className="w-3 h-3 mr-1 text-primary-foreground drop-shadow-sm" />
+               )}
               {activeProfileId ? 'Update Profile' : 'Save Profile'}
             </Button>
           </div>
@@ -567,12 +571,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             {savedProfiles.map((profile, index) => (
               <div key={profile.id} className="flex-shrink-0 relative group p-2">
                 <div 
-                  className={cn(
-                    "w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110",
-                    activeProfileId === profile.id 
-                      ? "border-pink-400 ring-2 ring-pink-200" 
-                      : "border-pink-200 hover:border-pink-400"
-                  )}
+                   className={cn(
+                     "w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110",
+                     activeProfileId === profile.id 
+                       ? "border-primary ring-2 ring-primary/30" 
+                       : "border-overlay-border hover:border-primary"
+                   )}
+                   style={{
+                     borderColor: activeProfileId === profile.id 
+                       ? 'hsl(var(--primary))' 
+                       : 'hsl(var(--overlay-border))'
+                   }}
                   onClick={() => loadProfile(profile)}
                 >
                 <img
@@ -593,94 +602,99 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     <input
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
+                       className="w-16 px-1 py-0.5 text-xs rounded border border-overlay-border bg-overlay-surface focus:border-primary focus:outline-none text-foreground font-bold"
+                       style={{
+                         backgroundColor: 'hsl(var(--overlay-surface))',
+                         borderColor: 'hsl(var(--overlay-border))',
+                         color: 'hsl(var(--foreground))'
+                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') saveProfileName();
                         if (e.key === 'Escape') cancelEditingName();
                       }}
                       autoFocus
                     />
-                    <Button
-                      onClick={saveProfileName}
-                      className="w-3 h-3 text-white rounded-full p-0"
-                      style={{ backgroundColor: '#ffb3d6' }}
-                      size="sm"
-                    >
-                      <Check className="w-2 h-2" />
-                    </Button>
-                    <Button
-                      onClick={cancelEditingName}
-                      className="w-3 h-3 text-white rounded-full p-0"
-                      style={{ backgroundColor: '#ffb3d6' }}
-                      size="sm"
-                    >
-                      <X className="w-2 h-2" />
-                    </Button>
+                     <Button
+                       onClick={saveProfileName}
+                       className="w-3 h-3 text-primary-foreground rounded-full p-0"
+                       style={{ backgroundColor: 'hsl(var(--primary))' }}
+                       size="sm"
+                     >
+                       <Check className="w-2 h-2" />
+                     </Button>
+                     <Button
+                       onClick={cancelEditingName}
+                       className="w-3 h-3 text-primary-foreground rounded-full p-0"
+                       style={{ backgroundColor: 'hsl(var(--primary))' }}
+                       size="sm"
+                     >
+                       <X className="w-2 h-2" />
+                     </Button>
                   </div>
                 ) : (
                   <div className="mt-1 flex items-center justify-center">
-                    <p 
-                      className="text-xs text-pink-600 text-center w-20 cursor-pointer hover:text-pink-600 font-bold break-words"
-                      onClick={() => startEditingName(profile)}
-                    >
-                      {profile.name}
-                    </p>
-                    <Button
-                      onClick={() => startEditingName(profile)}
-                      className="w-3 h-3 text-white rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
-                      style={{ backgroundColor: '#ffb3d6' }}
-                      size="sm"
-                    >
-                      <Edit2 className="w-1.5 h-1.5" />
-                    </Button>
+                     <p 
+                       className="text-xs text-foreground text-center w-20 cursor-pointer hover:text-primary font-bold break-words"
+                       onClick={() => startEditingName(profile)}
+                     >
+                       {profile.name}
+                     </p>
+                     <Button
+                       onClick={() => startEditingName(profile)}
+                       className="w-3 h-3 text-primary-foreground rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1"
+                       style={{ backgroundColor: 'hsl(var(--primary))' }}
+                       size="sm"
+                     >
+                       <Edit2 className="w-1.5 h-1.5" />
+                     </Button>
                   </div>
                 )}
 
                 {/* Action Buttons */}
                 <div className="absolute top-0.5 -right-0.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   {index > 0 && (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveProfile(profile.id, 'up');
-                      }}
-                      className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
-                      style={{ backgroundColor: '#ffb3d6' }}
-                      size="sm"
-                    >
-                      <ChevronUp className="w-2 h-2" />
-                    </Button>
+                     <Button
+                       onClick={(e) => {
+                         e.stopPropagation();
+                         moveProfile(profile.id, 'up');
+                       }}
+                       className="w-4 h-4 text-primary-foreground rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
+                       style={{ backgroundColor: 'hsl(var(--primary))' }}
+                       size="sm"
+                     >
+                       <ChevronUp className="w-2 h-2" />
+                     </Button>
                   )}
                   {index < savedProfiles.length - 1 && (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveProfile(profile.id, 'down');
-                      }}
-                      className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
-                      style={{ backgroundColor: '#ffb3d6' }}
-                      size="sm"
-                    >
-                      <ChevronDown className="w-2 h-2" />
-                    </Button>
+                     <Button
+                       onClick={(e) => {
+                         e.stopPropagation();
+                         moveProfile(profile.id, 'down');
+                       }}
+                       className="w-4 h-4 text-primary-foreground rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
+                       style={{ backgroundColor: 'hsl(var(--primary))' }}
+                       size="sm"
+                     >
+                       <ChevronDown className="w-2 h-2" />
+                     </Button>
                   )}
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteProfile(profile.id);
-                    }}
-                    className="w-4 h-4 text-white rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
-                    style={{ backgroundColor: '#ffb3d6' }}
-                    size="sm"
-                  >
-                    <X className="w-2 h-2" />
-                  </Button>
+                   <Button
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       deleteProfile(profile.id);
+                     }}
+                     className="w-4 h-4 text-primary-foreground rounded-full p-0 hover:scale-110 transition-transform shadow-lg"
+                     style={{ backgroundColor: 'hsl(var(--primary))' }}
+                     size="sm"
+                   >
+                     <X className="w-2 h-2" />
+                   </Button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-sm text-pink-600 text-center py-4 font-bold">
+          <p className="text-sm text-foreground text-center py-4 font-bold">
             No saved profiles yet. Click "New Profile" to get started!
           </p>
         )}
@@ -755,8 +769,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
-        <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-4 shadow-lg border border-pink-200 max-h-[600px] overflow-y-auto custom-scrollbar">
-          <h3 className="text-base font-bold text-pink-600 mb-2 flex items-center gap-2">
+        <div className="bg-overlay-surface rounded-xl p-4 shadow-panel border border-overlay-border max-h-[600px] overflow-y-auto custom-scrollbar" style={{
+          backgroundColor: 'hsl(var(--overlay-surface))',
+          borderColor: 'hsl(var(--overlay-border))',
+          boxShadow: 'var(--shadow-panel)'
+        }}>
+          <h3 className="text-base font-bold text-primary mb-2 flex items-center gap-2">
             <span>🎨</span> {(() => {
               if (activeProfileId) {
                 const currentProfile = savedProfiles.find(p => p.id === activeProfileId);
@@ -788,7 +806,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 const settings = getImageSettings(imageKey);
                 
                 return (
-                  <div key={controlId} className="p-0.5 bg-white/80 rounded-lg border border-pink-200">
+                   <div key={controlId} className="p-0.5 bg-overlay-surface rounded-lg border border-overlay-border" style={{
+                     backgroundColor: 'hsl(var(--overlay-surface))',
+                     borderColor: 'hsl(var(--overlay-border))'
+                   }}>
                     <div className="flex gap-2">
                       {/* Image Upload Section - Left Side */}
                            <div className="flex-shrink-0">
@@ -805,8 +826,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    }}
                                  />
                                ) : (
-                                  <div className="w-28 h-28 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                    <Upload className="w-7 h-7 text-pink-600" />
+                                  <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                    <Upload className="w-7 h-7 theme-icon-primary" />
                                  </div>
                                )}
                                
@@ -836,8 +857,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      }}
                                    />
                                  ) : (
-                                    <div className="w-28 h-28 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                                      <Upload className="w-7 h-7 text-pink-600" />
+                                    <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                      <Upload className="w-7 h-7 theme-icon-primary" />
                                    </div>
                                  )}
                                  
@@ -856,7 +877,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
                       {/* Controls Section - Right Side */}
                       <div className="flex-1">
-                        <h4 className="text-xs font-bold text-pink-600 mb-1 flex items-center justify-between">
+                        <h4 className="text-xs font-bold theme-text-primary mb-1 flex items-center justify-between">
                           <div className="flex items-center gap-1">
                             <span>Set {index + 1}</span>
                             <Button
@@ -875,17 +896,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             {/* Position Controls - Hidden for colours */}
                             {category !== 'colours' && (
                              <div>
-                               <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
+                               <p className="font-bold theme-text-primary mb-0.5 text-xs">Position</p>
                                <div className="space-y-0">
                                   <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                        className="text-xs theme-label cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.position.x, "X")}
                                        title="Click to copy X value"
                                      >x</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input font-bold"
                                        value={settings.position.x}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
@@ -929,7 +950,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             {/* Rotation Controls - Hidden for colours */}
                             {category !== 'colours' && (
                              <div>
-                               <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
+                               <p className="font-bold theme-text-primary mb-0.5 text-xs">Rotation</p>
                                <div className="space-y-0">
                                   <div className="flex items-center gap-1">
                                      <span 
@@ -984,7 +1005,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             {category !== 'colours' && (
                              <div>
                                <p 
-                                 className="font-bold text-pink-600 mb-0.5 text-xs cursor-pointer hover:text-pink-800"
+                                 className="font-bold theme-text-primary mb-0.5 text-xs cursor-pointer hover:opacity-80"
                                  onClick={() => copyToClipboard(settings.scale, "Scale")}
                                  title="Click to copy Scale value"
                                >Scale</p>
@@ -992,7 +1013,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    <input 
                                      type="text"
                                      step="0.1"
-                                     className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                     className="w-16 px-1 py-0.5 text-xs rounded border theme-input font-bold" 
                                      value={settings.scale}
                                      onChange={(e) => handleScaleChange(imageKey, e.target.value)}
                                    />
