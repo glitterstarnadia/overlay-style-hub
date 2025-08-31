@@ -149,7 +149,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <Switch
                 checked={alwaysOnTop}
                 onCheckedChange={onAlwaysOnTopChange}
-                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-400 data-[state=checked]:to-purple-400 data-[state=unchecked]:bg-gradient-to-r data-[state=unchecked]:from-pink-100 data-[state=unchecked]:to-purple-100 border-pink-200 shadow-3d-button"
+                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-400 data-[state=checked]:to-purple-400 data-[state=unchecked]:bg-white border-2 border-pink-200 shadow-3d-button [&>span]:bg-white [&>span]:border [&>span]:border-pink-300 [&>span]:shadow-sm data-[state=checked]:[&>span]:bg-white data-[state=checked]:[&>span]:translate-x-5"
               />
             </div>
           </div>
@@ -166,7 +166,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <Switch
                 checked={webBarVisible}
                 onCheckedChange={onWebBarVisibleChange}
-                className="data-[state=checked]:bg-pink-400 data-[state=unchecked]:bg-pink-100 border-pink-200"
+                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-400 data-[state=checked]:to-purple-400 data-[state=unchecked]:bg-white border-2 border-pink-200 shadow-3d-button [&>span]:bg-white [&>span]:border [&>span]:border-pink-300 [&>span]:shadow-sm data-[state=checked]:[&>span]:bg-white data-[state=checked]:[&>span]:translate-x-5"
               />
             </div>
           </div>

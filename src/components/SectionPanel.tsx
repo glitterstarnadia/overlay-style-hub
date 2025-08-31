@@ -130,9 +130,6 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
         zIndex: isDragging ? 50 : isDragOver ? 40 : 'auto',
         position: 'relative'
       }}
-      draggable={true}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
       onDragOver={(e) => {
         e.preventDefault();
         onDragOver?.();
@@ -152,8 +149,8 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
         <div className="flex items-center gap-2 group">
           <div 
             title="Drag to reorder" 
-            className="cursor-grab active:cursor-grabbing p-1 -m-1 rounded hover:bg-pink-100/50"
-            draggable
+            className="cursor-grab active:cursor-grabbing p-1 -m-1 rounded hover:bg-pink-100/50 select-none"
+            draggable={true}
             onDragStart={(e) => {
               e.dataTransfer.effectAllowed = 'move';
               onDragStart?.();
