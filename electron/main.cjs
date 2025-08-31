@@ -128,6 +128,23 @@ ipcMain.handle('set-web-bar-visibility', (event, visible) => {
   }
 });
 
+// IPC handler for window resizing
+ipcMain.handle('resize-window', (event, { width, height }) => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow) {
+    focusedWindow.setSize(width, height, true);
+  }
+});
+
+// IPC handler for getting current window size
+ipcMain.handle('get-window-size', () => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow) {
+    return focusedWindow.getSize();
+  }
+  return [800, 900];
+});
+
 // This method will be called when Electron has finished initialization
 app.whenReady().then(() => {
   console.log('=== ELECTRON APP READY ===');

@@ -17,5 +17,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Web bar visibility function
   setWebBarVisibility: (visible) => {
     return ipcRenderer.invoke('set-web-bar-visibility', visible);
+  },
+  
+  // Window resize functions
+  resizeWindow: (width, height) => {
+    return ipcRenderer.invoke('resize-window', { width, height });
+  },
+  
+  getWindowSize: () => {
+    return ipcRenderer.invoke('get-window-size');
   }
 });

@@ -8,6 +8,7 @@ import MenuSparkles from './MenuSparkles';
 import SparkleTrail from './SparkleTrail';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import '../types/electron';
 
 // Move localStorage access outside of render
 const getStoredValue = (key: string, defaultValue: any) => {
@@ -92,21 +93,41 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }, []);
 
   // Toggle menu collapse and resize window
-  const handleToggleCollapse = useCallback(() => {
+  const handleToggleCollapse = useCallback(async () => {
     const newCollapsed = !isMenuCollapsed;
     setIsMenuCollapsed(newCollapsed);
     
     // Resize window based on collapse state
     if (newCollapsed) {
       // Collapsed: resize to just hotbar height (approximately 80px)
-      const newSize = { width: size.width, height: 80 };
+      const hotbarHeight = 80;
+      const newSize = { width: size.width, height: hotbarHeight };
       setSize(newSize);
       onSizeChange?.(newSize);
+      
+      // If running in Electron, resize the actual window
+      if (window.electronAPI?.resizeWindow) {
+        try {
+          await window.electronAPI.resizeWindow(size.width, hotbarHeight);
+        } catch (error) {
+          console.log('Failed to resize window:', error);
+        }
+      }
     } else {
-      // Expanded: resize back to full screen
-      const newSize = { width: window.innerWidth, height: window.innerHeight };
+      // Expanded: restore to full menu height (approximately 900px)
+      const expandedHeight = 900;
+      const newSize = { width: size.width, height: expandedHeight };
       setSize(newSize);
       onSizeChange?.(newSize);
+      
+      // If running in Electron, resize the actual window
+      if (window.electronAPI?.resizeWindow) {
+        try {
+          await window.electronAPI.resizeWindow(size.width, expandedHeight);
+        } catch (error) {
+          console.log('Failed to resize window:', error);
+        }
+      }
     }
   }, [isMenuCollapsed, size.width, onSizeChange]);
 
@@ -177,15 +198,25 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     };
     return (id: string) => titles[id] || id;
   }, []);
-  const resetPositionAndSize = useCallback(() => {
+  const resetPositionAndSize = useCallback(async () => {
     const newPosition = { x: 0, y: 0 };
     const newSize = isMenuCollapsed 
-      ? { width: window.innerWidth, height: 80 }
-      : { width: window.innerWidth, height: window.innerHeight };
+      ? { width: 800, height: 80 }
+      : { width: 800, height: 900 };
     setPosition(newPosition);
     setSize(newSize);
     onPositionChange?.(newPosition);
     onSizeChange?.(newSize);
+    
+    // If running in Electron, resize the actual window
+    if (window.electronAPI?.resizeWindow) {
+      try {
+        await window.electronAPI.resizeWindow(newSize.width, newSize.height);
+      } catch (error) {
+        console.log('Failed to resize window:', error);
+      }
+    }
+    
     toast({
       title: "Window Reset",
       description: "Position and size have been reset."
