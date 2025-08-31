@@ -6,7 +6,6 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import SparkleTrail from "./components/SparkleTrail";
 import Index from "./pages/Index";
 import Hair from "./pages/Hair";
-import Patterns from "./pages/Patterns";
 import Colours from "./pages/Colours";
 import Tops from "./pages/Tops";
 import Dresses from "./pages/Dresses";
@@ -33,7 +32,6 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/hair" element={<Hair />} />
-            <Route path="/patterns" element={<Patterns />} />
             <Route path="/colours" element={<Colours />} />
             <Route path="/tops" element={<Tops />} />
             <Route path="/dresses" element={<Dresses />} />

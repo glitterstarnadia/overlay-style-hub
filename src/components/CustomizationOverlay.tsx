@@ -50,7 +50,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   
   // Memoize initial values to prevent recalculation on every render
   const initialSections = useMemo(() => 
-    getStoredValue(`sections-order-${pageKey}`, ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments']),
+    getStoredValue(`sections-order-${pageKey}`, ['hair', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments']),
     [pageKey]
   );
   
@@ -206,7 +206,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   // Memoize section titles
   const getSectionTitle = useMemo(() => {
     const titles: Record<string, string> = {
-      hair: 'Hair', patterns: 'Patterns', colours: 'Colours', tops: 'Tops',
+      hair: 'Hair', colours: 'Colours', tops: 'Tops',
       dresses: 'Dresses', pants: 'Pants', shoes: 'Shoes', adjustments: 'Adjustments'
     };
     return (id: string) => titles[id] || id;
@@ -290,7 +290,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
   // Global profile management
   const exportAllProfiles = () => {
-    const categories = ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
+    const categories = ['hair', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
     const allProfiles: Record<string, any[]> = {};
     let totalProfiles = 0;
 

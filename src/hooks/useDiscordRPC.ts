@@ -38,7 +38,6 @@ export const useDiscordRPC = () => {
   // Activity presets for different sections
   const activities = {
     hair: () => updateActivity('Customizing Hair Styles', 'Choosing the perfect look ✨'),
-    patterns: () => updateActivity('Designing Patterns', 'Creating beautiful designs 🎨'),
     colors: () => updateActivity('Mixing Colors', 'Finding the perfect palette 🌈'),
     profiles: () => updateActivity('Managing Profiles', 'Organizing style collections 📁'),
     editing: () => updateActivity('Editing Configuration', 'Fine-tuning the details ⚙️'),

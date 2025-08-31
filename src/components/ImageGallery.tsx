@@ -871,9 +871,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           </div>
                         </h4>
                         
-                         <div className={cn("grid gap-0.5", category === 'patterns' || category === 'colours' ? "grid-cols-1" : "grid-cols-3")}>
-                           {/* Position Controls - Hidden for patterns and colours */}
-                           {category !== 'patterns' && category !== 'colours' && (
+                          <div className={cn("grid gap-0.5", category === 'colours' ? "grid-cols-1" : "grid-cols-3")}>
+                            {/* Position Controls - Hidden for colours */}
+                            {category !== 'colours' && (
                              <div>
                                <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
                                <div className="space-y-0">
@@ -926,8 +926,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              </div>
                            )}
                            
-                           {/* Rotation Controls - Hidden for patterns and colours */}
-                           {category !== 'patterns' && category !== 'colours' && (
+                            {/* Rotation Controls - Hidden for colours */}
+                            {category !== 'colours' && (
                              <div>
                                <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
                                <div className="space-y-0">
@@ -980,8 +980,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              </div>
                            )}
                            
-                           {/* Scale Control - Hidden for patterns and colours */}
-                           {category !== 'patterns' && category !== 'colours' && (
+                            {/* Scale Control - Hidden for colours */}
+                            {category !== 'colours' && (
                              <div>
                                <p 
                                  className="font-bold text-pink-600 mb-0.5 text-xs cursor-pointer hover:text-pink-800"
@@ -1212,8 +1212,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              </div>
                            )}
                              
-                             {/* Notes Control - Hidden for patterns and colours */}
-                             {category !== 'patterns' && category !== 'colours' && (
+                              {/* Notes Control - Hidden for colours */}
+                              {category !== 'colours' && (
                                <div>
                                  <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
                                  <div className="space-y-0">

@@ -59,10 +59,6 @@ const sectionData = {
     mainImage: hairMain,
     thumbnails: [hair1, hair2, hair3, hair4],
   },
-  patterns: {
-    mainImage: hairMain,
-    thumbnails: [hair1, hair2, hair3, hair4],
-  },
   colours: {
     mainImage: hairMain,
     thumbnails: [hair1, hair2, hair3, hair4],
