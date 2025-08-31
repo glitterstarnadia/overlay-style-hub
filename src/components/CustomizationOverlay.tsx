@@ -465,8 +465,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       <SparkleTrail />
       {/* Main Card Container */}
       <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
-        {/* 3D Inner Frame */}
-        <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-white/20 to-transparent border border-white/30 pointer-events-none" />
         
         {/* Header */}
         <div 
@@ -530,18 +528,17 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
         {/* Content */}
         <div className="flex h-full relative">
-          {/* 3D Content Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-pink-25/50 to-purple-50/50 rounded-b-lg" 
-               style={{
-                 boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
-               }} />
           
           {/* Content Area - Full Width */}
           <div 
-            className="flex-1 min-h-0 relative z-10" 
+            className="flex-1 min-h-0 relative z-10 cursor-pointer" 
             data-sparkle-zone 
             style={{ 
               height: '100%'
+            }}
+            onClick={(e) => {
+              // Ensure clicks are handled in content area
+              e.stopPropagation();
             }}
           >
             {/* Content container */}
