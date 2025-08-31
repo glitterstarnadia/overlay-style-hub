@@ -149,13 +149,18 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
         <div className="flex items-center gap-2 group">
           <div 
             title="Drag to reorder" 
-            className="cursor-grab active:cursor-grabbing p-1 -m-1 rounded hover:bg-pink-100/50 select-none"
+            className="cursor-grab active:cursor-grabbing p-1 -m-1 rounded hover:bg-pink-100/50 select-none transition-all duration-200 hover:scale-110"
             draggable={true}
+            data-no-drag
             onDragStart={(e) => {
+              e.stopPropagation();
               e.dataTransfer.effectAllowed = 'move';
               onDragStart?.();
             }}
-            onDragEnd={onDragEnd}
+            onDragEnd={(e) => {
+              e.stopPropagation();
+              onDragEnd?.();
+            }}
           >
             <GripVertical className="w-4 h-4 text-pink-400" />
           </div>
