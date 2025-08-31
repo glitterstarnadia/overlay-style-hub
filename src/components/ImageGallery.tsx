@@ -661,7 +661,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
       {currentMainImage && (
-        <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-3 shadow-lg border border-pink-200 max-h-80 overflow-y-auto custom-scrollbar">
+        <div className="bg-gradient-to-br from-pink-50/80 via-white to-pink-100/60 rounded-xl p-3 shadow-lg border border-pink-200 max-h-[500px] overflow-y-auto custom-scrollbar">
           <h3 className="text-base font-bold text-pink-600 mb-2 flex items-center gap-2">
             <span>🎨</span> {(() => {
               if (activeProfileId) {
