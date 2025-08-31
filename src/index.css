@@ -24,20 +24,19 @@ html, body {
 
 /* Remove browser chrome for floating app appearance */
 body {
-  -webkit-app-region: drag;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 
-/* Make interactive elements non-draggable */
-button, input, textarea, select, a {
-  -webkit-app-region: no-drag;
+/* Make interactive elements non-draggable and ensure hover works */
+button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
   user-select: auto;
   -webkit-user-select: auto;
   -moz-user-select: auto;
   -ms-user-select: auto;
+  pointer-events: auto !important;
 }
 
 /* Magic Cursor Styles */
@@ -76,7 +75,7 @@ button, input, textarea, select, a {
   box-shadow: 
     0 4px 8px rgba(0, 0, 0, 0.25),
     inset 0 2px 4px rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px) translateZ(0);
+  transform: translateY(-1px) scale(1.05) translateZ(0) !important;
 }
 
 .shadow-3d-button:active {

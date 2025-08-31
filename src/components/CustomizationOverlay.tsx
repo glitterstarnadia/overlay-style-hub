@@ -534,15 +534,20 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             className="flex-1 min-h-0 relative z-10 cursor-pointer" 
             data-sparkle-zone 
             style={{ 
-              height: '100%'
+              height: '100%',
+              pointerEvents: 'auto'
             }}
             onClick={(e) => {
               // Ensure clicks are handled in content area
               e.stopPropagation();
             }}
+            onMouseEnter={(e) => {
+              // Ensure hover events work
+              e.currentTarget.style.pointerEvents = 'auto';
+            }}
           >
             {/* Content container */}
-            <div className="p-4">
+            <div className="p-4" style={{ pointerEvents: 'auto' }}>
               {/* Display all sections content */}
               <div className="space-y-3 relative">
                 {sections.map((sectionId, index) => (
