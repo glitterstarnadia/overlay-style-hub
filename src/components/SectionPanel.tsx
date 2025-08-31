@@ -177,7 +177,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
           />
           <h3 className={cn(
             "font-bold transition-all duration-200 group-hover:scale-110 group-hover:text-primary",
-            isCollapsed ? "text-sm text-foreground" : "text-lg text-foreground"
+            isCollapsed ? "text-sm text-primary" : "text-lg text-primary"
           )}>{sectionTitle}</h3>
         </div>
         {onToggleCollapse && (
