@@ -683,14 +683,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
             
             {/* Transform Controls */}
-            <div className="flex-1 space-y-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
+            <div className="flex-1 space-y-1 max-h-64 overflow-y-auto custom-scrollbar pr-2">
               {transformControls.map((controlId, index) => {
                 const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                 const settings = getImageSettings(imageKey);
                 
                 return (
-                  <div key={controlId} className="p-1 bg-white/80 rounded-lg border border-pink-200">
-                    <h4 className="text-xs font-bold text-pink-600 mb-1 flex items-center justify-between">
+                  <div key={controlId} className="p-0.5 bg-white/80 rounded-lg border border-pink-200">
+                    <h4 className="text-xs font-bold text-pink-600 mb-0.5 flex items-center justify-between">
                       <span>Set {index + 1}</span>
                       <div className="flex items-center gap-1">
                         {/* Image Upload for each Transform Set */}
@@ -726,7 +726,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       {/* Position Controls */}
                       <div>
                         <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
-                        <div className="space-y-0.5">
+                        <div className="space-y-0">
                            <div className="flex items-center gap-1">
                              <span className="text-xs text-pink-600">x</span>
                              <input 
@@ -772,7 +772,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       {/* Rotation Controls */}
                       <div>
                         <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
-                        <div className="space-y-0.5">
+                        <div className="space-y-0">
                            <div className="flex items-center gap-1">
                              <span className="text-xs text-pink-600">x</span>
                              <input 
@@ -818,7 +818,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       {/* Scale Control */}
                       <div>
                         <p className="font-bold text-pink-600 mb-0.5 text-xs">Scale</p>
-                        <div className="space-y-1">
+                         <div className="space-y-0">
                            <input 
                              type="text"
                              step="0.1"
