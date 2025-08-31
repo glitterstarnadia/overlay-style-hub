@@ -537,9 +537,21 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                }} />
           
           {/* Content Area - Full Width with Proper Scrolling */}
-          <div className="flex-1 min-h-0 relative z-10 overflow-y-auto overflow-x-hidden custom-scrollbar-3d" data-sparkle-zone style={{ height: '100%' }}>
-            {/* Scrollable content container */}
-            <div className="p-4 min-h-full">
+          <div 
+            className="flex-1 min-h-0 relative z-10 overflow-y-auto overflow-x-hidden custom-scrollbar-3d" 
+            data-sparkle-zone 
+            style={{ 
+              height: '100%',
+              minHeight: '200px',
+              touchAction: 'pan-y'
+            }}
+            onWheel={(e) => {
+              // Ensure scroll events are handled here
+              e.stopPropagation();
+            }}
+          >
+            {/* Scrollable content container with full height background */}
+            <div className="p-4 min-h-full bg-transparent" style={{ minHeight: 'calc(100% + 100px)' }}>
               {/* Display all sections content */}
               <div className="space-y-3 relative">
                 {sections.map((sectionId, index) => (
