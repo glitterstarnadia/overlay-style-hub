@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CustomizationOverlay } from '@/components/CustomizationOverlay';
+import CustomizationOverlay from '@/components/CustomizationOverlay';
 
 const Shoes = () => {
   const [overlayVisible, setOverlayVisible] = useState(false);

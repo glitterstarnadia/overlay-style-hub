@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { CustomizationOverlay } from '@/components/CustomizationOverlay';
+import CustomizationOverlay from '@/components/CustomizationOverlay';
 import { useDiscordRPC } from '@/hooks/useDiscordRPC';
 import DebugInfo from '@/components/DebugInfo';
 
@@ -73,7 +73,7 @@ const FloatingMenuApp = () => {
       {showDebug && <DebugInfo />}
       
       {/* Only the floating menu is visible */}
-      <CustomizationOverlay 
+      <CustomizationOverlay
         isVisible={overlayVisible} 
         onToggle={toggleOverlay}
         onSizeChange={setMenuSize}

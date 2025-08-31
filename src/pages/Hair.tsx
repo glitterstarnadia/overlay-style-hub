@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CustomizationOverlay } from '@/components/CustomizationOverlay';
+import CustomizationOverlay from '@/components/CustomizationOverlay';
 
 const Hair = () => {
   const [overlayVisible, setOverlayVisible] = useState(false);

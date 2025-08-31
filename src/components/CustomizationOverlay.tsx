@@ -24,7 +24,7 @@ interface CustomizationOverlayProps {
   onSizeChange?: (size: { width: number; height: number }) => void;
   onPositionChange?: (position: { x: number; y: number }) => void;
 }
-export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = React.memo(({
+const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   isVisible,
   onToggle,
   pageKey = 'default',
@@ -599,4 +599,6 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = React.m
       
     </div>
   );
-});
+};
+
+export default React.memo(CustomizationOverlay);
