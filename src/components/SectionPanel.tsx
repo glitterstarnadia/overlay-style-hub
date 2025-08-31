@@ -65,7 +65,7 @@ interface SectionPanelProps {
 }
 
 // Mock data for different sections - you can replace with real data
-const sectionData = {
+const sectionData: Record<string, { mainImage: string; thumbnails: string[] }> = {
   hair: {
     mainImage: hairMain,
     thumbnails: [hair1, hair2, hair3, hair4],
