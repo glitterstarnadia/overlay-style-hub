@@ -4,6 +4,7 @@ import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, C
 import GlitterBorder from './GlitterBorder';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { processImageFile, createHighQualityThumbnail } from '@/utils/imageProcessing';
 import hairMain from '@/assets/hair-main.jpg';
 import hair1 from '@/assets/hair-1.jpg';
 import hair2 from '@/assets/hair-2.jpg';
@@ -121,45 +122,56 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage(image);
   };
 
-  const handleImageUpload = (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string) => {
+  const handleImageUpload = async (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string) => {
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
+      try {
+        toast({
+          title: "🔄 Processing Image...",
+          description: "Enhancing image quality, please wait",
+        });
+
+        // Process image with high quality settings
+        const processedImageUrl = await processImageFile(file);
         
         if (isMain) {
-          setCurrentMainImage(imageUrl);
-          setSelectedImage(imageUrl);
+          setCurrentMainImage(processedImageUrl);
+          setSelectedImage(processedImageUrl);
           toast({
             title: "📸 Main Image Updated!",
-            description: "New main image has been loaded",
+            description: "High-quality main image has been loaded",
           });
         } else if (isSmaller) {
-          setSmallerImage(imageUrl);
+          setSmallerImage(processedImageUrl);
           toast({
             title: "🖼️ Smaller Image Updated!",
-            description: "Smaller image has been loaded",
+            description: "High-quality smaller image has been loaded",
           });
         } else if (transformId) {
           setTransformImages(prev => ({
             ...prev,
-            [transformId]: imageUrl
+            [transformId]: processedImageUrl
           }));
           toast({
             title: "🖼️ Transform Image Updated!",
-            description: "Transform control image has been loaded",
+            description: "High-quality transform control image has been loaded",
           });
         } else if (thumbnailIndex !== undefined) {
           const newThumbnails = [...currentThumbnails];
-          newThumbnails[thumbnailIndex] = imageUrl;
+          newThumbnails[thumbnailIndex] = processedImageUrl;
           setCurrentThumbnails(newThumbnails);
           toast({
             title: "🖼️ Thumbnail Updated!",
-            description: `Thumbnail ${thumbnailIndex + 1} has been updated`,
+            description: `High-quality thumbnail ${thumbnailIndex + 1} has been updated`,
           });
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error processing image:', error);
+        toast({
+          title: "❌ Image Processing Failed",
+          description: error instanceof Error ? error.message : "Failed to process image",
+          variant: "destructive",
+        });
+      }
     } else {
       toast({
         title: "❌ Invalid File",
@@ -530,7 +542,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   src={imageMap[profile.thumbnail] || profile.thumbnail}
                   alt={profile.name}
                   className="w-full h-full object-cover"
-                  style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
+                  style={{ 
+                    imageRendering: 'auto', 
+                    maxWidth: 'none',
+                    filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                  }}
                 />
                 </div>
                 
@@ -705,7 +721,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main image"
                 className="w-24 h-24 object-cover rounded-lg shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
-                style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
+                style={{ 
+                  imageRendering: 'auto', 
+                  maxWidth: 'none',
+                  filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                }}
               />
             </div>
             
@@ -726,7 +746,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                               alt={`Transform image ${index + 1}`}
                               className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
-                              style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
+                              style={{ 
+                                imageRendering: 'auto', 
+                                maxWidth: 'none',
+                                filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                              }}
                             />
                           ) : (
                             <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
