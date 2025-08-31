@@ -199,9 +199,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const getImageSettings = (imageKey: string): ImageSettings => {
     return imageSettings[imageKey] || {
-      position: { x: 0, y: 0, z: 0 },
-      rotation: { x: 0, y: 0, z: 0 },
-      scale: 1.0,
+      position: { x: 0.50, y: 0.50, z: 0.50 },
+      rotation: { x: 0.50, y: 0.50, z: 0.50 },
+      scale: 0.50,
       scaleHex: '#ffffff'
     };
   };
@@ -413,9 +413,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const clearImageSettings = (imageKey: string) => {
     const defaultSettings = {
-      position: { x: 0, y: 0, z: 0 },
-      rotation: { x: 0, y: 0, z: 0 },
-      scale: 1.0,
+      position: { x: 0.50, y: 0.50, z: 0.50 },
+      rotation: { x: 0.50, y: 0.50, z: 0.50 },
+      scale: 0.50,
       scaleHex: '#ffffff'
     };
     setImageSettings(prev => ({
@@ -907,15 +907,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
                                      title="Click to copy value"
                                    />
-                                   <Heart 
-                                     className="w-6 h-6 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                     style={{ 
-                                       fill: settings.scaleHex || '#ffffff', 
-                                       stroke: '#ec4899', 
-                                       strokeWidth: 1 
-                                     }}
-                                     onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
-                                   />
+                                    <Heart 
+                                      className="w-10 h-10 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                      style={{ 
+                                        fill: settings.scaleHex || '#ffffff', 
+                                        stroke: '#ec4899', 
+                                        strokeWidth: 1.5 
+                                      }}
+                                      onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
+                                    />
                                 </div>
                               </div>
                             </div>
@@ -1116,15 +1116,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
                                   title="Click to copy value"
                                 />
-                                <Heart 
-                                  className="w-6 h-6 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                  style={{ 
-                                    fill: settings.scaleHex || '#ffffff', 
-                                    stroke: '#ec4899', 
-                                    strokeWidth: 1 
-                                  }}
-                                  onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
-                                />
+                                 <Heart 
+                                   className="w-10 h-10 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                   style={{ 
+                                     fill: settings.scaleHex || '#ffffff', 
+                                     stroke: '#ec4899', 
+                                     strokeWidth: 1.5 
+                                   }}
+                                   onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Color")}
+                                 />
                              </div>
                            </div>
                         </div>
