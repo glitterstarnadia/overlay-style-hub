@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart, User } from 'lucide-react';
 import GlitterBorder from './GlitterBorder';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -452,23 +452,38 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <h3 className="text-lg font-bold text-pink-600 flex items-center gap-2">
             <span>📁</span> Saved Profiles
           </h3>
-          <div className="flex gap-2">
+           <div className="flex gap-2">
             <Button
               onClick={newProfile}
-              className="text-white px-3 py-1 text-xs font-bold"
-              style={{ backgroundColor: '#ffb3d6' }}
+              variant="ghost"
               size="sm"
+              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
+              style={{
+                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
+                backgroundSize: '400% 400%',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
             >
-              <Plus className="w-3 h-3 mr-1" />
+              <Plus className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
               New Profile
             </Button>
             <Button
               onClick={saveProfile}
-              className="px-3 py-1 text-xs font-bold text-white"
-              style={{ backgroundColor: '#ffb3d6' }}
+              variant="ghost"
               size="sm"
+              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-3 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
+              style={{
+                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
+                backgroundSize: '400% 400%',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
+              }}
             >
-              💾 {activeProfileId ? 'Update Profile' : 'Save Profile'}
+              {activeProfileId ? (
+                <User className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
+              ) : (
+                <Save className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
+              )}
+              {activeProfileId ? 'Update Profile' : 'Save Profile'}
             </Button>
           </div>
         </div>
