@@ -109,20 +109,12 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
   onDragOver,
   onDrop,
 }) => {
-  const data = sectionData[sectionId as keyof typeof sectionData];
+  // Get data, with fallback to default if not found
+  let data = sectionData[sectionId as keyof typeof sectionData];
   
-  // Debug logging
-  console.log('SectionPanel - sectionId:', sectionId);
-  console.log('SectionPanel - available keys:', Object.keys(sectionData));
-  console.log('SectionPanel - data found:', !!data);
-
+  // If no data found, use default hair data as fallback
   if (!data) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-muted-foreground">Section not found for: {sectionId}</p>
-        <p className="text-xs text-muted-foreground">Available: {Object.keys(sectionData).join(', ')}</p>
-      </div>
-    );
+    data = sectionData.hair;
   }
 
   return (
