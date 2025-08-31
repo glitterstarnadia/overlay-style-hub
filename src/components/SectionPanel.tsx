@@ -184,12 +184,12 @@ export const SectionPanel: React.FC<SectionPanelProps> = ({
             variant="ghost"
             size="sm"
             onClick={onToggleCollapse}
-            className="text-foreground hover:bg-overlay-hover hover:text-primary"
+            className="text-primary hover:bg-overlay-hover hover:text-primary"
           >
             {isCollapsed ? (
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-4 h-4 text-primary" />
             ) : (
-              <ChevronUp className="w-4 h-4" />
+              <ChevronUp className="w-4 h-4 text-primary" />
             )}
           </Button>
         )}

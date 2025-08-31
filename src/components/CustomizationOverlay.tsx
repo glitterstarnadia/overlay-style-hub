@@ -596,9 +596,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               }}
             >
               {allCollapsed ? (
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-4 h-4 text-primary" />
               ) : (
-                <ChevronUp className="w-4 h-4" />
+                <ChevronUp className="w-4 h-4 text-primary" />
               )}
             </Button>
             <SettingsMenu 
