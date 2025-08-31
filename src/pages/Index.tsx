@@ -1,11 +1,11 @@
-import React from 'react';
-import MainMenuPage from '@/components/MainMenuPage';
+import React, { useState } from 'react';
+import FloatingMenuApp from '@/components/FloatingMenuApp';
 
 console.log('=== INDEX PAGE LOADING ===');
 
 const Index = () => {
   console.log('=== INDEX PAGE RENDERING ===');
-  return <MainMenuPage />;
+  return <FloatingMenuApp />;
 };
 
 console.log('=== INDEX PAGE DEFINED ===');
