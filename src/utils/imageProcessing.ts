@@ -1,7 +1,7 @@
 // Image processing utilities for better quality uploads
 
-const MAX_IMAGE_DIMENSION = 2048; // Increased for better quality
-const JPEG_QUALITY = 0.95; // High quality JPEG compression
+const MAX_IMAGE_DIMENSION = 4096; // Increased for much better quality
+const JPEG_QUALITY = 0.98; // Very high quality JPEG compression
 const PNG_QUALITY = 1.0; // Maximum PNG quality
 
 /**

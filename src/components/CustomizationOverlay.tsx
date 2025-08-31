@@ -65,7 +65,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   );
   
   const initialTheme = useMemo(() => 
-    getStoredValue(`customization-theme-${pageKey}`, 'dark'),
+    getStoredValue(`customization-theme-${pageKey}`, 'light'),
     [pageKey]
   );
   
