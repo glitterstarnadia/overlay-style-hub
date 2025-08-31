@@ -48,6 +48,21 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
   cursor: url('/magic-wand-cursor.png') 16 16, auto;
 }
 
+/* Ensure dropdown menus appear above everything */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+[role="menu"] {
+  z-index: 9999 !important;
+}
+
+/* Fix dropdown positioning in always-on-top windows */
+.dropdown-menu-content {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
 /* Background Animation */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }

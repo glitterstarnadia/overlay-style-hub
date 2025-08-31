@@ -87,15 +87,16 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         style={{ display: 'none' }}
       />
       
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+            className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button relative z-50"
             style={{
               boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
             }}
+            aria-label="Open Settings Menu"
           >
             <Settings className="w-4 h-4" />
           </Button>
@@ -103,10 +104,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         
         <DropdownMenuContent 
           align="end" 
-          className="w-72 bg-gradient-to-br from-white to-pink-50 border-4 border-pink-200/60 shadow-3d backdrop-blur-lg"
+          className="w-72 bg-gradient-to-br from-white to-pink-50 border-4 border-pink-200/60 shadow-3d backdrop-blur-lg relative"
           style={{
-            boxShadow: '0 12px 24px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.05)'
+            boxShadow: '0 12px 24px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.05)',
+            zIndex: 9999
           }}
+          sideOffset={5}
+          avoidCollisions={true}
+          collisionPadding={10}
         >
           <DropdownMenuLabel 
             className="text-pink-600 font-bold text-lg"
