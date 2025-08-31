@@ -915,13 +915,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   </div>
                                   <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                        className="text-xs theme-text-primary cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.position.y, "Y")}
                                        title="Click to copy Y value"
                                      >y</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                        value={settings.position.y}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
@@ -930,13 +930,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   </div>
                                   <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                        className="text-xs theme-text-primary cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.position.z, "Z")}
                                        title="Click to copy Z value"
                                      >z</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                        value={settings.position.z}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
@@ -954,13 +954,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                <div className="space-y-0">
                                   <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                        className="text-xs theme-text-primary cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.rotation.x, "X")}
                                        title="Click to copy X value"
                                      >x</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                        value={settings.rotation.x}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
@@ -969,13 +969,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   </div>
                                    <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                        className="text-xs theme-text-primary cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.rotation.y, "Y")}
                                        title="Click to copy Y value"
                                      >y</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                        value={settings.rotation.y}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
@@ -984,13 +984,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   </div>
                                   <div className="flex items-center gap-1">
                                      <span 
-                                       className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                       className="text-xs theme-text-primary cursor-pointer hover:opacity-80 font-bold"
                                        onClick={() => copyToClipboard(settings.rotation.z, "Z")}
                                        title="Click to copy Z value"
                                      >z</span>
                                      <input 
                                        type="number"
-                                       className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
+                                        className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                        value={settings.rotation.z}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
@@ -1019,7 +1019,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    />
                                  <div>
                                  <label 
-                                   className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                    className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                    onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
                                    title="Click to copy Hex value"
                                  >Hex Code</label>
@@ -1027,7 +1027,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      <input 
                                        type="text"
                                        placeholder="#ffffff"
-                                       className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                        className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                        value={settings.scaleHex || '#ffffff'}
                                        onChange={(e) => updateImageSettings(imageKey, { 
                                          scaleHex: e.target.value 
@@ -1056,7 +1056,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 1 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
                                      title="Click to copy Hex Color 1"
                                    >Hex Color 1</label>
@@ -1064,7 +1064,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor1 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor1: e.target.value 
@@ -1085,7 +1085,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 2 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
                                      title="Click to copy Hex Color 2"
                                    >Hex Color 2</label>
@@ -1093,7 +1093,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor2 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor2: e.target.value 
@@ -1114,7 +1114,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 3 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
                                      title="Click to copy Hex Color 3"
                                    >Hex Color 3</label>
@@ -1122,7 +1122,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor3 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor3: e.target.value 
@@ -1146,7 +1146,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 4 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
                                      title="Click to copy Hex Color 4"
                                    >Hex Color 4</label>
@@ -1154,7 +1154,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor4 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor4: e.target.value 
@@ -1175,7 +1175,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 5 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor5 || '#ffffff', "Hex Color 5")}
                                      title="Click to copy Hex Color 5"
                                    >Hex Color 5</label>
@@ -1183,7 +1183,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor5 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor5: e.target.value 
@@ -1204,7 +1204,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  {/* Hex Color 6 */}
                                  <div>
                                    <label 
-                                     className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                     className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
                                      onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 6")}
                                      title="Click to copy Hex Color 6"
                                    >Hex Color 6</label>
@@ -1212,7 +1212,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input 
                                          type="text"
                                          placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                         className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
                                          value={settings.hexColor6 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
                                            hexColor6: e.target.value 
@@ -1236,17 +1236,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               {/* Notes Control - Hidden for colours */}
                               {category !== 'colours' && (
                                <div>
-                                 <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
-                                 <div className="space-y-0">
-                                   <textarea
-                                     className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
-                                     value={settings.notes || ''}
-                                     onChange={(e) => updateImageSettings(imageKey, { 
-                                       notes: e.target.value 
-                                     })}
-                                     placeholder="Add notes..."
-                                     rows={3}
-                                   />
+                                  <p className="font-bold theme-text-primary mb-0.5 text-xs">Notes</p>
+                                  <div className="space-y-0">
+                                    <textarea
+                                      className="w-full px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold resize-none" 
+                                      value={settings.notes || ''}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        notes: e.target.value 
+                                      })}
+                                      placeholder="Add notes..."
+                                      rows={3}
+                                    />
                                  </div>
                                </div>
                              )}
@@ -1300,7 +1300,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             return (
               <div
                 key={index}
-                className="flex items-center gap-4 p-3 bg-gradient-to-r from-pink-50/80 via-white to-pink-100/60 rounded-lg border border-pink-200 hover:border-pink-300 transition-all duration-300 hover:shadow-md cursor-pointer group"
+                className="flex items-center gap-4 p-3 bg-gradient-to-r from-overlay-surface/80 via-overlay-bg to-overlay-surface/60 rounded-lg border border-overlay-border hover:border-overlay-border hover:opacity-90 transition-all duration-300 hover:shadow-md cursor-pointer group"
               >
                 {/* Thumbnail Image */}
                 <div className="relative flex-shrink-0">
@@ -1334,16 +1334,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div className="grid grid-cols-2 gap-4">
                     {/* Position Controls */}
                     <div>
-                      <p className="font-bold text-pink-600 mb-1">Position</p>
+                      <p className="font-bold theme-text-primary mb-1">Position</p>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                              <span 
-                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                                className="text-xs theme-text-primary w-4 font-bold cursor-pointer hover:opacity-80"
                                onClick={() => copyToClipboard(settings.position.x, "X")}
                                title="Click to copy X value"
                              >X:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.position.x}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
@@ -1357,7 +1357,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                title="Click to copy Y value"
                              >Y:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.position.y}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
@@ -1371,7 +1371,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                title="Click to copy Z value"
                              >Z:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.position.z}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
@@ -1392,7 +1392,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                title="Click to copy X value"
                              >X:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.rotation.x}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
@@ -1406,7 +1406,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                title="Click to copy Y value"
                              >Y:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.rotation.y}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
@@ -1420,7 +1420,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                title="Click to copy Z value"
                              >Z:</span>
                               <input 
-                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                 className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold"
                                 value={settings.rotation.z}
                                 onChange={(e) => updateImageSettings(imageKey, { 
                                   rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
@@ -1442,7 +1442,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                         <div className="flex gap-2 items-center">
                              <input 
                                type="text"
-                               className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                               className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold" 
                                value={settings.scale}
                                onChange={(e) => handleScaleChange(imageKey, e.target.value)}
                              />
@@ -1456,7 +1456,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  <input 
                                    type="text"
                                    placeholder="#ffffff"
-                                   className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-mono font-bold" 
+                                   className="w-12 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
                                    value={settings.scaleHex || '#ffffff'}
                                    onChange={(e) => updateImageSettings(imageKey, { 
                                      scaleHex: e.target.value 
@@ -1477,17 +1477,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                      
                      {/* Notes Control */}
                      <div className="flex-1">
-                        <p className="font-bold text-pink-600 mb-1">Notes</p>
-                         <div className="flex gap-2 items-center">
-                            <textarea 
-                              className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
-                              value={settings.notes || ''}
-                              onChange={(e) => updateImageSettings(imageKey, { 
-                                notes: e.target.value 
-                              })}
-                              placeholder="Add notes..."
-                              rows={2}
-                            />
+                         <p className="font-bold theme-text-primary mb-1">Notes</p>
+                          <div className="flex gap-2 items-center">
+                             <textarea 
+                               className="w-full px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-bold resize-none" 
+                               value={settings.notes || ''}
+                               onChange={(e) => updateImageSettings(imageKey, { 
+                                 notes: e.target.value 
+                               })}
+                               placeholder="Add notes..."
+                               rows={2}
+                             />
                          </div>
                      </div>
                    </div>
