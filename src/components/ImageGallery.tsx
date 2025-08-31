@@ -722,10 +722,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                     </h4>
                     
-                    <div className="grid grid-cols-3 gap-1">
+                    <div className="grid grid-cols-3 gap-0.5">
                       {/* Position Controls */}
                       <div>
-                        <p className="font-bold text-pink-600 mb-1 text-xs">Position</p>
+                        <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
                         <div className="space-y-0.5">
                            <div className="flex items-center gap-1">
                              <span className="text-xs text-pink-600">x</span>
@@ -771,7 +771,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       
                       {/* Rotation Controls */}
                       <div>
-                        <p className="font-bold text-pink-600 mb-1 text-xs">Rotation</p>
+                        <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
                         <div className="space-y-0.5">
                            <div className="flex items-center gap-1">
                              <span className="text-xs text-pink-600">x</span>
@@ -817,7 +817,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       
                       {/* Scale Control */}
                       <div>
-                        <p className="font-bold text-pink-600 mb-1 text-xs">Scale</p>
+                        <p className="font-bold text-pink-600 mb-0.5 text-xs">Scale</p>
                         <div className="space-y-1">
                            <input 
                              type="text"
