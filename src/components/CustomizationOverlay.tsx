@@ -99,8 +99,19 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const overlayRef = useRef<HTMLDivElement>(null);
   
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Prevent dragging if clicking on interactive elements
+    const target = e.target as HTMLElement;
+    
+    // Don't start dragging if clicking on:
+    // - Scrollbars, inputs, buttons, selects, or any interactive element
+    // - Elements that specifically want to prevent dragging
+    // - Child elements of dropdown menus or other interactive components
+    if (target.closest('button, input, select, textarea, [role="menuitem"], [role="option"], [data-no-drag], .overflow-y-auto, .overflow-x-auto')) {
+      return;
+    }
+    
     // Only start dragging when clicking on drag handles
-    if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
+    if (target.closest('[data-drag-handle]')) {
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,
@@ -553,7 +564,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             <div 
               className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" 
               style={{ maxHeight: 'calc(100vh - 200px)' }}
-              onMouseDown={(e) => e.stopPropagation()}
+              data-no-drag
             >
               {/* Display all sections content */}
               <div className="space-y-3 relative pb-4">
