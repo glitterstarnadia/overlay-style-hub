@@ -536,16 +536,16 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                  boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
                }} />
           
-          {/* Content Area - Full Width */}
+          {/* Content Area - Full Width with Scrolling */}
           <div 
-            className="flex-1 min-h-0 relative z-10" 
+            className="flex-1 min-h-0 relative z-10 overflow-y-auto overflow-x-hidden custom-scrollbar-3d" 
             data-sparkle-zone 
             style={{ 
               height: '100%'
             }}
           >
-            {/* Content container */}
-            <div className="p-4 h-full">
+            {/* Scrollable content container */}
+            <div className="p-4">{/* Content wrapper with padding */}
               {/* Display all sections content */}
               <div className="space-y-3 relative">
                 {sections.map((sectionId, index) => (
@@ -577,7 +577,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                   </div>
                 ))}
               </div>
-            </div>
+            </div>{/* End content wrapper */}
           </div>
         </div>
         
