@@ -65,8 +65,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [allCollapsed, setAllCollapsed] = useState(false);
   const [sections, setSections] = useState<string[]>(initialSections);
   
-  const [position, setPosition] = useState({ x: 50, y: 50 });
-  const [size, setSize] = useState({ width: 800, height: 600 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   
@@ -163,15 +163,15 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     return (id: string) => titles[id] || id;
   }, []);
   const resetPositionAndSize = useCallback(() => {
-    const newPosition = { x: 50, y: 50 };
-    const newSize = { width: 800, height: 600 };
+    const newPosition = { x: 0, y: 0 };
+    const newSize = { width: window.innerWidth, height: window.innerHeight };
     setPosition(newPosition);
     setSize(newSize);
     onPositionChange?.(newPosition);
     onSizeChange?.(newSize);
     toast({
       title: "Window Reset",
-      description: "Position and size have been reset to default."
+      description: "Position and size have been reset to fullscreen."
     });
   }, [onPositionChange, onSizeChange, toast]);
   const exportConfiguration = useCallback(() => {
@@ -386,6 +386,18 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     setDraggedSection(null);
     setDragOverSection(null);
   };
+
+  // Add window resize listener to keep menu fullscreen
+  useEffect(() => {
+    const handleResize = () => {
+      const newSize = { width: window.innerWidth, height: window.innerHeight };
+      setSize(newSize);
+      onSizeChange?.(newSize);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [onSizeChange]);
   useEffect(() => {
     localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
   }, [opacity, pageKey]);
