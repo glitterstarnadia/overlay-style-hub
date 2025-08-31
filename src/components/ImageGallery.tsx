@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart, User, Download, FileUp } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart, User } from 'lucide-react';
 import GlitterBorder from './GlitterBorder';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -113,8 +113,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [activeProfileId, setActiveProfileId] = useState<string | null>(null);
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
-  
-  const exportInputRef = useRef<HTMLInputElement>(null);
   
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
@@ -407,88 +405,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setEditingName('');
   };
 
-  const exportData = () => {
-    try {
-      const exportData = {
-        profiles: savedProfiles,
-        category: category,
-        exportDate: new Date().toISOString(),
-        version: "1.0"
-      };
-      
-      const dataStr = JSON.stringify(exportData, null, 2);
-      const dataBlob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(dataBlob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `nadia-profiles-${category}-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      toast({
-        title: "📥 Data Exported!",
-        description: "Your profiles have been downloaded successfully",
-      });
-    } catch (error) {
-      toast({
-        title: "❌ Export Failed",
-        description: "Failed to export data. Please try again.",
-      });
-    }
-  };
-
-  const triggerImport = () => {
-    exportInputRef.current?.click();
-  };
-
-  const importData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const importedData = JSON.parse(e.target?.result as string);
-        
-        if (importedData.profiles && Array.isArray(importedData.profiles)) {
-          // Validate and migrate imported profiles
-          const validatedProfiles = importedData.profiles.map((profile: any) => ({
-            id: profile.id || `profile-${Date.now()}-${Math.random()}`,
-            name: profile.name || 'Imported Profile',
-            thumbnail: profile.thumbnail || '',
-            mainImage: profile.mainImage || '',
-            settings: profile.settings || {},
-            transformImages: profile.transformImages || {},
-            transformControls: profile.transformControls || ['default'],
-            smallerImage: profile.smallerImage || '',
-            createdAt: profile.createdAt ? new Date(profile.createdAt) : new Date(),
-          }));
-
-          setSavedProfiles(validatedProfiles);
-          
-          toast({
-            title: "📤 Data Imported!",
-            description: `Successfully imported ${validatedProfiles.length} profiles`,
-          });
-        } else {
-          throw new Error('Invalid file format');
-        }
-      } catch (error) {
-        toast({
-          title: "❌ Import Failed",
-          description: "Invalid file format or corrupted data",
-        });
-      }
-    };
-    
-    reader.readAsText(file);
-    // Reset the input value so the same file can be imported again
-    event.target.value = '';
-  };
-
   const copyToClipboard = (value: string | number, label: string) => {
     navigator.clipboard.writeText(value.toString());
     toast({
@@ -563,34 +479,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             <span>📁</span> Saved Profiles
           </h3>
            <div className="flex gap-2">
-            <Button
-              onClick={exportData}
-              variant="ghost"
-              size="sm"
-              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-2 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
-              style={{
-                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
-                backgroundSize: '400% 400%',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
-              }}
-            >
-              <Download className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
-              Export
-            </Button>
-            <Button
-              onClick={triggerImport}
-              variant="ghost"
-              size="sm"
-              className="relative overflow-hidden text-white hover:text-white font-bold text-xs px-2 py-1 drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button gradient-cycle"
-              style={{
-                background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
-                backgroundSize: '400% 400%',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
-              }}
-            >
-              <FileUp className="w-3 h-3 mr-1 text-white drop-shadow-sm" />
-              Import
-            </Button>
             <Button
               onClick={newProfile}
               variant="ghost"
@@ -750,13 +638,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         )}
       </div>
       {/* Hidden File Inputs */}
-      <input
-        ref={exportInputRef}
-        type="file"
-        accept=".json"
-        className="hidden"
-        onChange={importData}
-      />
       <input
         ref={mainImageInputRef}
         type="file"
