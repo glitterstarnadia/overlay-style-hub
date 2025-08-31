@@ -60,7 +60,10 @@ const Index = () => {
   const [sections, setSections] = useState<string[]>(initialSections);
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 400, height: 300 });
+  const [size, setSize] = useState(() => ({
+    width: Math.min(800, window.innerWidth * 0.9),
+    height: Math.min(600, window.innerHeight * 0.9)
+  }));
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   
@@ -80,6 +83,28 @@ const Index = () => {
   // Initialize Discord RPC
   useEffect(() => {
     activities.browsing();
+  }, []);
+
+  // Handle window resize to make menu responsive
+  useEffect(() => {
+    const handleWindowResize = () => {
+      const maxWidth = window.innerWidth * 0.9;
+      const maxHeight = window.innerHeight * 0.9;
+      
+      setSize(currentSize => ({
+        width: Math.min(currentSize.width, maxWidth),
+        height: Math.min(currentSize.height, maxHeight)
+      }));
+      
+      // Also adjust position if needed to keep menu in view
+      setPosition(currentPosition => ({
+        x: Math.max(0, Math.min(currentPosition.x, window.innerWidth - 400)),
+        y: Math.max(0, Math.min(currentPosition.y, window.innerHeight - 300))
+      }));
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
 
   // Memoize event handlers to prevent recreation on every render
@@ -157,7 +182,10 @@ const Index = () => {
 
   const resetPositionAndSize = useCallback(() => {
     const newPosition = { x: 0, y: 0 };
-    const newSize = { width: 400, height: 300 };
+    const newSize = { 
+      width: Math.min(800, window.innerWidth * 0.9),
+      height: Math.min(600, window.innerHeight * 0.9)
+    };
     setPosition(newPosition);
     setSize(newSize);
     toast({
@@ -382,8 +410,10 @@ const Index = () => {
             setPosition(newPosition);
           }
           if (isResizing) {
-            const newWidth = Math.max(200, resizeStart.width + (e.clientX - resizeStart.x));
-            const newHeight = Math.max(150, resizeStart.height + (e.clientY - resizeStart.y));
+            const maxWidth = window.innerWidth * 0.95;
+            const maxHeight = window.innerHeight * 0.95;
+            const newWidth = Math.max(200, Math.min(maxWidth, resizeStart.width + (e.clientX - resizeStart.x)));
+            const newHeight = Math.max(150, Math.min(maxHeight, resizeStart.height + (e.clientY - resizeStart.y)));
             const newSize = {
               width: newWidth,
               height: newHeight
