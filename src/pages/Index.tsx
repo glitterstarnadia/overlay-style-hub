@@ -60,7 +60,7 @@ const Index = () => {
   const [sections, setSections] = useState<string[]>(initialSections);
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 800, height: 600 });
+  const [size, setSize] = useState({ width: 400, height: 300 });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   
@@ -157,7 +157,7 @@ const Index = () => {
 
   const resetPositionAndSize = useCallback(() => {
     const newPosition = { x: 0, y: 0 };
-    const newSize = { width: 800, height: 600 };
+    const newSize = { width: 400, height: 300 };
     setPosition(newPosition);
     setSize(newSize);
     toast({
@@ -382,8 +382,8 @@ const Index = () => {
             setPosition(newPosition);
           }
           if (isResizing) {
-            const newWidth = Math.max(600, resizeStart.width + (e.clientX - resizeStart.x));
-            const newHeight = Math.max(400, resizeStart.height + (e.clientY - resizeStart.y));
+            const newWidth = Math.max(200, resizeStart.width + (e.clientX - resizeStart.x));
+            const newHeight = Math.max(150, resizeStart.height + (e.clientY - resizeStart.y));
             const newSize = {
               width: newWidth,
               height: newHeight
@@ -498,7 +498,7 @@ const Index = () => {
             <div className="flex-1 min-h-0 relative z-10 flex flex-col">
               <div 
                 className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" 
-                style={{ maxHeight: 'calc(100vh - 200px)' }}
+                style={{ maxHeight: 'calc(100% - 80px)' }}
                 data-no-drag
               >
                 {/* Display all sections content */}
