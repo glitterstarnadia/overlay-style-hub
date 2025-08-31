@@ -99,20 +99,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const overlayRef = useRef<HTMLDivElement>(null);
   
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // Prevent dragging if clicking on interactive elements
-    const target = e.target as HTMLElement;
-    
-    // Don't start dragging if clicking on:
-    // - Scrollbars, inputs, buttons, selects, or any interactive element
-    // - Elements that specifically want to prevent dragging
-    // - Child elements of dropdown menus or other interactive components
-    // - Drag handles for sections (these have their own drag logic)
-    if (target.closest('button, input, select, textarea, [role="menuitem"], [role="option"], [data-no-drag], .overflow-y-auto, .overflow-x-auto, [draggable="true"], .cursor-grab, .cursor-grabbing')) {
-      return;
-    }
-    
     // Only start dragging when clicking on drag handles
-    if (target.closest('[data-drag-handle]')) {
+    if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,
@@ -485,7 +473,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       onMouseDown={handleMouseDown}
     >
       {/* Sparkle Trail Effects */}
-      <SparkleTrail containerRef={overlayRef} />
+      <SparkleTrail />
       {/* Main Card Container */}
       <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
@@ -562,50 +550,37 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           
           {/* Content Area - Full Width with Proper Scrolling */}
           <div className="flex-1 min-h-0 relative z-10 flex flex-col">
-            <div 
-              className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" 
-              style={{ maxHeight: 'calc(100vh - 200px)' }}
-              data-no-drag
-            >
-               {/* Display all sections content */}
-               <div className="space-y-3 relative pb-4">
-                 {sections.map((sectionId, index) => (
-                   <React.Fragment key={sectionId}>
-                     {/* Drop preview indicator */}
-                     {draggedSection && dragOverSection === sectionId && draggedSection !== sectionId && (
-                       <div className="h-2 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full mx-4 animate-pulse shadow-lg border-2 border-white/50">
-                         <div className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-[pulse_1s_ease-in-out_infinite]" />
-                       </div>
-                     )}
-                     
-                     <div 
-                       className={cn(
-                         "transform transition-all duration-300 relative",
-                         draggedSection === sectionId && "opacity-50 rotate-1 scale-95 z-50",
-                         dragOverSection === sectionId && "scale-102 z-40",
-                         !draggedSection && "hover:scale-[1.02]"
-                       )}
-                       style={{
-                         filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
-                         zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10
-                       }}
-                     >
-                       <SectionPanel 
-                         sectionId={sectionId} 
-                         sectionTitle={getSectionTitle(sectionId)} 
-                         selectedColor={selectedColor}
-                         isCollapsed={collapsedSections.has(sectionId)}
-                         onToggleCollapse={() => toggleSection(sectionId)}
-                         isDragging={draggedSection === sectionId}
-                         isDragOver={dragOverSection === sectionId}
-                         onDragStart={() => handleSectionDragStart(sectionId)}
-                         onDragEnd={handleSectionDragEnd}
-                         onDragOver={() => handleSectionDragOver(sectionId)}
-                         onDrop={() => handleSectionDrop(sectionId)}
-                       />
-                     </div>
-                   </React.Fragment>
-                 ))}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+              {/* Display all sections content */}
+              <div className="space-y-3 relative pb-4">
+                {sections.map((sectionId, index) => (
+                  <div 
+                    key={sectionId}
+                    className={cn(
+                      "transform hover:scale-[1.02] transition-all duration-300 relative",
+                      draggedSection === sectionId && "z-50 scale-105",
+                      dragOverSection === sectionId && "z-40 scale-102"
+                    )}
+                    style={{
+                      filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
+                      zIndex: draggedSection === sectionId ? 50 : dragOverSection === sectionId ? 40 : index + 10
+                    }}
+                  >
+                    <SectionPanel 
+                      sectionId={sectionId} 
+                      sectionTitle={getSectionTitle(sectionId)} 
+                      selectedColor={selectedColor}
+                      isCollapsed={collapsedSections.has(sectionId)}
+                      onToggleCollapse={() => toggleSection(sectionId)}
+                      isDragging={draggedSection === sectionId}
+                      isDragOver={dragOverSection === sectionId}
+                      onDragStart={() => handleSectionDragStart(sectionId)}
+                      onDragEnd={handleSectionDragEnd}
+                      onDragOver={() => handleSectionDragOver(sectionId)}
+                      onDrop={() => handleSectionDrop(sectionId)}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
