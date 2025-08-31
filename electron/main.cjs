@@ -116,15 +116,11 @@ ipcMain.handle('discord-update-state', (event, state) => {
 
 // IPC handler for web bar visibility
 ipcMain.handle('set-web-bar-visibility', (event, visible) => {
+  console.log('=== SETTING WEB BAR VISIBILITY ===', visible);
   const focusedWindow = BrowserWindow.getFocusedWindow();
   if (focusedWindow) {
-    if (visible) {
-      // Show web bar (add frame)
-      focusedWindow.setMenuBarVisibility(true);
-    } else {
-      // Hide web bar (remove frame)
-      focusedWindow.setMenuBarVisibility(false);
-    }
+    // Toggle menu bar visibility based on the visible parameter
+    focusedWindow.setMenuBarVisibility(visible);
   }
 });
 
