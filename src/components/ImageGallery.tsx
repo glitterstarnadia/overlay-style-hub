@@ -932,21 +932,23 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             </div>
                           )}
                             
-                            {/* Notes Control */}
-                            <div>
-                              <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
-                              <div className="space-y-0">
-                                <textarea
-                                  className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
-                                  value={settings.notes || ''}
-                                  onChange={(e) => updateImageSettings(imageKey, { 
-                                    notes: e.target.value 
-                                  })}
-                                  placeholder="Add notes..."
-                                  rows={3}
-                                />
+                            {/* Notes Control - Hidden for patterns and colours */}
+                            {category !== 'patterns' && category !== 'colours' && (
+                              <div>
+                                <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
+                                <div className="space-y-0">
+                                  <textarea
+                                    className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
+                                    value={settings.notes || ''}
+                                    onChange={(e) => updateImageSettings(imageKey, { 
+                                      notes: e.target.value 
+                                    })}
+                                    placeholder="Add notes..."
+                                    rows={3}
+                                  />
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                           
                         {/* Save and Clear Buttons */}
