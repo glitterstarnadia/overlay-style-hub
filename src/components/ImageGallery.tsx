@@ -71,7 +71,7 @@ const imageMap: Record<string, string> = {
 interface ImageSettings {
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
-  scale: number;
+  scale: string | number;
   scaleHex?: string;
 }
 
@@ -201,12 +201,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   const handleScaleChange = (imageKey: string, value: string) => {
-    // Allow partial decimal inputs like "0." or "1."
-    if (value === '' || value === '0.' || /^\d*\.?\d*$/.test(value)) {
-      updateImageSettings(imageKey, { 
-        scale: value === '' ? 0 : (value.endsWith('.') ? parseFloat(value + '0') : parseFloat(value)) || 0
-      });
-    }
+    // Allow any input format - no validation restrictions
+    updateImageSettings(imageKey, { scale: value });
   };
 
   const saveImageSettings = (imageKey: string) => {
