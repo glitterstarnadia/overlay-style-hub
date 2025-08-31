@@ -8,7 +8,20 @@ import MenuSparkles from './MenuSparkles';
 import SparkleTrail from './SparkleTrail';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import '../types/global';
+
+// Type declarations for Electron APIs
+declare global {
+  interface Window {
+    electronAPI?: {
+      platform: string;
+      updateDiscordActivity: (details: string, state: string) => Promise<void>;
+      updateDiscordState: (state: string) => Promise<void>;
+      setWebBarVisibility: (visible: boolean) => Promise<void>;
+      resizeWindow: (width: number, height: number) => Promise<void>;
+      getWindowSize: () => Promise<[number, number]>;
+    };
+  }
+}
 
 // Move localStorage access outside of render
 const getStoredValue = (key: string, defaultValue: any) => {
