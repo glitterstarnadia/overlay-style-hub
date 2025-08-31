@@ -776,127 +776,132 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           </div>
                         </h4>
                         
-                        <div className="grid grid-cols-3 gap-0.5">
-                          {/* Position Controls */}
-                          <div>
-                            <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
-                            <div className="space-y-0">
-                               <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.position.x, "X")}
-                                    title="Click to copy X value"
-                                  >x</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                                    value={settings.position.x}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
-                               <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.position.y, "Y")}
-                                    title="Click to copy Y value"
-                                  >y</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                                    value={settings.position.y}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
-                               <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.position.z, "Z")}
-                                    title="Click to copy Z value"
-                                  >z</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
-                                    value={settings.position.z}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
+                        <div className={cn("grid gap-0.5", category === 'patterns' || category === 'colours' ? "grid-cols-1" : "grid-cols-3")}>
+                          {/* Position Controls - Hidden for patterns and colours */}
+                          {category !== 'patterns' && category !== 'colours' && (
+                            <div>
+                              <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
+                              <div className="space-y-0">
+                                 <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.position.x, "X")}
+                                      title="Click to copy X value"
+                                    >x</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                      value={settings.position.x}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        position: { ...settings.position, x: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                                 <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.position.y, "Y")}
+                                      title="Click to copy Y value"
+                                    >y</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                      value={settings.position.y}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        position: { ...settings.position, y: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                                 <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.position.z, "Z")}
+                                      title="Click to copy Z value"
+                                    >z</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
+                                      value={settings.position.z}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        position: { ...settings.position, z: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                              </div>
                             </div>
-                          </div>
+                          )}
                           
-                          {/* Rotation Controls */}
-                          <div>
-                            <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
-                            <div className="space-y-0">
-                               <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.rotation.x, "X")}
-                                    title="Click to copy X value"
-                                  >x</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                                    value={settings.rotation.x}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
-                                <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.rotation.y, "Y")}
-                                    title="Click to copy Y value"
-                                  >y</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                                    value={settings.rotation.y}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
-                               <div className="flex items-center gap-1">
-                                  <span 
-                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
-                                    onClick={() => copyToClipboard(settings.rotation.z, "Z")}
-                                    title="Click to copy Z value"
-                                  >z</span>
-                                  <input 
-                                    type="number"
-                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
-                                    value={settings.rotation.z}
-                                    onChange={(e) => updateImageSettings(imageKey, { 
-                                      rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
-                                    })}
-                                  />
-                               </div>
+                          {/* Rotation Controls - Hidden for patterns and colours */}
+                          {category !== 'patterns' && category !== 'colours' && (
+                            <div>
+                              <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
+                              <div className="space-y-0">
+                                 <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.rotation.x, "X")}
+                                      title="Click to copy X value"
+                                    >x</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                      value={settings.rotation.x}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        rotation: { ...settings.rotation, x: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                                  <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.rotation.y, "Y")}
+                                      title="Click to copy Y value"
+                                    >y</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                      value={settings.rotation.y}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        rotation: { ...settings.rotation, y: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                                 <div className="flex items-center gap-1">
+                                    <span 
+                                      className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                      onClick={() => copyToClipboard(settings.rotation.z, "Z")}
+                                      title="Click to copy Z value"
+                                    >z</span>
+                                    <input 
+                                      type="number"
+                                      className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold"
+                                      value={settings.rotation.z}
+                                      onChange={(e) => updateImageSettings(imageKey, { 
+                                        rotation: { ...settings.rotation, z: parseFloat(e.target.value) || 0 }
+                                      })}
+                                    />
+                                 </div>
+                              </div>
                             </div>
-                          </div>
+                          )}
                           
-                          {/* Scale Control */}
-                          <div>
-                            <p 
-                              className="font-bold text-pink-600 mb-0.5 text-xs cursor-pointer hover:text-pink-800"
-                              onClick={() => copyToClipboard(settings.scale, "Scale")}
-                              title="Click to copy Scale value"
-                            >Scale</p>
-                             <div className="space-y-0">
-                                <input 
-                                  type="text"
-                                  step="0.1"
-                                  className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
-                                  value={settings.scale}
-                                  onChange={(e) => handleScaleChange(imageKey, e.target.value)}
-                                />
-                              <div>
+                          {/* Scale Control - Hidden for patterns and colours */}
+                          {category !== 'patterns' && category !== 'colours' && (
+                            <div>
+                              <p 
+                                className="font-bold text-pink-600 mb-0.5 text-xs cursor-pointer hover:text-pink-800"
+                                onClick={() => copyToClipboard(settings.scale, "Scale")}
+                                title="Click to copy Scale value"
+                              >Scale</p>
+                               <div className="space-y-0">
+                                  <input 
+                                    type="text"
+                                    step="0.1"
+                                    className="w-16 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold" 
+                                    value={settings.scale}
+                                    onChange={(e) => handleScaleChange(imageKey, e.target.value)}
+                                  />
+                                <div>
                                 <label 
                                   className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
                                   onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
@@ -924,24 +929,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 </div>
                                </div>
                              </div>
-                           </div>
-                           
-                           {/* Notes Control */}
-                           <div>
-                             <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
-                             <div className="space-y-0">
-                               <textarea
-                                 className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
-                                 value={settings.notes || ''}
-                                 onChange={(e) => updateImageSettings(imageKey, { 
-                                   notes: e.target.value 
-                                 })}
-                                 placeholder="Add notes..."
-                                 rows={3}
-                               />
-                             </div>
-                           </div>
-                         </div>
+                            </div>
+                          )}
+                            
+                            {/* Notes Control */}
+                            <div>
+                              <p className="font-bold text-pink-600 mb-0.5 text-xs">Notes</p>
+                              <div className="space-y-0">
+                                <textarea
+                                  className="w-full px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold resize-none" 
+                                  value={settings.notes || ''}
+                                  onChange={(e) => updateImageSettings(imageKey, { 
+                                    notes: e.target.value 
+                                  })}
+                                  placeholder="Add notes..."
+                                  rows={3}
+                                />
+                              </div>
+                            </div>
+                          </div>
                           
                         {/* Save and Clear Buttons */}
                         <div className="flex justify-between mt-1">
