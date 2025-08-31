@@ -779,7 +779,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             <p className="font-bold text-pink-600 mb-0.5 text-xs">Position</p>
                             <div className="space-y-0">
                                <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">x</span>
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.position.x, "X")}
+                                    title="Click to copy X value"
+                                  >x</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
@@ -792,7 +796,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  />
                                </div>
                                <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">y</span>
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.position.y, "Y")}
+                                    title="Click to copy Y value"
+                                  >y</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
@@ -805,7 +813,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  />
                                </div>
                                <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">z</span>
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.position.z, "Z")}
+                                    title="Click to copy Z value"
+                                  >z</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer"
@@ -825,7 +837,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             <p className="font-bold text-pink-600 mb-0.5 text-xs">Rotation</p>
                             <div className="space-y-0">
                                <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">x</span>
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.rotation.x, "X")}
+                                    title="Click to copy X value"
+                                  >x</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
@@ -837,8 +853,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    title="Click to copy value"
                                  />
                                </div>
-                               <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">y</span>
+                                <div className="flex items-center gap-1">
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.rotation.y, "Y")}
+                                    title="Click to copy Y value"
+                                  >y</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
@@ -851,7 +871,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  />
                                </div>
                                <div className="flex items-center gap-1">
-                                 <span className="text-xs text-pink-600">z</span>
+                                  <span 
+                                    className="text-xs text-pink-600 cursor-pointer hover:text-pink-800 font-bold"
+                                    onClick={() => copyToClipboard(settings.rotation.z, "Z")}
+                                    title="Click to copy Z value"
+                                  >z</span>
                                  <input 
                                    type="number"
                                    className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer"
@@ -868,7 +892,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           
                           {/* Scale Control */}
                           <div>
-                            <p className="font-bold text-pink-600 mb-0.5 text-xs">Scale</p>
+                            <p 
+                              className="font-bold text-pink-600 mb-0.5 text-xs cursor-pointer hover:text-pink-800"
+                              onClick={() => copyToClipboard(settings.scale, "Scale")}
+                              title="Click to copy Scale value"
+                            >Scale</p>
                              <div className="space-y-0">
                                <input 
                                  type="text"
@@ -880,7 +908,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                  title="Click to copy value"
                                />
                               <div>
-                                <label className="text-xs text-pink-600 mb-0.5 block font-bold">Hex Code</label>
+                                <label 
+                                  className="text-xs text-pink-600 mb-0.5 block font-bold cursor-pointer hover:text-pink-800"
+                                  onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
+                                  title="Click to copy Hex value"
+                                >Hex Code</label>
                                 <div className="flex items-center gap-1">
                                    <input 
                                      type="text"
@@ -993,7 +1025,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <p className="font-bold text-pink-600 mb-1">Position</p>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.position.x, "X")}
+                               title="Click to copy X value"
+                             >X:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.position.x}
@@ -1005,7 +1041,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              />
                           </div>
                           <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.position.y, "Y")}
+                               title="Click to copy Y value"
+                             >Y:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.position.y}
@@ -1017,7 +1057,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              />
                           </div>
                           <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.position.z, "Z")}
+                               title="Click to copy Z value"
+                             >Z:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.position.z}
@@ -1036,7 +1080,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       <p className="font-bold text-pink-600 mb-1">Rotate</p>
                       <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">X:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.rotation.x, "X")}
+                               title="Click to copy X value"
+                             >X:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.rotation.x}
@@ -1048,7 +1096,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              />
                           </div>
                           <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">Y:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.rotation.y, "Y")}
+                               title="Click to copy Y value"
+                             >Y:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.rotation.y}
@@ -1060,7 +1112,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              />
                           </div>
                           <div className="flex items-center gap-2">
-                             <span className="text-xs text-pink-600 w-4 font-bold">Z:</span>
+                             <span 
+                               className="text-xs text-pink-600 w-4 font-bold cursor-pointer hover:text-pink-800"
+                               onClick={() => copyToClipboard(settings.rotation.z, "Z")}
+                               title="Click to copy Z value"
+                             >Z:</span>
                              <input 
                                className="w-12 px-1 py-0.5 text-xs rounded border border-pink-200 bg-white focus:border-pink-400 focus:outline-none text-pink-600 font-bold cursor-pointer" 
                                value={settings.rotation.z}
@@ -1078,7 +1134,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   {/* Scale Control */}
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
-                      <p className="font-bold text-pink-600 mb-1">Scale</p>
+                       <p 
+                         className="font-bold text-pink-600 mb-1 cursor-pointer hover:text-pink-800"
+                         onClick={() => copyToClipboard(settings.scale, "Scale")}
+                         title="Click to copy Scale value"
+                       >Scale</p>
                         <div className="flex gap-2 items-center">
                             <input 
                               type="text"
@@ -1089,7 +1149,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               title="Click to copy value"
                             />
                            <div className="flex flex-col">
-                             <label className="text-xs text-pink-600 mb-0.5 font-bold">Hex Code</label>
+                              <label 
+                                className="text-xs text-pink-600 mb-0.5 font-bold cursor-pointer hover:text-pink-800"
+                                onClick={() => copyToClipboard(settings.scaleHex || '#ffffff', "Hex Code")}
+                                title="Click to copy Hex value"
+                              >Hex Code</label>
                              <div className="flex items-center gap-1">
                                 <input 
                                   type="text"
