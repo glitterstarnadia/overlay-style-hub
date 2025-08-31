@@ -84,6 +84,7 @@ interface SavedProfile {
   mainImage: string;
   settings: Record<string, ImageSettings>;
   transformImages: Record<string, string>;
+  transformImages2?: Record<string, string>;
   transformControls: string[];
   smallerImage: string;
   createdAt: Date;
@@ -103,6 +104,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [smallerImage, setSmallerImage] = useState('');
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
+  const [transformImages2, setTransformImages2] = useState<Record<string, string>>({});
   
   // Load saved profiles from localStorage on component mount
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>(() => {
@@ -117,13 +119,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
+  const transformImage2InputRefs = useRef<Record<string, HTMLInputElement>>({});
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
 
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
   };
 
-  const handleImageUpload = async (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string) => {
+  const handleImageUpload = async (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string, isSecond: boolean = false) => {
     if (file && file.type.startsWith('image/')) {
       try {
         toast({
@@ -148,14 +151,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             description: "High-quality smaller image has been loaded",
           });
         } else if (transformId) {
-          setTransformImages(prev => ({
-            ...prev,
-            [transformId]: processedImageUrl
-          }));
-          toast({
-            title: "🖼️ Transform Image Updated!",
-            description: "High-quality transform control image has been loaded",
-          });
+          if (isSecond) {
+            setTransformImages2(prev => ({
+              ...prev,
+              [transformId]: processedImageUrl
+            }));
+            toast({
+              title: "🖼️ Second Transform Image Updated!",
+              description: "High-quality second transform control image has been loaded",
+            });
+          } else {
+            setTransformImages(prev => ({
+              ...prev,
+              [transformId]: processedImageUrl
+            }));
+            toast({
+              title: "🖼️ Transform Image Updated!",
+              description: "High-quality transform control image has been loaded",
+            });
+          }
         } else if (thumbnailIndex !== undefined) {
           const newThumbnails = [...currentThumbnails];
           newThumbnails[thumbnailIndex] = processedImageUrl;
@@ -192,6 +206,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const triggerTransformImageUpload = (transformId: string) => {
     transformImageInputRefs.current[transformId]?.click();
+  };
+
+  const triggerTransformImage2Upload = (transformId: string) => {
+    transformImage2InputRefs.current[transformId]?.click();
   };
 
   const triggerThumbnailUpload = (index: number) => {
@@ -238,6 +256,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       ...prev,
       [newId]: ''
     }));
+    setTransformImages2(prev => ({
+      ...prev,
+      [newId]: ''
+    }));
     toast({
       title: "➕ Control Added!",
       description: "New transform control set created with image upload",
@@ -258,6 +280,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setTransformControls(prev => prev.filter(id => id !== controlId));
     // Clean up transform image for the removed control
     setTransformImages(prev => {
+      const newImages = { ...prev };
+      delete newImages[controlId];
+      return newImages;
+    });
+    setTransformImages2(prev => {
       const newImages = { ...prev };
       delete newImages[controlId];
       return newImages;
@@ -288,6 +315,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               mainImage: currentMainImage,
               settings: { ...imageSettings },
               transformImages: { ...transformImages },
+              transformImages2: { ...transformImages2 },
               transformControls: [...transformControls],
               smallerImage: smallerImage,
             }
@@ -325,6 +353,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage(profile.mainImage);
     setImageSettings(profile.settings);
     setTransformImages(profile.transformImages);
+    setTransformImages2(profile.transformImages2 || {});
     setTransformControls(profile.transformControls || ['default']);
     setSmallerImage(profile.smallerImage);
     setActiveProfileId(profile.id);
@@ -350,6 +379,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage('');
     setImageSettings({});
     setTransformImages({});
+    setTransformImages2({});
     setTransformControls(['default']);
     setSmallerImage('');
     setActiveProfileId(null);
@@ -688,6 +718,21 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           }}
         />
       ))}
+      {transformControls.map((controlId) => (
+        <input
+          key={`transform2-${controlId}`}
+          ref={(el) => {
+            if (el) transformImage2InputRefs.current[controlId] = el;
+          }}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleImageUpload(file, false, false, undefined, controlId, true);
+          }}
+        />
+      ))}
       
 
       {/* Main Image Subsection - Only show when main image is uploaded */}
@@ -728,36 +773,68 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   <div key={controlId} className="p-0.5 bg-white/80 rounded-lg border border-pink-200">
                     <div className="flex gap-2">
                       {/* Image Upload Section - Left Side */}
-                      <div className="flex-shrink-0">
-                        <div className="relative">
-                          {transformImages[controlId] ? (
-                            <img
-                              src={imageMap[transformImages[controlId]] || transformImages[controlId]}
-                              alt={`Transform image ${index + 1}`}
-                              className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
-                              style={{ 
-                                imageRendering: 'auto', 
-                                maxWidth: 'none',
-                                filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                              }}
-                            />
-                          ) : (
-                            <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                              <Upload className="w-5 h-5 text-pink-600" />
-                            </div>
-                          )}
-                          
-                          <Button
-                            onClick={() => triggerTransformImageUpload(controlId)}
-                            className="absolute -top-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
-                            style={{ backgroundColor: '#ffb3d6' }}
-                            size="sm"
-                            title={`Upload image for Set ${index + 1}`}
-                          >
-                            <Upload className="w-2 h-2" />
-                          </Button>
-                        </div>
-                      </div>
+                           <div className="flex-shrink-0">
+                             <div className="relative">
+                               {transformImages[controlId] ? (
+                                 <img
+                                   src={imageMap[transformImages[controlId]] || transformImages[controlId]}
+                                   alt={`Transform image ${index + 1}`}
+                                   className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                   style={{ 
+                                     imageRendering: 'auto', 
+                                     maxWidth: 'none',
+                                     filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                   }}
+                                 />
+                               ) : (
+                                 <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                   <Upload className="w-5 h-5 text-pink-600" />
+                                 </div>
+                               )}
+                               
+                               <Button
+                                 onClick={() => triggerTransformImageUpload(controlId)}
+                                 className="absolute -top-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
+                                 style={{ backgroundColor: '#ffb3d6' }}
+                                 size="sm"
+                                 title={`Upload image for Set ${index + 1}`}
+                               >
+                                 <Upload className="w-2 h-2" />
+                               </Button>
+                             </div>
+                             
+                             {/* Second Image Upload - Only for colours category */}
+                             {category === 'colours' && (
+                               <div className="relative mt-2">
+                                 {transformImages2[controlId] ? (
+                                   <img
+                                     src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
+                                     alt={`Second transform image ${index + 1}`}
+                                     className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                     style={{ 
+                                       imageRendering: 'auto', 
+                                       maxWidth: 'none',
+                                       filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                     }}
+                                   />
+                                 ) : (
+                                   <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                                     <Upload className="w-5 h-5 text-pink-600" />
+                                   </div>
+                                 )}
+                                 
+                                 <Button
+                                   onClick={() => triggerTransformImage2Upload(controlId)}
+                                   className="absolute -top-1 -right-1 text-white p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20"
+                                   style={{ backgroundColor: '#ffb3d6' }}
+                                   size="sm"
+                                   title={`Upload second image for Set ${index + 1}`}
+                                 >
+                                   <Upload className="w-2 h-2" />
+                                 </Button>
+                               </div>
+                             )}
+                           </div>
 
                       {/* Controls Section - Right Side */}
                       <div className="flex-1">
