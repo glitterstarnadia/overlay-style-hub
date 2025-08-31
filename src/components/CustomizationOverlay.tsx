@@ -5,14 +5,9 @@ import { X, Settings, Move, ChevronDown, ChevronUp } from 'lucide-react';
 import { SectionPanel } from './SectionPanel';
 import { SettingsMenu } from './SettingsMenu';
 import MenuSparkles from './MenuSparkles';
+import SparkleTrail from './SparkleTrail';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-
-interface CursorTrail {
-  id: number;
-  x: number;
-  y: number;
-}
 
 // Move localStorage access outside of render
 const getStoredValue = (key: string, defaultValue: any) => {
@@ -85,9 +80,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   const [alwaysOnTop, setAlwaysOnTop] = useState(initialAlwaysOnTop);
   const [theme, setTheme] = useState<'dark' | 'light'>(initialTheme);
   const [webBarVisible, setWebBarVisible] = useState(initialWebBarVisible);
-  
-  // 3D Cursor Trail state
-  const [cursorTrails, setCursorTrails] = useState<CursorTrail[]>([]);
 
   // Memoize event handlers to prevent recreation on every render
   const handleWebBarVisibilityChange = useCallback((visible: boolean) => {
@@ -105,29 +97,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   }, [onToggle]);
 
   const overlayRef = useRef<HTMLDivElement>(null);
-  
-  // 3D Cursor Animation Handler
-  const handle3DCursorMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!overlayRef.current) return;
-    
-    const rect = overlayRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Create cursor trail with slight randomization for 3D effect
-    const newTrail: CursorTrail = {
-      id: Date.now() + Math.random(),
-      x: x + (Math.random() - 0.5) * 8,
-      y: y + (Math.random() - 0.5) * 8,
-    };
-    
-    setCursorTrails(prev => [...prev, newTrail]);
-    
-    // Remove trail after animation completes
-    setTimeout(() => {
-      setCursorTrails(prev => prev.filter(trail => trail.id !== newTrail.id));
-    }, 800);
-  }, []);
   
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     // Only start dragging when clicking on drag handles
@@ -502,19 +471,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         opacity: opacity / 100
       }} 
       onMouseDown={handleMouseDown}
-      onMouseMove={handle3DCursorMove}
     >
-      {/* 3D Cursor Trail Effects */}
-      {cursorTrails.map(trail => (
-        <div
-          key={trail.id}
-          className="cursor-trail-3d"
-          style={{
-            left: trail.x - 6,
-            top: trail.y - 6,
-          }}
-        />
-      ))}
+      {/* Sparkle Trail Effects */}
+      <SparkleTrail />
       {/* Main Card Container */}
       <Card className={cn("w-full h-full relative magic-cursor transform-gpu overflow-hidden", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")}>
         {/* 3D Inner Frame */}
