@@ -254,103 +254,111 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
 
 @layer base {
   :root {
-    /* Dark overlay theme */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Light mode - Current aesthetic */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
     
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
     
-    /* Vibrant accent colors */
-    --primary: 262 83% 58%;
+    --primary: 330 81% 60%;
     --primary-foreground: 0 0% 98%;
     
-    --secondary: 240 4.8% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
     
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 240 4.8% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 262 83% 58%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 330 81% 60%;
     
     --radius: 0.75rem;
     
-    /* Custom overlay colors */
-    --overlay-bg: 240 10% 3.9%;
-    --overlay-surface: 240 8% 8%;
-    --overlay-border: 240 6% 20%;
-    --overlay-hover: 240 6% 12%;
-    --overlay-active: 262 83% 58%;
+    /* Custom overlay colors - Light mode */
+    --overlay-bg: 330 100% 98%;
+    --overlay-surface: 330 60% 95%;
+    --overlay-border: 330 40% 85%;
+    --overlay-hover: 330 60% 90%;
+    --overlay-active: 330 81% 60%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(292 84% 61%));
-    --gradient-surface: linear-gradient(145deg, hsl(240 8% 8%), hsl(240 6% 6%));
+    /* Gradients - Light mode */
+    --gradient-primary: linear-gradient(135deg, hsl(330 81% 60%), hsl(270 80% 70%));
+    --gradient-surface: linear-gradient(145deg, hsl(330 60% 95%), hsl(330 100% 98%));
     
-    /* Shadows */
-    --shadow-overlay: 0 25px 50px -12px hsl(240 10% 3.9% / 0.8);
-    --shadow-panel: 0 10px 30px -10px hsl(240 10% 3.9% / 0.6);
-    --shadow-glow: 0 0 20px hsl(262 83% 58% / 0.3);
+    /* Shadows - Light mode */
+    --shadow-overlay: 0 25px 50px -12px hsl(330 81% 60% / 0.15);
+    --shadow-panel: 0 10px 30px -10px hsl(330 81% 60% / 0.1);
+    --shadow-glow: 0 0 20px hsl(330 81% 60% / 0.2);
     
-    /* Animation curves */
-    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
+    /* Sidebar colors - Light mode */
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* Dark mode - Black, pink, purple aesthetic */
+    --background: 240 10% 4%;
+    --foreground: 330 40% 95%;
+    
+    --card: 240 10% 6%;
+    --card-foreground: 330 40% 95%;
+    
+    --popover: 240 10% 6%;
+    --popover-foreground: 330 40% 95%;
+    
+    --primary: 330 81% 60%;
+    --primary-foreground: 240 10% 4%;
+    
+    --secondary: 240 8% 12%;
+    --secondary-foreground: 330 40% 95%;
+    
+    --muted: 240 8% 12%;
+    --muted-foreground: 240 20% 70%;
+    
+    --accent: 270 80% 25%;
+    --accent-foreground: 330 40% 95%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 330 40% 95%;
+    
+    --border: 240 8% 15%;
+    --input: 240 8% 15%;
+    --ring: 330 81% 60%;
+    
+    /* Custom overlay colors - Dark mode */
+    --overlay-bg: 240 10% 4%;
+    --overlay-surface: 240 8% 8%;
+    --overlay-border: 240 15% 20%;
+    --overlay-hover: 240 8% 12%;
+    --overlay-active: 330 81% 60%;
+    
+    /* Gradients - Dark mode */
+    --gradient-primary: linear-gradient(135deg, hsl(330 81% 60%), hsl(270 80% 50%));
+    --gradient-surface: linear-gradient(145deg, hsl(240 8% 8%), hsl(240 10% 6%));
+    
+    /* Shadows - Dark mode */
+    --shadow-overlay: 0 25px 50px -12px hsl(0 0% 0% / 0.8);
+    --shadow-panel: 0 10px 30px -10px hsl(0 0% 0% / 0.6);
+    --shadow-glow: 0 0 20px hsl(330 81% 60% / 0.4);
+    
+    /* Sidebar colors - Dark mode */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

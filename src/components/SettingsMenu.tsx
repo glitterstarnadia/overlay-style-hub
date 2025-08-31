@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -60,6 +61,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const profileImportRef = useRef<HTMLInputElement>(null);
+  const { setTheme } = useTheme();
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
@@ -67,6 +69,12 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
 
   const handleProfileImportClick = () => {
     profileImportRef.current?.click();
+  };
+
+  const handleThemeToggle = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    onThemeChange(newTheme);
   };
 
   return (
@@ -92,7 +100,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button relative z-50"
+            className="hover:bg-white/20 text-primary-foreground hover:text-primary-foreground drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button relative z-50"
             style={{
               boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
             }}
@@ -104,9 +112,11 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         
         <DropdownMenuContent 
           align="end" 
-          className="w-72 bg-gradient-to-br from-white to-pink-50 border-4 border-pink-200/60 shadow-3d backdrop-blur-lg relative"
+          className="w-72 bg-overlay-surface border-2 border-overlay-border shadow-panel backdrop-blur-lg relative"
           style={{
-            boxShadow: '0 12px 24px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.05)',
+            backgroundColor: 'hsl(var(--overlay-surface))',
+            borderColor: 'hsl(var(--overlay-border))',
+            boxShadow: 'var(--shadow-panel)',
             zIndex: 9999
           }}
           sideOffset={5}
@@ -114,21 +124,23 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           collisionPadding={10}
         >
           <DropdownMenuLabel 
-            className="text-pink-600 font-bold text-lg"
-            style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8)' }}
+            className="text-primary font-bold text-lg"
           >
             Settings
           </DropdownMenuLabel>
-          <DropdownMenuSeparator className="bg-pink-200" />
+          <DropdownMenuSeparator className="bg-overlay-border" />
           
           {/* Window Opacity */}
           <div 
-            className="p-4 space-y-3 bg-gradient-to-r from-white/60 to-pink-25/60 rounded-lg m-2 shadow-inner"
-            style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05), inset 0 -1px 2px rgba(255,255,255,0.5)' }}
+            className="p-4 space-y-3 bg-overlay-surface rounded-lg m-2 shadow-inner"
+            style={{ 
+              backgroundColor: 'hsl(var(--overlay-surface))',
+              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)'
+            }}
           >
             <div className="flex items-center gap-2">
-              <Eye className="w-4 h-4 text-pink-500" />
-              <Label className="text-sm text-pink-600 font-medium">
+              <Eye className="w-4 h-4 text-primary" />
+              <Label className="text-sm text-foreground font-medium">
                 Opacity: {opacity}%
               </Label>
             </div>
@@ -142,14 +154,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             />
           </div>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
+          <DropdownMenuSeparator className="bg-overlay-border" />
           
           {/* Always on Top */}
           <div className="p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Pin className="w-4 h-4 text-pink-500" />
-                <Label className="text-sm text-pink-600 font-medium">Always on Top</Label>
+                <Pin className="w-4 h-4 text-primary" />
+                <Label className="text-sm text-foreground font-medium">Always on Top</Label>
               </div>
               <Switch
                 checked={alwaysOnTop}
@@ -159,14 +171,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             </div>
           </div>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
+          <DropdownMenuSeparator className="bg-overlay-border" />
           
           {/* Web Bar Toggle */}
           <div className="p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-pink-500" />
-                <Label className="text-sm text-pink-600 font-medium">Show Web Bar</Label>
+                <Globe className="w-4 h-4 text-primary" />
+                <Label className="text-sm text-foreground font-medium">Show Web Bar</Label>
               </div>
               <Switch
                 checked={webBarVisible}
@@ -176,45 +188,45 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             </div>
           </div>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
-          
+          <DropdownMenuSeparator className="bg-overlay-border" />
+
           {/* Theme Toggle */}
           <DropdownMenuItem 
-            onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            onClick={handleThemeToggle}
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-pink-500" />
+                <Sun className="w-4 h-4 text-primary" />
               ) : (
-                <Moon className="w-4 h-4 text-pink-500" />
+                <Moon className="w-4 h-4 text-primary" />
               )}
               <span className="font-medium">Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
-          
+          <DropdownMenuSeparator className="bg-overlay-border" />
+
           {/* Reset Position */}
           <DropdownMenuItem 
             onClick={onResetPosition}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
-              <RotateCcw className="w-4 h-4 text-pink-500" />
+              <RotateCcw className="w-4 h-4 text-primary" />
               <span className="font-medium">Reset Position & Size</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
+          <DropdownMenuSeparator className="bg-overlay-border" />
           
           {/* Export All Profiles */}
           <DropdownMenuItem 
             onClick={onExportAllProfiles}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
-              <FolderDown className="w-4 h-4 text-pink-500" />
+              <FolderDown className="w-4 h-4 text-primary" />
               <span className="font-medium">Export All Profiles</span>
             </div>
           </DropdownMenuItem>
@@ -222,23 +234,23 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           {/* Import All Profiles */}
           <DropdownMenuItem 
             onClick={handleProfileImportClick}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
-              <FolderUp className="w-4 h-4 text-pink-500" />
+              <FolderUp className="w-4 h-4 text-primary" />
               <span className="font-medium">Import All Profiles</span>
             </div>
           </DropdownMenuItem>
           
-          <DropdownMenuSeparator className="bg-pink-200" />
+          <DropdownMenuSeparator className="bg-overlay-border" />
           
           {/* Export Configuration */}
           <DropdownMenuItem 
             onClick={onExportConfig}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
-              <Download className="w-4 h-4 text-pink-500" />
+              <Download className="w-4 h-4 text-primary" />
               <span className="font-medium">Export Configuration</span>
             </div>
           </DropdownMenuItem>
@@ -246,10 +258,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           {/* Import Configuration */}
           <DropdownMenuItem 
             onClick={handleImportClick}
-            className="cursor-pointer hover:bg-pink-100 text-pink-600"
+            className="cursor-pointer hover:bg-overlay-hover text-foreground"
           >
             <div className="flex items-center gap-2">
-              <Upload className="w-4 h-4 text-pink-500" />
+              <Upload className="w-4 h-4 text-primary" />
               <span className="font-medium">Import Configuration</span>
             </div>
           </DropdownMenuItem>

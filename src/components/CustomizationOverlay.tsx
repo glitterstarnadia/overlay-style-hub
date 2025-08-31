@@ -550,16 +550,25 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       {/* Sparkle Trail Effects */}
       <SparkleTrail />
       {/* Main Card Container */}
-      <Card className={cn("w-full relative magic-cursor transform-gpu overflow-hidden transition-all duration-300", isDragging || isResizing ? "bg-gradient-to-br from-pink-50/90 to-purple-100/90 border-4 border-pink-200/40 shadow-2xl" : "bg-gradient-to-br from-pink-50/95 to-purple-100/95 backdrop-blur-lg border-4 border-pink-200/60 shadow-3d")} style={{ height: isMenuCollapsed ? 'auto' : '100%' }}>
+      <Card className={cn(
+        "w-full relative magic-cursor transform-gpu overflow-hidden transition-all duration-300 bg-overlay-bg/95 backdrop-blur-lg border-overlay-border shadow-overlay",
+        isDragging || isResizing ? "border-2 border-overlay-active shadow-glow" : ""
+      )} 
+      style={{ 
+        height: isMenuCollapsed ? 'auto' : '100%',
+        backgroundColor: 'hsl(var(--overlay-bg) / 0.95)',
+        borderColor: 'hsl(var(--overlay-border))',
+        boxShadow: 'var(--shadow-overlay)'
+      }}>
         
         {/* Header - Draggable hotbar */}
         <div 
           data-drag-handle
-          className="flex items-center justify-between p-4 border-b-4 border-white relative gradient-cycle shadow-inner-3d cursor-move"
+          className="flex items-center justify-between p-4 border-b border-overlay-border relative gradient-cycle shadow-inner-3d cursor-move"
           style={{ 
-            background: 'linear-gradient(-45deg, #ff64b4, #ff99cc, #b399ff, #ccccff, #e6b3ff, #ff64b4)',
+            background: 'var(--gradient-primary)',
             backgroundSize: '400% 400%',
-            boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.2)',
+            borderBottomColor: 'hsl(var(--overlay-border))',
             // @ts-ignore - Electron specific property
             WebkitAppRegion: 'drag'
           } as any}
@@ -569,8 +578,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             // @ts-ignore - Electron specific property
             WebkitAppRegion: 'no-drag' 
           } as any}>
-            <Settings className="w-4 h-4 text-white drop-shadow-md" />
-            <h2 className="text-lg font-semibold text-white drop-shadow-md">Nadia&apos;s Menu</h2>
+            <Settings className="w-4 h-4 text-primary-foreground drop-shadow-md" />
+            <h2 className="text-lg font-semibold text-primary-foreground drop-shadow-md">Nadia&apos;s Menu</h2>
           </div>
           <div className="flex items-center gap-2 relative z-10" style={{ 
             // @ts-ignore - Electron specific property
@@ -580,7 +589,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               variant="ghost"
               size="sm"
               onClick={toggleAllSections}
-              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+              className="hover:bg-white/20 text-primary-foreground hover:text-primary-foreground drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
               title={allCollapsed ? "Expand All Sections" : "Collapse All Sections"}
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
@@ -611,7 +620,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={handleToggleCollapse} 
-              className="hover:bg-white/20 text-white hover:text-white drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
+              className="hover:bg-white/20 text-primary-foreground hover:text-primary-foreground drop-shadow-md transform hover:scale-105 transition-all duration-200 shadow-3d-button"
               title={isMenuCollapsed ? "Expand Menu" : "Collapse Menu"}
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.3)'
@@ -627,8 +636,8 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         <div className="flex h-full relative">
           
           {/* Scroll bar on the left */}
-          <div className="w-4 bg-gradient-to-b from-pink-200/50 to-purple-200/50 border-r-2 border-white/30 relative">
-            <div className="absolute inset-1 bg-gradient-to-b from-pink-300/60 to-purple-300/60 rounded-full"></div>
+          <div className="w-4 bg-gradient-surface border-r-2 border-overlay-border/30 relative">
+            <div className="absolute inset-1 bg-gradient-surface rounded-full"></div>
           </div>
           
           {/* Content Area - Full Width */}
@@ -694,19 +703,20 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         className={cn(
           "absolute bottom-1 right-1 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50",
           isResizing 
-            ? "bg-pink-400/80 shadow-inner" 
-            : "bg-gradient-to-br from-pink-400/60 to-pink-500/70 hover:from-pink-400/80 hover:to-pink-500/90 shadow-3d-resize"
-        )} 
-        onMouseDown={handleResizeStart} 
+            ? "bg-overlay-active shadow-inner" 
+            : "bg-gradient-primary hover:shadow-glow"
+        )}
+        onMouseDown={handleResizeStart}
         title="Drag to resize"
         style={{
+          background: isResizing ? 'hsl(var(--overlay-active))' : 'var(--gradient-primary)',
           boxShadow: isResizing 
             ? 'inset 0 2px 4px rgba(0,0,0,0.3)' 
-            : '0 4px 8px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 0 12px rgba(255,100,180,0.4)',
+            : 'var(--shadow-panel), var(--shadow-glow)',
           transform: isResizing ? 'scale(0.9)' : 'scale(1)'
         }}
       >
-        <div className="w-2 h-2 bg-pink-700 rounded-full shadow-sm" 
+        <div className="w-2 h-2 bg-primary-foreground rounded-full shadow-sm"
              style={{
                boxShadow: '0 1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.5)'
              }} />
