@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Settings, Move, ChevronDown, ChevronUp } from 'lucide-react';
@@ -7,6 +7,16 @@ import { SettingsMenu } from './SettingsMenu';
 import MenuSparkles from './MenuSparkles';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+
+// Move localStorage access outside of render
+const getStoredValue = (key: string, defaultValue: any) => {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
 interface CustomizationOverlayProps {
   isVisible: boolean;
   onToggle: () => void;
@@ -14,7 +24,7 @@ interface CustomizationOverlayProps {
   onSizeChange?: (size: { width: number; height: number }) => void;
   onPositionChange?: (position: { x: number; y: number }) => void;
 }
-export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
+export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = React.memo(({
   isVisible,
   onToggle,
   pageKey = 'default',
@@ -22,65 +32,66 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   onPositionChange
 }) => {
   const { toast } = useToast();
+  
+  // Memoize initial values to prevent recalculation on every render
+  const initialSections = useMemo(() => 
+    getStoredValue(`sections-order-${pageKey}`, ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments']),
+    [pageKey]
+  );
+  
+  const initialOpacity = useMemo(() => 
+    getStoredValue(`customization-opacity-${pageKey}`, 100),
+    [pageKey]
+  );
+  
+  const initialAlwaysOnTop = useMemo(() => 
+    getStoredValue(`customization-alwaysOnTop-${pageKey}`, false),
+    [pageKey]
+  );
+  
+  const initialTheme = useMemo(() => 
+    getStoredValue(`customization-theme-${pageKey}`, 'dark'),
+    [pageKey]
+  );
+  
+  const initialWebBarVisible = useMemo(() => 
+    getStoredValue(`customization-webBar-${pageKey}`, true),
+    [pageKey]
+  );
+
   const [selectedColor, setSelectedColor] = useState('#8b5cf6');
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const [allCollapsed, setAllCollapsed] = useState(false);
-
-  const [sections, setSections] = useState<string[]>(() => {
-    const saved = localStorage.getItem(`sections-order-${pageKey}`);
-    return saved ? JSON.parse(saved) : ['hair', 'patterns', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
-  });
-  const [position, setPosition] = useState({
-    x: 50,
-    y: 50
-  });
-  const [size, setSize] = useState({
-    width: 800,
-    height: 600
-  });
+  const [sections, setSections] = useState<string[]>(initialSections);
+  
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [size, setSize] = useState({ width: 800, height: 600 });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
-  const [dragStart, setDragStart] = useState({
-    x: 0,
-    y: 0
-  });
-  const [resizeStart, setResizeStart] = useState({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0
-  });
+  
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [draggedSection, setDraggedSection] = useState<string | null>(null);
   const [dragOverSection, setDragOverSection] = useState<string | null>(null);
 
-  // Settings state - using pageKey to isolate state per page
-  const [opacity, setOpacity] = useState(() => {
-    const saved = localStorage.getItem(`customization-opacity-${pageKey}`);
-    return saved ? parseInt(saved) : 100;
-  });
-  const [alwaysOnTop, setAlwaysOnTop] = useState(() => {
-    const saved = localStorage.getItem(`customization-alwaysOnTop-${pageKey}`);
-    return saved ? JSON.parse(saved) : false;
-  });
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const saved = localStorage.getItem(`customization-theme-${pageKey}`);
-    return saved ? saved as 'dark' | 'light' : 'dark';
-  });
-  const [webBarVisible, setWebBarVisible] = useState(() => {
-    const saved = localStorage.getItem(`customization-webBar-${pageKey}`);
-    return saved ? JSON.parse(saved) : true;
-  });
+  // Settings state - using memoized initial values
+  const [opacity, setOpacity] = useState(initialOpacity);
+  const [alwaysOnTop, setAlwaysOnTop] = useState(initialAlwaysOnTop);
+  const [theme, setTheme] = useState<'dark' | 'light'>(initialTheme);
+  const [webBarVisible, setWebBarVisible] = useState(initialWebBarVisible);
 
-  // Handle web bar visibility change
-  const handleWebBarVisibilityChange = (visible: boolean) => {
+  // Memoize event handlers to prevent recreation on every render
+  const handleWebBarVisibilityChange = useCallback((visible: boolean) => {
     setWebBarVisible(visible);
     // Call Electron API if available
     if (typeof window !== 'undefined' && (window as any).electronAPI?.setWebBarVisibility) {
       (window as any).electronAPI.setWebBarVisibility(visible);
     }
-  };
+  }, []);
+
   const overlayRef = useRef<HTMLDivElement>(null);
-  const handleMouseDown = (e: React.MouseEvent) => {
+  
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
     // Only start dragging when clicking on drag handles
     if ((e.target as HTMLElement).closest('[data-drag-handle]')) {
       setIsDragging(true);
@@ -89,8 +100,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         y: e.clientY - position.y
       });
     }
-  };
-  const handleResizeStart = (e: React.MouseEvent) => {
+  }, [position.x, position.y]);
+
+  const handleResizeStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsResizing(true);
@@ -100,9 +112,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       width: size.width,
       height: size.height
     });
-  };
+  }, [size.width, size.height]);
 
-  const toggleAllSections = () => {
+  const toggleAllSections = useCallback(() => {
     if (allCollapsed) {
       // Expand all
       setCollapsedSections(new Set());
@@ -120,9 +132,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         description: "All sections have been minimized."
       });
     }
-  };
+  }, [allCollapsed, sections, toast]);
 
-  const toggleSection = (sectionId: string) => {
+  const toggleSection = useCallback((sectionId: string) => {
     const newCollapsed = new Set(collapsedSections);
     if (newCollapsed.has(sectionId)) {
       newCollapsed.delete(sectionId);
@@ -133,16 +145,17 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     
     // Update allCollapsed state
     setAllCollapsed(newCollapsed.size === sections.length);
-  };
+  }, [collapsedSections, sections.length]);
 
-  const getSectionTitle = (id: string) => {
+  // Memoize section titles
+  const getSectionTitle = useMemo(() => {
     const titles: Record<string, string> = {
       hair: 'Hair', patterns: 'Patterns', colours: 'Colours', tops: 'Tops',
       dresses: 'Dresses', pants: 'Pants', shoes: 'Shoes', adjustments: 'Adjustments'
     };
-    return titles[id] || id;
-  };
-  const resetPositionAndSize = () => {
+    return (id: string) => titles[id] || id;
+  }, []);
+  const resetPositionAndSize = useCallback(() => {
     const newPosition = { x: 50, y: 50 };
     const newSize = { width: 800, height: 600 };
     setPosition(newPosition);
@@ -153,8 +166,8 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       title: "Window Reset",
       description: "Position and size have been reset to default."
     });
-  };
-  const exportConfiguration = () => {
+  }, [onPositionChange, onSizeChange, toast]);
+  const exportConfiguration = useCallback(() => {
     const config = {
       selectedColor,
       position,
@@ -174,8 +187,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       title: "Configuration Exported",
       description: "Your settings have been saved to a file."
     });
-  };
-  const importConfiguration = (event: React.ChangeEvent<HTMLInputElement>) => {
+  }, [selectedColor, position, size, opacity, alwaysOnTop, theme, toast]);
+
+  const importConfiguration = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -202,7 +216,9 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       };
       reader.readAsText(file);
     }
-  };
+    // Clear the input value to allow re-importing the same file
+    event.target.value = '';
+  }, [toast]);
 
   // Global profile management
   const exportAllProfiles = () => {
@@ -583,4 +599,4 @@ export const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       
     </div>
   );
-};
+});

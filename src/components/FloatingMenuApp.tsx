@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { CustomizationOverlay } from '@/components/CustomizationOverlay';
 import { useDiscordRPC } from '@/hooks/useDiscordRPC';
 import DebugInfo from '@/components/DebugInfo';
 
-console.log('=== FLOATINGMENUAPP LOADING ===');
-
 const FloatingMenuApp = () => {
-  console.log('=== FLOATINGMENUAPP RENDERING ===');
   const [overlayVisible, setOverlayVisible] = useState(true);
   const [showDebug, setShowDebug] = useState(true);
   const [menuSize, setMenuSize] = useState({ width: 800, height: 600 });
   const [menuPosition, setMenuPosition] = useState({ x: 50, y: 50 });
   const { activities } = useDiscordRPC();
 
-  const toggleOverlay = () => {
-    setOverlayVisible(!overlayVisible);
-  };
+  const toggleOverlay = useCallback(() => {
+    setOverlayVisible(prev => !prev);
+  }, []);
 
-  // Initialize Discord RPC
+  // Initialize Discord RPC - remove activities dependency to prevent re-renders
   useEffect(() => {
-    console.log('=== FLOATINGMENUAPP USEEFFECT ===');
     // Set initial Discord activity
     activities.browsing();
     
@@ -37,9 +33,10 @@ const FloatingMenuApp = () => {
       clearTimeout(timer);
       clearTimeout(debugTimer);
     };
-  }, [activities]);
+  }, []); // Remove activities dependency to prevent re-renders
 
-  console.log('=== FLOATINGMENUAPP ABOUT TO RETURN JSX ===');
+  const memoizedMenuSize = useMemo(() => menuSize, [menuSize]);
+  const memoizedMenuPosition = useMemo(() => menuPosition, [menuPosition]);
 
   return (
     <div 
@@ -94,7 +91,5 @@ const FloatingMenuApp = () => {
     </div>
   );
 };
-
-console.log('=== FLOATINGMENUAPP DEFINED ===');
 
 export default FloatingMenuApp;
