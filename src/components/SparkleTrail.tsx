@@ -49,11 +49,19 @@ const SparkleTrail: React.FC = () => {
   }, [createSparkle]);
 
   const handleClick = useCallback((e: MouseEvent) => {
-    // Create burst of sparkles on click
-    const newSparkles = Array.from({ length: 8 }, () => 
-      createSparkle(e.clientX, e.clientY, true)
-    );
-    setSparkles(prev => [...prev, ...newSparkles]);
+    // Don't create sparkles when clicking on draggable elements or resize handles
+    const target = e.target as HTMLElement;
+    const isDragHandle = target.closest('[data-drag-handle]');
+    const isResizeHandle = target.closest('[data-resize-handle]');
+    const isMenuElement = target.closest('.fixed.select-none');
+    
+    // Only create sparkles for clicks outside the menu or on non-interactive menu elements
+    if (!isDragHandle && !isResizeHandle && (!isMenuElement || target.closest('[data-sparkle-zone]'))) {
+      const newSparkles = Array.from({ length: 8 }, () => 
+        createSparkle(e.clientX, e.clientY, true)
+      );
+      setSparkles(prev => [...prev, ...newSparkles]);
+    }
   }, [createSparkle]);
 
   useEffect(() => {

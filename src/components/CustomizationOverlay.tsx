@@ -548,9 +548,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
                  boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.2)'
                }} />
           
-          {/* Content Area - Full Width with Proper Scrolling */}
+           {/* Content Area - Full Width with Proper Scrolling */}
           <div className="flex-1 min-h-0 relative z-10 flex flex-col">
-            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar-3d" data-sparkle-zone style={{ maxHeight: 'calc(100vh - 200px)' }}>
               {/* Display all sections content */}
               <div className="space-y-3 relative pb-4">
                 {sections.map((sectionId, index) => (
@@ -590,13 +590,14 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       
       {/* Resize Handle - Positioned at bottom right corner */}
       <div 
+        data-resize-handle
         className={cn(
           "absolute bottom-2 right-2 w-6 h-6 cursor-nw-resize rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110 z-50", 
           isDragging || isResizing 
             ? "bg-pink-400/80 shadow-inner" 
             : "bg-gradient-to-br from-pink-400/60 to-pink-500/70 hover:from-pink-400/80 hover:to-pink-500/90 shadow-3d-resize"
         )} 
-        onMouseDown={handleResizeStart} 
+        onMouseDown={handleResizeStart}
         title="Drag to resize"
         style={{
           boxShadow: isDragging || isResizing 
