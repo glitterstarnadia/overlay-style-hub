@@ -82,6 +82,7 @@ interface SavedProfile {
   mainImage: string;
   settings: Record<string, ImageSettings>;
   transformImages: Record<string, string>;
+  transformControls: string[];
   smallerImage: string;
   createdAt: Date;
 }
@@ -273,6 +274,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               mainImage: currentMainImage,
               settings: { ...imageSettings },
               transformImages: { ...transformImages },
+              transformControls: [...transformControls],
               smallerImage: smallerImage,
             }
           : profile
@@ -290,6 +292,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         mainImage: currentMainImage,
         settings: { ...imageSettings },
         transformImages: { ...transformImages },
+        transformControls: [...transformControls],
         smallerImage: smallerImage,
         createdAt: new Date(),
       };
@@ -308,6 +311,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage(profile.mainImage);
     setImageSettings(profile.settings);
     setTransformImages(profile.transformImages);
+    setTransformControls(profile.transformControls || ['default']);
     setSmallerImage(profile.smallerImage);
     setActiveProfileId(profile.id);
     toast({
@@ -332,6 +336,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage('');
     setImageSettings({});
     setTransformImages({});
+    setTransformControls(['default']);
     setSmallerImage('');
     setActiveProfileId(null);
     setCurrentThumbnails([]);
@@ -521,11 +526,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   )}
                   onClick={() => loadProfile(profile)}
                 >
-                  <img
-                    src={imageMap[profile.thumbnail] || profile.thumbnail}
-                    alt={profile.name}
-                    className="w-full h-full object-cover"
-                  />
+                <img
+                  src={imageMap[profile.thumbnail] || profile.thumbnail}
+                  alt={profile.name}
+                  className="w-full h-full object-cover"
+                  style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
+                />
                 </div>
                 
                 {/* Profile Name - Editable */}
@@ -698,7 +704,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               <img
                 src={imageMap[currentMainImage] || currentMainImage}
                 alt="Main image"
-                className="w-20 h-20 object-cover rounded-lg shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
+                className="w-24 h-24 object-cover rounded-lg shadow-md hover:scale-125 transition-transform duration-300 cursor-pointer"
+                style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
               />
             </div>
             
@@ -718,11 +725,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             <img
                               src={imageMap[transformImages[controlId]] || transformImages[controlId]}
                               alt={`Transform image ${index + 1}`}
-                              className="w-16 h-16 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                              className="w-20 h-20 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                              style={{ imageRendering: 'crisp-edges', maxWidth: 'none' }}
                             />
                           ) : (
-                            <div className="w-16 h-16 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
-                              <Upload className="w-4 h-4 text-pink-600" />
+                            <div className="w-20 h-20 bg-pink-50 rounded shadow-md flex items-center justify-center border border-dashed border-pink-300">
+                              <Upload className="w-5 h-5 text-pink-600" />
                             </div>
                           )}
                           
