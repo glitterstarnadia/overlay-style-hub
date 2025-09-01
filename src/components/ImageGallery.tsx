@@ -850,9 +850,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                           </div>
                         </h4>
                         
-                          <div className={cn("grid gap-0.5", category === 'colours' ? "grid-cols-1" : "grid-cols-3")}>
-                            {/* Position Controls - Hidden for colours */}
-                            {category !== 'colours' && <div>
+                          <div className={category === 'colours' ? "w-full" : "grid grid-cols-3 gap-0.5"}>
+                             {/* Position Controls - Hidden for colours */}
+                             {category !== 'colours' && <div>
                                <p className="font-bold theme-text-primary mb-0.5 text-xs">Position</p>
                                <div className="space-y-0">
                                   <div className="flex items-center gap-1">
