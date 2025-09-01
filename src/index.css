@@ -120,7 +120,7 @@ button, input, textarea, select, a, [data-sparkle-zone], [data-sparkle-zone] * {
 }
 
 .custom-scrollbar-3d::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
 }
 
 .custom-scrollbar-3d::-webkit-scrollbar-track {
