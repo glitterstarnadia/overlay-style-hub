@@ -1298,6 +1298,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                     </div>
                                   </div>
                                   
+                                  {/* Image Upload Area for Set 1 */}
+                                  <div 
+                                    className="w-full h-16 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center mb-3 cursor-pointer hover:bg-pink-300 transition-colors"
+                                    onClick={() => triggerTransformImageUpload(controlId)}
+                                  >
+                                    {transformImages[controlId] ? (
+                                      <img 
+                                        src={transformImages[controlId]} 
+                                        alt="Set 1 Image" 
+                                        className="w-full h-full object-cover rounded-lg"
+                                      />
+                                    ) : (
+                                      <div className="flex flex-col items-center gap-1">
+                                        <ImageIcon className="w-6 h-6 text-pink-600" />
+                                        <span className="text-xs text-pink-700 font-bold">Upload Image</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                  
                                   <p className="text-sm font-bold text-pink-800 mb-3">Image 1 Colors</p>
                                   
                                   {/* Hex Color 1 */}
@@ -1439,6 +1458,25 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                       </div>
                                     </div>
+                                  </div>
+                                  
+                                  {/* Image Upload Area for Set 2 */}
+                                  <div 
+                                    className="w-full h-16 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center mb-3 cursor-pointer hover:bg-pink-300 transition-colors"
+                                    onClick={() => triggerTransformImage2Upload(controlId)}
+                                  >
+                                    {transformImages2[controlId] ? (
+                                      <img 
+                                        src={transformImages2[controlId]} 
+                                        alt="Set 2 Image" 
+                                        className="w-full h-full object-cover rounded-lg"
+                                      />
+                                    ) : (
+                                      <div className="flex flex-col items-center gap-1">
+                                        <ImageIcon className="w-6 h-6 text-pink-600" />
+                                        <span className="text-xs text-pink-700 font-bold">Upload Image</span>
+                                      </div>
+                                    )}
                                   </div>
                                   
                                   <p className="text-sm font-bold text-pink-800 mb-3">Image 2 Colors</p>
