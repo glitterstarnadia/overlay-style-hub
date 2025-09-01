@@ -80,6 +80,8 @@ interface ImageSettings {
   hexColor4?: string;
   hexColor5?: string;
   hexColor6?: string;
+  hexColor7?: string;
+  hexColor8?: string;
   notes?: string;
 }
 
@@ -235,6 +237,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       hexColor4: '#ffffff',
       hexColor5: '#ffffff',
       hexColor6: '#ffffff',
+      hexColor7: '#ffffff',
+      hexColor8: '#ffffff',
       notes: ''
     };
   };
@@ -499,6 +503,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       hexColor4: '#ffffff',
       hexColor5: '#ffffff',
       hexColor6: '#ffffff',
+      hexColor7: '#ffffff',
+      hexColor8: '#ffffff',
       notes: ''
     };
     setImageSettings(prev => ({
@@ -890,22 +896,23 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                      backgroundColor: 'hsl(var(--overlay-surface))',
                      borderColor: 'hsl(var(--overlay-border))'
                    }}>
-                    <div className="flex gap-2">
-                      {/* Image Upload Section - Left Side */}
-                           <div className="flex-shrink-0">
-                             <div className="relative">
-                               {transformImages[controlId] ? (
-                                 <img
-                                   src={imageMap[transformImages[controlId]] || transformImages[controlId]}
-                                   alt={`Transform image ${index + 1}`}
-                                    className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
-                                   style={{ 
-                                     imageRendering: 'auto', 
-                                     maxWidth: 'none',
-                                     filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                                   }}
-                                 />
-                               ) : (
+                     <div className="flex gap-2">
+                       {/* Image Upload Section - Left Side */}
+                            <div className="flex-shrink-0 space-y-1">
+                              {/* First Image Upload */}
+                              <div className="relative">
+                                {transformImages[controlId] ? (
+                                  <img
+                                    src={imageMap[transformImages[controlId]] || transformImages[controlId]}
+                                    alt={`Transform image ${index + 1}`}
+                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                    style={{ 
+                                      imageRendering: 'auto', 
+                                      maxWidth: 'none',
+                                      filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                    }}
+                                  />
+                                ) : (
                                   <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
                                     <Upload className="w-7 h-7 theme-icon-primary" />
                                  </div>
@@ -1125,141 +1132,143 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              </div>
                            )}
                            
-                           {/* Hex Colors - Only for colours category */}
-                           {category === 'colours' && (
-                             <div className="grid grid-cols-2 gap-4">
-                               {/* Left Column */}
-                               <div className="space-y-2">
-                                 {/* Hex Color 1 */}
-                                 <div>
-                                   <label 
-                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
-                                     title="Click to copy Hex Color 1"
-                                   >Hex Color 1</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
-                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
-                                         value={settings.hexColor1 || '#ffffff'}
-                                         onChange={(e) => updateImageSettings(imageKey, { 
-                                           hexColor1: e.target.value 
-                                         })}
-                                       />
-                                       <Heart 
-                                         className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                         style={{ 
-                                           fill: settings.hexColor1 || '#ffffff', 
-                                           stroke: '#ec4899', 
-                                           strokeWidth: 1.5 
-                                         }}
-                                         onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
-                                       />
-                                   </div>
-                                 </div>
-                                 
-                                 {/* Hex Color 2 */}
-                                 <div>
-                                   <label 
-                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
-                                     title="Click to copy Hex Color 2"
-                                   >Hex Color 2</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
-                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
-                                         value={settings.hexColor2 || '#ffffff'}
-                                         onChange={(e) => updateImageSettings(imageKey, { 
-                                           hexColor2: e.target.value 
-                                         })}
-                                       />
-                                       <Heart 
-                                         className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                         style={{ 
-                                           fill: settings.hexColor2 || '#ffffff', 
-                                           stroke: '#ec4899', 
-                                           strokeWidth: 1.5 
-                                         }}
-                                         onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
-                                       />
-                                   </div>
-                                 </div>
-                                 
-                                 {/* Hex Color 3 */}
-                                 <div>
-                                   <label 
-                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
-                                     title="Click to copy Hex Color 3"
-                                   >Hex Color 3</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
-                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
-                                         value={settings.hexColor3 || '#ffffff'}
-                                         onChange={(e) => updateImageSettings(imageKey, { 
-                                           hexColor3: e.target.value 
-                                         })}
-                                       />
-                                       <Heart 
-                                         className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                         style={{ 
-                                           fill: settings.hexColor3 || '#ffffff', 
-                                           stroke: '#ec4899', 
-                                           strokeWidth: 1.5 
-                                         }}
-                                         onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
-                                       />
-                                   </div>
-                                 </div>
-                               </div>
-                               
-                               {/* Right Column */}
-                               <div className="space-y-2">
-                                 {/* Hex Color 4 */}
-                                 <div>
-                                   <label 
-                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
-                                     title="Click to copy Hex Color 4"
-                                   >Hex Color 4</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
-                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
-                                         value={settings.hexColor4 || '#ffffff'}
-                                         onChange={(e) => updateImageSettings(imageKey, { 
-                                           hexColor4: e.target.value 
-                                         })}
-                                       />
-                                       <Heart 
-                                         className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                         style={{ 
-                                           fill: settings.hexColor4 || '#ffffff', 
-                                           stroke: '#ec4899', 
-                                           strokeWidth: 1.5 
-                                         }}
-                                         onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
-                                       />
-                                   </div>
-                                 </div>
-                                 
-                                 {/* Hex Color 5 */}
-                                 <div>
-                                   <label 
-                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor5 || '#ffffff', "Hex Color 5")}
-                                     title="Click to copy Hex Color 5"
-                                   >Hex Color 5</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
+                            {/* Hex Colors - Only for colours category */}
+                            {category === 'colours' && (
+                              <div className="grid grid-cols-2 gap-4">
+                                {/* Left Column - Image 1 colors */}
+                                <div className="space-y-2">
+                                  <p className="text-xs font-bold theme-text-primary mb-1">Image 1 Colors</p>
+                                  {/* Hex Color 1 */}
+                                  <div>
+                                    <label 
+                                       className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
+                                      title="Click to copy Hex Color 1"
+                                    >Hex Color 1</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                           className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
+                                          value={settings.hexColor1 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor1: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor1 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
+                                        />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Hex Color 2 */}
+                                  <div>
+                                    <label 
+                                       className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
+                                      title="Click to copy Hex Color 2"
+                                    >Hex Color 2</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                           className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
+                                          value={settings.hexColor2 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor2: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor2 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
+                                        />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Hex Color 3 */}
+                                  <div>
+                                    <label 
+                                       className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
+                                      title="Click to copy Hex Color 3"
+                                    >Hex Color 3</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                           className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
+                                          value={settings.hexColor3 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor3: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor3 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
+                                        />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Hex Color 4 */}
+                                  <div>
+                                    <label 
+                                       className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
+                                      title="Click to copy Hex Color 4"
+                                    >Hex Color 4</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                           className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
+                                          value={settings.hexColor4 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor4: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor4 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
+                                        />
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                {/* Right Column - Image 2 colors */}
+                                <div className="space-y-2">
+                                  <p className="text-xs font-bold theme-text-primary mb-1">Image 2 Colors</p>
+                                  {/* Hex Color 5 */}
+                                  <div>
+                                    <label 
+                                       className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor5 || '#ffffff', "Hex Color 5")}
+                                      title="Click to copy Hex Color 5"
+                                    >Hex Color 5</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
                                           className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold"
                                          value={settings.hexColor5 || '#ffffff'}
                                          onChange={(e) => updateImageSettings(imageKey, { 
@@ -1278,37 +1287,95 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                    </div>
                                  </div>
                                  
-                                 {/* Hex Color 6 */}
-                                 <div>
-                                   <label 
-                                     className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
-                                     onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 6")}
-                                     title="Click to copy Hex Color 6"
-                                   >Hex Color 6</label>
-                                   <div className="flex items-center gap-1">
-                                       <input 
-                                         type="text"
-                                         placeholder="#ffffff"
-                                         className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
-                                         value={settings.hexColor6 || '#ffffff'}
-                                         onChange={(e) => updateImageSettings(imageKey, { 
-                                           hexColor6: e.target.value 
-                                         })}
-                                       />
-                                       <Heart 
-                                         className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
-                                         style={{ 
-                                           fill: settings.hexColor6 || '#ffffff', 
-                                           stroke: '#ec4899', 
-                                           strokeWidth: 1.5 
-                                         }}
-                                         onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 6")}
-                                       />
-                                   </div>
-                                 </div>
-                               </div>
-                             </div>
-                           )}
+                                  {/* Hex Color 6 */}
+                                  <div>
+                                    <label 
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 6")}
+                                      title="Click to copy Hex Color 6"
+                                    >Hex Color 6</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
+                                          value={settings.hexColor6 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor6: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor6 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 6")}
+                                        />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Hex Color 7 */}
+                                  <div>
+                                    <label 
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor7 || '#ffffff', "Hex Color 7")}
+                                      title="Click to copy Hex Color 7"
+                                    >Hex Color 7</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
+                                          value={settings.hexColor7 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor7: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor7 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor7 || '#ffffff', "Hex Color 7")}
+                                        />
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Hex Color 8 */}
+                                  <div>
+                                    <label 
+                                      className="text-xs theme-text-primary mb-0.5 block font-bold cursor-pointer hover:opacity-80"
+                                      onClick={() => copyToClipboard(settings.hexColor8 || '#ffffff', "Hex Color 8")}
+                                      title="Click to copy Hex Color 8"
+                                    >Hex Color 8</label>
+                                    <div className="flex items-center gap-1">
+                                        <input 
+                                          type="text"
+                                          placeholder="#ffffff"
+                                          className="w-16 px-1 py-0.5 text-xs rounded border theme-input focus:border-primary focus:outline-none theme-text-primary font-mono font-bold" 
+                                          value={settings.hexColor8 || '#ffffff'}
+                                          onChange={(e) => updateImageSettings(imageKey, { 
+                                            hexColor8: e.target.value 
+                                          })}
+                                        />
+                                        <Heart 
+                                          className="w-8 h-8 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" 
+                                          style={{ 
+                                            fill: settings.hexColor8 || '#ffffff', 
+                                            stroke: '#ec4899', 
+                                            strokeWidth: 1.5 
+                                          }}
+                                          onClick={() => copyToClipboard(settings.hexColor8 || '#ffffff', "Hex Color 8")}
+                                        />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                              
                               {/* Notes Control - Hidden for colours */}
                               {category !== 'colours' && (
