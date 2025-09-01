@@ -576,7 +576,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       }
     }
   }, [savedProfiles, category]);
-  return <div className="p-6 space-y-6 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
+  return <div className="p-2 space-y-4 h-full overflow-y-auto max-h-screen custom-scrollbar-main">
       
       {/* Saved Profiles Section */}
       <div className="bg-overlay-surface rounded-xl p-4 shadow-panel border border-overlay-border max-h-96 overflow-y-auto custom-scrollbar" style={{
@@ -896,29 +896,29 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             {/* Hex Colors - Only for colours category */}
                             {category === 'colours' && <div className="grid grid-cols-2 gap-2">
                                  {/* Left Column - Set 1 */}
-                                 <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 border border-pink-300 mx-[138px] px-[237px] py-[5px] rounded-lg my-px">
-                                  {/* Set 1 Header */}
-                                  <div className="flex items-center justify-between mb-1">
-                                    <div className="flex items-center gap-2">
-                                      <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                                        <Upload className="w-3 h-3" />
-                                        Set 1
-                                        <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      {/* Image Preview Square */}
-                                      <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
-                                        {transformImages[controlId] ? <img src={imageMap[transformImages[controlId]] || transformImages[controlId]} alt="Set 1 preview" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center">
-                                            <Upload className="w-4 h-4 text-pink-400" />
-                                          </div>}
-                                      </div>
-                                      {/* Upload Button */}
-                                      <Button onClick={() => triggerTransformImageUpload(controlId)} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg" size="sm" title="Upload image for Set 1">
-                                        <Upload className="w-3 h-3" />
-                                      </Button>
-                                    </div>
-                                  </div>
+                                  <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 border border-pink-300 mx-1 px-3 py-2 rounded-lg">
+                                   {/* Set 1 Header */}
+                                   <div className="flex items-center justify-between mb-1">
+                                     <div className="flex items-center gap-1">
+                                       <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                                         <Upload className="w-3 h-3" />
+                                         Set 1
+                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
+                                       </div>
+                                     </div>
+                                     <div className="flex items-center gap-1">
+                                       {/* Image Preview Square */}
+                                       <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
+                                         {transformImages[controlId] ? <img src={imageMap[transformImages[controlId]] || transformImages[controlId]} alt="Set 1 preview" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center">
+                                             <Upload className="w-4 h-4 text-pink-400" />
+                                           </div>}
+                                       </div>
+                                       {/* Upload Button */}
+                                       <Button onClick={() => triggerTransformImageUpload(controlId)} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg" size="sm" title="Upload image for Set 1">
+                                         <Upload className="w-3 h-3" />
+                                       </Button>
+                                     </div>
+                                   </div>
                                   
                                   <p className="text-sm font-bold text-pink-800 mb-2">Image 1 Colors</p>
                                   
@@ -996,29 +996,29 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 </div>
                                 
                                  {/* Right Column - Set 2 */}
-                                 <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 rounded-lg border border-pink-300 mx-[138px] px-[237px] py-[5px] my-px">
-                                  {/* Set 2 Header */}
-                                  <div className="flex items-center justify-between mb-1">
-                                    <div className="flex items-center gap-2">
-                                      <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                                        <Upload className="w-3 h-3" />
-                                        Set 2
-                                        <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      {/* Image Preview Square */}
-                                      <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
-                                        {transformImages2[controlId] ? <img src={imageMap[transformImages2[controlId]] || transformImages2[controlId]} alt="Set 2 preview" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center">
-                                            <Upload className="w-4 h-4 text-pink-400" />
-                                          </div>}
-                                      </div>
-                                      {/* Upload Button */}
-                                      <Button onClick={() => triggerTransformImage2Upload(controlId)} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg" size="sm" title="Upload image for Set 2">
-                                        <Upload className="w-3 h-3" />
-                                      </Button>
-                                    </div>
-                                  </div>
+                                  <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 rounded-lg border border-pink-300 mx-1 px-3 py-2">
+                                   {/* Set 2 Header */}
+                                   <div className="flex items-center justify-between mb-1">
+                                     <div className="flex items-center gap-1">
+                                       <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                                         <Upload className="w-3 h-3" />
+                                         Set 2
+                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
+                                       </div>
+                                     </div>
+                                     <div className="flex items-center gap-1">
+                                       {/* Image Preview Square */}
+                                       <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
+                                         {transformImages2[controlId] ? <img src={imageMap[transformImages2[controlId]] || transformImages2[controlId]} alt="Set 2 preview" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center">
+                                             <Upload className="w-4 h-4 text-pink-400" />
+                                           </div>}
+                                       </div>
+                                       {/* Upload Button */}
+                                       <Button onClick={() => triggerTransformImage2Upload(controlId)} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg" size="sm" title="Upload image for Set 2">
+                                         <Upload className="w-3 h-3" />
+                                       </Button>
+                                     </div>
+                                   </div>
                                   
                                   <p className="text-sm font-bold text-pink-800 mb-2">Image 2 Colors</p>
                                   
