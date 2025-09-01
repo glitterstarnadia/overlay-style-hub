@@ -842,7 +842,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             
             {/* Transform Controls */}
             <div className={category === 'colours' ? "flex-1 flex gap-1 max-h-[400px] overflow-x-auto custom-scrollbar pr-2" : "flex-1 space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"}>
-              {transformControls.map((controlId, index) => {
+              {category !== 'colours' && transformControls.map((controlId, index) => {
             const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
             const settings = getImageSettings(imageKey);
             return <div key={controlId} className="p-0.5 bg-overlay-surface rounded-lg border border-overlay-border" style={{
@@ -1083,12 +1083,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </div>
                     </div>
                    </div>;
-          })}
-             </div>
-           </div>
-          
-           {/* Add Transform Control Button */}
-           <div className="mt-2 flex justify-center">
+           })}
+              </div>
+            </div>
+           
+            {/* Add Transform Control Button - Only show for non-colours */}
+            {category !== 'colours' && <div className="mt-2 flex justify-center">
               <Button 
                 onClick={(e) => {
                   e.preventDefault();
@@ -1099,8 +1099,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 disabled={transformControls.length >= 10}
               >
                 <Plus className="w-3 h-3 text-primary-foreground mr-1" /> Add
-              </Button>
-           </div>
+               </Button>
+            </div>}
         </div>}
       
       {/* Side Panel with Scrollable Thumbnails */}
