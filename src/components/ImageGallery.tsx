@@ -448,7 +448,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </Button>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
