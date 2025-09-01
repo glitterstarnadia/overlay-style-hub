@@ -1087,8 +1087,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               </div>
             </div>
            
-            {/* Add Transform Control Button - Only show for non-colours */}
-            {category !== 'colours' && <div className="mt-2 flex justify-center">
+            {/* Add Transform Control Button */}
+            <div className="mt-2 flex justify-center">
               <Button 
                 onClick={(e) => {
                   e.preventDefault();
@@ -1100,8 +1100,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               >
                 <Plus className="w-3 h-3 text-primary-foreground mr-1" /> Add
                </Button>
-            </div>}
-        </div>}
+            </div>
+         </div>}
       
       {/* Side Panel with Scrollable Thumbnails */}
       <div className="flex-1 min-w-0">
