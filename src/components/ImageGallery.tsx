@@ -1148,9 +1148,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                       </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1">
                                       {/* Image Preview Square */}
-                                      <div className="w-8 h-8 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
+                                      <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
                                         {transformImages[controlId] ? (
                                           <img
                                             src={imageMap[transformImages[controlId]] || transformImages[controlId]}
@@ -1159,7 +1159,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                           />
                                         ) : (
                                           <div className="w-full h-full flex items-center justify-center">
-                                            <Upload className="w-3 h-3 text-pink-400" />
+                                            <Upload className="w-4 h-4 text-pink-400" />
                                           </div>
                                         )}
                                       </div>
@@ -1316,9 +1316,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                       </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1">
                                       {/* Image Preview Square */}
-                                      <div className="w-8 h-8 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
+                                      <div className="w-12 h-12 rounded border-2 border-pink-400 overflow-hidden bg-white/50">
                                         {transformImages2[controlId] ? (
                                           <img
                                             src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
@@ -1327,7 +1327,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                           />
                                         ) : (
                                           <div className="w-full h-full flex items-center justify-center">
-                                            <Upload className="w-3 h-3 text-pink-400" />
+                                            <Upload className="w-4 h-4 text-pink-400" />
                                           </div>
                                         )}
                                       </div>
