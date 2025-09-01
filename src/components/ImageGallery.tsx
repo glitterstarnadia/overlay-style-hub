@@ -989,22 +989,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             <div className="flex-shrink-0 space-y-1">
                               {/* First Image Upload */}
                               <div className="relative">
-                                {transformImages[controlId] ? (
-                                  <img
-                                    src={imageMap[transformImages[controlId]] || transformImages[controlId]}
-                                    alt={`Transform image ${index + 1}`}
-                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
-                                    style={{ 
-                                      imageRendering: 'auto', 
-                                      maxWidth: 'none',
-                                      filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
-                                    <Upload className="w-7 h-7 theme-icon-primary" />
-                                 </div>
-                               )}
+                                 {transformImages[controlId] ? (
+                                   <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                     <Upload className="w-7 h-7 theme-icon-primary" />
+                                  </div>
+                                 ) : (
+                                   <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                     <Upload className="w-7 h-7 theme-icon-primary" />
+                                  </div>
+                                )}
                                
                                 <Button
                                   onClick={() => triggerTransformImageUpload(controlId)}
