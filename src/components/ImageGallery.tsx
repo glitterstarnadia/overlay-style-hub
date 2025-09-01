@@ -301,7 +301,17 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
   const addTransformControl = () => {
     if (transformControls.length >= 10) return; // Prevent too many sets
-    const newId = `transform-${Date.now()}`;
+    
+    // Use a more robust ID generation to prevent duplicates
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000);
+    const newId = `transform-${timestamp}-${random}`;
+    
+    // Check if ID already exists (shouldn't happen but safety check)
+    if (transformControls.includes(newId)) return;
+    
+    console.log('Adding transform control:', newId, 'Current count:', transformControls.length);
+    
     setTransformControls(prev => [...prev, newId]);
     // Initialize empty transform images for the new control
     setTransformImages(prev => ({
@@ -1077,12 +1087,20 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
              </div>
            </div>
           
-          {/* Add Transform Control Button */}
-          <div className="mt-2 flex justify-center">
-             <Button onClick={addTransformControl} className="text-primary-foreground px-3 py-1 text-xs font-bold bg-primary hover:bg-primary/90">
-               <Plus className="w-3 h-3 text-primary-foreground mr-1" /> Add
-             </Button>
-          </div>
+           {/* Add Transform Control Button */}
+           <div className="mt-2 flex justify-center">
+              <Button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  addTransformControl();
+                }} 
+                className="text-primary-foreground px-3 py-1 text-xs font-bold bg-primary hover:bg-primary/90"
+                disabled={transformControls.length >= 10}
+              >
+                <Plus className="w-3 h-3 text-primary-foreground mr-1" /> Add
+              </Button>
+           </div>
         </div>}
       
       {/* Side Panel with Scrollable Thumbnails */}
