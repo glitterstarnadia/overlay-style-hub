@@ -897,45 +897,16 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                      borderColor: 'hsl(var(--overlay-border))'
                    }}>
                      <div className="flex gap-2">
-                       {/* Image Upload Section - Left Side */}
-                            <div className="flex-shrink-0 space-y-1">
-                              {/* First Image Upload */}
-                              <div className="relative">
-                                {transformImages[controlId] ? (
-                                  <img
-                                    src={imageMap[transformImages[controlId]] || transformImages[controlId]}
-                                    alt={`Transform image ${index + 1}`}
-                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
-                                    style={{ 
-                                      imageRendering: 'auto', 
-                                      maxWidth: 'none',
-                                      filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
-                                    <Upload className="w-7 h-7 theme-icon-primary" />
-                                 </div>
-                               )}
-                               
-                                <Button
-                                  onClick={() => triggerTransformImageUpload(controlId)}
-                                  className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
-                                  size="sm"
-                                  title={`Upload image for Set ${index + 1}`}
-                                >
-                                  <Upload className="w-2 h-2" />
-                               </Button>
-                             </div>
-                             
-                             {/* Second Image Upload - Only for colours category */}
-                             {category === 'colours' && (
-                               <div className="relative mt-2">
-                                 {transformImages2[controlId] ? (
+                       {/* Image Upload Section - Left Side - Hidden for colours category */}
+                            {category !== 'colours' && (
+                             <div className="flex-shrink-0 space-y-1">
+                               {/* First Image Upload */}
+                               <div className="relative">
+                                 {transformImages[controlId] ? (
                                    <img
-                                     src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
-                                     alt={`Second transform image ${index + 1}`}
-                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                     src={imageMap[transformImages[controlId]] || transformImages[controlId]}
+                                     alt={`Transform image ${index + 1}`}
+                                      className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
                                      style={{ 
                                        imageRendering: 'auto', 
                                        maxWidth: 'none',
@@ -943,22 +914,53 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                      }}
                                    />
                                  ) : (
-                                    <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
-                                      <Upload className="w-7 h-7 theme-icon-primary" />
-                                   </div>
-                                 )}
-                                 
-                                  <Button
-                                    onClick={() => triggerTransformImage2Upload(controlId)}
-                                    className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
-                                    size="sm"
-                                    title={`Upload second image for Set ${index + 1}`}
-                                  >
-                                    <Upload className="w-2 h-2" />
-                                 </Button>
-                               </div>
-                             )}
-                           </div>
+                                   <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                     <Upload className="w-7 h-7 theme-icon-primary" />
+                                  </div>
+                                )}
+                                
+                                 <Button
+                                   onClick={() => triggerTransformImageUpload(controlId)}
+                                   className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                   size="sm"
+                                   title={`Upload image for Set ${index + 1}`}
+                                 >
+                                   <Upload className="w-2 h-2" />
+                                </Button>
+                              </div>
+                              
+                              {/* Second Image Upload - Only for colours category */}
+                              {category === 'colours' && (
+                                <div className="relative mt-2">
+                                  {transformImages2[controlId] ? (
+                                    <img
+                                      src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
+                                      alt={`Second transform image ${index + 1}`}
+                                      className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                      style={{ 
+                                        imageRendering: 'auto', 
+                                        maxWidth: 'none',
+                                        filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                      }}
+                                    />
+                                  ) : (
+                                     <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                       <Upload className="w-7 h-7 theme-icon-primary" />
+                                    </div>
+                                  )}
+                                  
+                                   <Button
+                                     onClick={() => triggerTransformImage2Upload(controlId)}
+                                     className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                     size="sm"
+                                     title={`Upload second image for Set ${index + 1}`}
+                                   >
+                                     <Upload className="w-2 h-2" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                            )}
 
                       {/* Controls Section - Right Side */}
                       <div className="flex-1">
@@ -1146,6 +1148,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                       </div>
                                     </div>
+                                    {/* Upload Button - Top Right */}
+                                    <Button
+                                      onClick={() => triggerTransformImageUpload(controlId)}
+                                      className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg"
+                                      size="sm"
+                                      title="Upload image for Set 1"
+                                    >
+                                      <Upload className="w-3 h-3" />
+                                    </Button>
                                   </div>
                                   
                                   <p className="text-sm font-bold text-pink-800 mb-3">Image 1 Colors</p>
@@ -1289,6 +1300,15 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                       </div>
                                     </div>
+                                    {/* Upload Button - Top Right */}
+                                    <Button
+                                      onClick={() => triggerTransformImage2Upload(controlId)}
+                                      className="bg-pink-500 hover:bg-pink-600 text-white rounded-full p-1 shadow-lg"
+                                      size="sm"
+                                      title="Upload image for Set 2"
+                                    >
+                                      <Upload className="w-3 h-3" />
+                                    </Button>
                                   </div>
                                   
                                   <p className="text-sm font-bold text-pink-800 mb-3">Image 2 Colors</p>
