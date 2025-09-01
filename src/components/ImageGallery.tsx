@@ -993,7 +993,99 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 >
                                   <Upload className="w-2 h-2" />
                                </Button>
-                             </div>
+                              {/* Second Image Upload - Only for colours category */}
+                              {category === 'colours' && (
+                                <div className="relative mt-2">
+                                  {transformImages2[controlId] ? (
+                                    <img
+                                      src={imageMap[transformImages2[controlId]] || transformImages2[controlId]}
+                                      alt={`Second transform image ${index + 1}`}
+                                      className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                      style={{ 
+                                        imageRendering: 'auto', 
+                                        maxWidth: 'none',
+                                        filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                      }}
+                                    />
+                                  ) : (
+                                     <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                       <Upload className="w-7 h-7 theme-icon-primary" />
+                                    </div>
+                                  )}
+                                  
+                                   <Button
+                                     onClick={() => triggerTransformImage2Upload(controlId)}
+                                     className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                     size="sm"
+                                     title={`Upload second image for Set ${index + 1}`}
+                                   >
+                                     <Upload className="w-2 h-2" />
+                                  </Button>
+                                </div>
+                              )}
+                              
+                              {/* Third Image Upload - Only for colours category */}
+                              {category === 'colours' && (
+                                <div className="relative mt-2">
+                                  {transformImages3[controlId] ? (
+                                    <img
+                                      src={imageMap[transformImages3[controlId]] || transformImages3[controlId]}
+                                      alt={`Third transform image ${index + 1}`}
+                                      className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                      style={{ 
+                                        imageRendering: 'auto', 
+                                        maxWidth: 'none',
+                                        filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                      }}
+                                    />
+                                  ) : (
+                                     <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                       <Upload className="w-7 h-7 theme-icon-primary" />
+                                    </div>
+                                  )}
+                                  
+                                   <Button
+                                     onClick={() => triggerTransformImage3Upload(controlId)}
+                                     className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                     size="sm"
+                                     title={`Upload third image for Set ${index + 1}`}
+                                   >
+                                     <Upload className="w-2 h-2" />
+                                  </Button>
+                                </div>
+                              )}
+                              
+                              {/* Fourth Image Upload - Only for colours category */}
+                              {category === 'colours' && (
+                                <div className="relative mt-2">
+                                  {transformImages4[controlId] ? (
+                                    <img
+                                      src={imageMap[transformImages4[controlId]] || transformImages4[controlId]}
+                                      alt={`Fourth transform image ${index + 1}`}
+                                      className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                      style={{ 
+                                        imageRendering: 'auto', 
+                                        maxWidth: 'none',
+                                        filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                      }}
+                                    />
+                                  ) : (
+                                     <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                       <Upload className="w-7 h-7 theme-icon-primary" />
+                                    </div>
+                                  )}
+                                  
+                                   <Button
+                                     onClick={() => triggerTransformImage4Upload(controlId)}
+                                     className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                     size="sm"
+                                     title={`Upload fourth image for Set ${index + 1}`}
+                                   >
+                                     <Upload className="w-2 h-2" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
                              
                               {/* Second Image Upload - Only for colours category */}
                               {category === 'colours' && (
@@ -1476,7 +1568,76 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                          >
                                            <Upload className="w-1.5 h-1.5" />
                                         </Button>
+                                
+                                {/* Third and Fourth Image Uploads - Only for colours category */}
+                                {category === 'colours' && (
+                                  <div className="grid grid-cols-2 gap-2 mt-2">
+                                    {/* Third Image Upload */}
+                                    <div>
+                                      <label className="text-xs theme-text-primary mb-0.5 block font-bold">Image 3</label>
+                                      <div className="relative">
+                                        {transformImages3[controlId] ? (
+                                          <img
+                                            src={imageMap[transformImages3[controlId]] || transformImages3[controlId]}
+                                            alt={`Third transform image ${index + 1}`}
+                                            className="w-16 h-16 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                            style={{ 
+                                              imageRendering: 'auto', 
+                                              maxWidth: 'none',
+                                              filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                            }}
+                                          />
+                                        ) : (
+                                           <div className="theme-placeholder-bg w-16 h-16 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                             <Upload className="w-4 h-4 theme-icon-primary" />
+                                          </div>
+                                        )}
+                                        
+                                         <Button
+                                           onClick={() => triggerTransformImage3Upload(controlId)}
+                                           className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                           size="sm"
+                                           title={`Upload third image for Set ${index + 1}`}
+                                         >
+                                           <Upload className="w-1.5 h-1.5" />
+                                        </Button>
                                       </div>
+                                    </div>
+                                    
+                                    {/* Fourth Image Upload */}
+                                    <div>
+                                      <label className="text-xs theme-text-primary mb-0.5 block font-bold">Image 4</label>
+                                      <div className="relative">
+                                        {transformImages4[controlId] ? (
+                                          <img
+                                            src={imageMap[transformImages4[controlId]] || transformImages4[controlId]}
+                                            alt={`Fourth transform image ${index + 1}`}
+                                            className="w-16 h-16 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                            style={{ 
+                                              imageRendering: 'auto', 
+                                              maxWidth: 'none',
+                                              filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                            }}
+                                          />
+                                        ) : (
+                                           <div className="theme-placeholder-bg w-16 h-16 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                             <Upload className="w-4 h-4 theme-icon-primary" />
+                                          </div>
+                                        )}
+                                        
+                                         <Button
+                                           onClick={() => triggerTransformImage4Upload(controlId)}
+                                           className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                           size="sm"
+                                           title={`Upload fourth image for Set ${index + 1}`}
+                                         >
+                                           <Upload className="w-1.5 h-1.5" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                                     </div>
                                     
                                     {/* Fourth Image Upload */}
