@@ -1167,7 +1167,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor1 || '#ffffff', "Hex Color 1")}
                                       title="Click to copy Hex Color 1"
                                     >Hex Color 1</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1195,7 +1195,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor2 || '#ffffff', "Hex Color 2")}
                                       title="Click to copy Hex Color 2"
                                     >Hex Color 2</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1223,7 +1223,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor3 || '#ffffff', "Hex Color 3")}
                                       title="Click to copy Hex Color 3"
                                     >Hex Color 3</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1251,7 +1251,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor4 || '#ffffff', "Hex Color 4")}
                                       title="Click to copy Hex Color 4"
                                     >Hex Color 4</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1319,7 +1319,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor5 || '#ffffff', "Hex Color 1")}
                                       title="Click to copy Hex Color 1"
                                     >Hex Color 1</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1347,7 +1347,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor6 || '#ffffff', "Hex Color 2")}
                                       title="Click to copy Hex Color 2"
                                     >Hex Color 2</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1375,7 +1375,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor7 || '#ffffff', "Hex Color 3")}
                                       title="Click to copy Hex Color 3"
                                     >Hex Color 3</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
@@ -1403,7 +1403,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                       onClick={() => copyToClipboard(settings.hexColor8 || '#ffffff', "Hex Color 4")}
                                       title="Click to copy Hex Color 4"
                                     >Hex Color 4</label>
-                                    <div className="flex items-center gap-2">
+                                     <div className="flex items-center gap-1">
                                       <input 
                                         type="text"
                                         placeholder="#ffffff"
