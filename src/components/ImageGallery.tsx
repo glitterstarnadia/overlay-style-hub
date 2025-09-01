@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart, User } from 'lucide-react';
+import { Save, RotateCcw, Upload, Camera, ChevronUp, ChevronDown, Edit2, Plus, Check, X, Heart, User, ImageIcon } from 'lucide-react';
 import GlitterBorder from './GlitterBorder';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -127,6 +127,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
   const transformImage2InputRefs = useRef<Record<string, HTMLInputElement>>({});
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
+  const profileImageInputRef = useRef<HTMLInputElement>(null);
 
   const handleThumbnailClick = (image: string) => {
     setSelectedImage(image);
@@ -456,6 +457,36 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
+  const triggerProfileImageChange = (profileId: string) => {
+    if (profileImageInputRef.current) {
+      profileImageInputRef.current.dataset.profileId = profileId;
+      profileImageInputRef.current.click();
+    }
+  };
+
+  const handleProfileImageUpload = async (file: File, profileId: string) => {
+    if (file && file.type.startsWith('image/')) {
+      try {
+        const processedImageUrl = await processImageFile(file);
+        setSavedProfiles(prev => prev.map(profile =>
+          profile.id === profileId
+            ? { ...profile, thumbnail: processedImageUrl, mainImage: processedImageUrl }
+            : profile
+        ));
+        toast({
+          title: "✨ Profile Image Updated!",
+          description: "Profile photo has been changed",
+        });
+      } catch (error) {
+        toast({
+          title: "❌ Upload Failed",
+          description: "Failed to process the image",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   const clearImageSettings = (imageKey: string) => {
     const defaultSettings = {
       position: { x: 0.50, y: 0.50, z: 0.50 },
@@ -480,8 +511,34 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
 
-  // Save profiles to localStorage whenever savedProfiles changes
   React.useEffect(() => {
+    // Save all settings when they change
+    try {
+      const imageSettingsData = JSON.stringify(imageSettings);
+      localStorage.setItem(`image-settings-${category}`, imageSettingsData);
+      
+      const transformControlsData = JSON.stringify(transformControls);
+      localStorage.setItem(`transform-controls-${category}`, transformControlsData);
+      
+      const transformImagesData = JSON.stringify(transformImages);
+      localStorage.setItem(`transform-images-${category}`, transformImagesData);
+      
+      const transformImages2Data = JSON.stringify(transformImages2);
+      localStorage.setItem(`transform-images2-${category}`, transformImages2Data);
+      
+      if (currentMainImage) {
+        localStorage.setItem(`current-main-image-${category}`, currentMainImage);
+      }
+      if (smallerImage) {
+        localStorage.setItem(`smaller-image-${category}`, smallerImage);
+      }
+    } catch (error) {
+      console.warn("Failed to save settings:", error);
+    }
+   }, [imageSettings, transformControls, transformImages, transformImages2, currentMainImage, smallerImage, category]);
+   
+   // Save profiles to localStorage whenever savedProfiles changes
+   React.useEffect(() => {
     try {
       const profilesData = JSON.stringify(savedProfiles);
       localStorage.setItem(`saved-profiles-${category}`, profilesData);
@@ -571,9 +628,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <div className="flex gap-4 overflow-x-auto pb-4 px-3">
             {savedProfiles.map((profile, index) => (
               <div key={profile.id} className="flex-shrink-0 relative group p-2">
-                <div 
+                 <div 
                    className={cn(
-                     "w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110",
+                     "w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110 relative group",
                      activeProfileId === profile.id 
                        ? "border-primary ring-2 ring-primary/30" 
                        : "border-overlay-border hover:border-primary"
@@ -583,19 +640,28 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                        ? 'hsl(var(--primary))' 
                        : 'hsl(var(--overlay-border))'
                    }}
-                  onClick={() => loadProfile(profile)}
-                >
-                <img
-                  src={imageMap[profile.thumbnail] || profile.thumbnail}
-                  alt={profile.name}
-                  className="w-full h-full object-cover"
-                  style={{ 
-                    imageRendering: 'auto', 
-                    maxWidth: 'none',
-                    filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                  }}
-                />
-                </div>
+                 >
+                   <img
+                     src={imageMap[profile.thumbnail] || profile.thumbnail}
+                     alt={profile.name}
+                     className="w-full h-full object-cover"
+                     style={{ 
+                       imageRendering: 'auto', 
+                       maxWidth: 'none',
+                       filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                     }}
+                     onClick={() => loadProfile(profile)}
+                   />
+                   {/* Edit Profile Image Button */}
+                   <Button
+                     onClick={() => triggerProfileImageChange(profile.id)}
+                     className="absolute top-1 right-1 text-primary-foreground p-1 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity"
+                     size="sm"
+                     title="Change profile image"
+                   >
+                     <ImageIcon className="w-2 h-2" />
+                   </Button>
+                 </div>
                 
                 {/* Profile Name - Editable */}
                 {editingProfileId === profile.id ? (
@@ -720,8 +786,21 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           const file = e.target.files?.[0];
           if (file) handleImageUpload(file, false, true);
         }}
-      />
-      {transformControls.map((_, index) => (
+       />
+       <input
+         ref={profileImageInputRef}
+         type="file"
+         accept="image/*"
+         className="hidden"
+         onChange={(e) => {
+           const file = e.target.files?.[0];
+           const profileId = e.target.dataset.profileId;
+           if (file && profileId) {
+             handleProfileImageUpload(file, profileId);
+           }
+         }}
+       />
+       {transformControls.map((_, index) => (
         <input
           key={index}
           ref={(el) => {
@@ -801,7 +880,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
             
             {/* Transform Controls */}
-            <div className="flex-1 space-y-1 max-h-[1200px] overflow-y-auto custom-scrollbar pr-2">
+            <div className="flex-1 space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
               {transformControls.map((controlId, index) => {
                 const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                 const settings = getImageSettings(imageKey);
