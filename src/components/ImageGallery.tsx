@@ -941,7 +941,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                              </div>}
                            
                               {/* Hex Colors - Only for colours category */}
-                              {category === 'colours' && <div className="flex gap-4 justify-start mx-[3px] my-0 py-0 px-0 overflow-x-auto">
+                              {category === 'colours' && <div className="flex flex-nowrap gap-4 justify-start mx-[3px] my-0 py-0 px-0 overflow-x-auto">
                                  {transformControls.map((controlId, setIndex) => {
                                    const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                                    const settings = getImageSettings(imageKey);
