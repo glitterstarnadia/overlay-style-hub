@@ -244,8 +244,40 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       size,
       opacity,
       alwaysOnTop,
-      theme
+      theme,
+      webBarVisible,
+      sections, // Include current section order
+      collapsedSections: Array.from(collapsedSections), // Include collapsed state
+      // Include all localStorage data for complete backup
+      imageSettings: {} as Record<string, any>,
+      transformControls: {} as Record<string, any>,
     };
+    
+    // Export all image settings for each category
+    const categories = ['hair', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
+    categories.forEach(category => {
+      const settingsKey = `image-settings-${category}`;
+      const transformKey = `transform-controls-${category}`;
+      const savedSettings = localStorage.getItem(settingsKey);
+      const savedTransforms = localStorage.getItem(transformKey);
+      
+      if (savedSettings) {
+        try {
+          config.imageSettings[category] = JSON.parse(savedSettings);
+        } catch (e) {
+          console.warn(`Failed to parse settings for ${category}:`, e);
+        }
+      }
+      
+      if (savedTransforms) {
+        try {
+          config.transformControls[category] = JSON.parse(savedTransforms);
+        } catch (e) {
+          console.warn(`Failed to parse transform controls for ${category}:`, e);
+        }
+      }
+    });
+
     const dataStr = JSON.stringify(config, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
     const exportFileDefaultName = 'character-config.json';
@@ -255,9 +287,9 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     linkElement.click();
     toast({
       title: "Configuration Exported",
-      description: "Your settings have been saved to a file."
+      description: "Your complete settings have been saved to a file."
     });
-  }, [selectedColor, position, size, opacity, alwaysOnTop, theme, toast]);
+  }, [selectedColor, position, size, opacity, alwaysOnTop, theme, webBarVisible, sections, collapsedSections, toast]);
 
   const importConfiguration = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -266,15 +298,46 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       reader.onload = e => {
         try {
           const config = JSON.parse(e.target?.result as string);
-          setSelectedColor(config.selectedColor);
-          setPosition(config.position);
-          setSize(config.size);
-          setOpacity(config.opacity);
-          setAlwaysOnTop(config.alwaysOnTop);
-          setTheme(config.theme);
+          
+          // Import basic settings
+          if (config.selectedColor) setSelectedColor(config.selectedColor);
+          if (config.position) setPosition(config.position);
+          if (config.size) setSize(config.size);
+          if (config.opacity) setOpacity(config.opacity);
+          if (config.alwaysOnTop !== undefined) setAlwaysOnTop(config.alwaysOnTop);
+          if (config.theme) setTheme(config.theme);
+          if (config.webBarVisible !== undefined) setWebBarVisible(config.webBarVisible);
+          
+          // Import sections and collapsed state
+          if (config.sections) {
+            // Filter out any 'patterns' sections during import too
+            const cleanedSections = config.sections.filter((section: string) => section !== 'patterns');
+            setSections(cleanedSections);
+            localStorage.setItem(`sections-order-${pageKey}`, JSON.stringify(cleanedSections));
+          }
+          if (config.collapsedSections) {
+            setCollapsedSections(new Set(config.collapsedSections));
+          }
+          
+          // Import all image settings
+          if (config.imageSettings) {
+            Object.entries(config.imageSettings).forEach(([category, settings]) => {
+              const settingsKey = `image-settings-${category}`;
+              localStorage.setItem(settingsKey, JSON.stringify(settings));
+            });
+          }
+          
+          // Import transform controls
+          if (config.transformControls) {
+            Object.entries(config.transformControls).forEach(([category, controls]) => {
+              const transformKey = `transform-controls-${category}`;
+              localStorage.setItem(transformKey, JSON.stringify(controls));
+            });
+          }
+          
           toast({
             title: "Configuration Imported",
-            description: "Your settings have been restored successfully."
+            description: "Your complete settings have been restored successfully."
           });
         } catch (error) {
           toast({
@@ -288,63 +351,73 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
     // Clear the input value to allow re-importing the same file
     event.target.value = '';
-  }, [toast]);
+  }, [toast, pageKey]);
 
   // Global profile management
   const exportAllProfiles = () => {
     const categories = ['hair', 'colours', 'tops', 'dresses', 'pants', 'shoes', 'adjustments'];
     const allProfiles: Record<string, any[]> = {};
+    const allImageSettings: Record<string, any> = {};
+    const allTransformControls: Record<string, any> = {};
     let totalProfiles = 0;
 
     categories.forEach(category => {
       const profilesKey = `saved-profiles-${category}`;
+      const settingsKey = `image-settings-${category}`;
+      const transformKey = `transform-controls-${category}`;
+      
       const profilesData = localStorage.getItem(profilesKey);
+      const settingsData = localStorage.getItem(settingsKey);
+      const transformData = localStorage.getItem(transformKey);
+      
       if (profilesData) {
         try {
           const profiles = JSON.parse(profilesData);
-          if (Array.isArray(profiles) && profiles.length > 0) {
-            allProfiles[category] = profiles;
-            totalProfiles += profiles.length;
-          }
-        } catch (error) {
-          console.warn(`Failed to parse profiles for category ${category}:`, error);
+          allProfiles[category] = profiles;
+          totalProfiles += profiles.length;
+        } catch (e) {
+          console.warn(`Failed to parse profiles for ${category}:`, e);
+        }
+      }
+      
+      if (settingsData) {
+        try {
+          allImageSettings[category] = JSON.parse(settingsData);
+        } catch (e) {
+          console.warn(`Failed to parse image settings for ${category}:`, e);
+        }
+      }
+      
+      if (transformData) {
+        try {
+          allTransformControls[category] = JSON.parse(transformData);
+        } catch (e) {
+          console.warn(`Failed to parse transform controls for ${category}:`, e);
         }
       }
     });
 
-    if (totalProfiles === 0) {
-      toast({
-        title: "❌ No Profiles to Export",
-        description: "No profiles found across any category",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const exportData = {
+      profiles: allProfiles,
+      imageSettings: allImageSettings,
+      transformControls: allTransformControls,
       exportDate: new Date().toISOString(),
-      version: '1.0',
-      totalProfiles,
-      categories: Object.keys(allProfiles),
-      profiles: allProfiles
+      version: "2.0" // Updated version to indicate new features
     };
 
     const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
     
-    const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `all-profiles-${new Date().toISOString().split('T')[0]}.json`;
-    
-    document.body.appendChild(link);
+    link.download = 'character-profiles-complete.json';
     link.click();
-    document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
     toast({
       title: "📥 All Profiles Exported!",
-      description: `Exported ${totalProfiles} profiles across ${Object.keys(allProfiles).length} categories`,
+      description: `Exported ${totalProfiles} profiles with all settings across ${Object.keys(allProfiles).length} categories`,
     });
   };
 
@@ -373,6 +446,22 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         let totalImported = 0;
         const importedCategories: string[] = [];
 
+        // Import image settings and transform controls if available  
+        if (importData.imageSettings) {
+          Object.entries(importData.imageSettings).forEach(([category, settings]) => {
+            const settingsKey = `image-settings-${category}`;
+            localStorage.setItem(settingsKey, JSON.stringify(settings));
+          });
+        }
+        
+        if (importData.transformControls) {
+          Object.entries(importData.transformControls).forEach(([category, controls]) => {
+            const transformKey = `transform-controls-${category}`;
+            localStorage.setItem(transformKey, JSON.stringify(controls));
+          });
+        }
+
+        // Import profiles
         Object.entries(importData.profiles).forEach(([category, profiles]) => {
           if (Array.isArray(profiles) && profiles.length > 0) {
             const profilesKey = `saved-profiles-${category}`;
