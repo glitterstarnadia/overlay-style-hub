@@ -1136,11 +1136,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                            
                             {/* Hex Colors - Only for colours category */}
                             {category === 'colours' && (
-                              <div className="grid grid-cols-2 gap-4">
-                                {/* Left Column - Set 1 */}
-                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300">
+                               <div className="grid grid-cols-2 gap-4">
+                                 {/* Left Column - Set 1 */}
+                                 <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-2 rounded-lg border border-pink-300">
                                   {/* Set 1 Header */}
-                                  <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center justify-between mb-1">
                                     <div className="flex items-center gap-2">
                                       <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                                         <Upload className="w-3 h-3" />
@@ -1159,7 +1159,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                     </Button>
                                   </div>
                                   
-                                  <p className="text-sm font-bold text-pink-800 mb-3">Image 1 Colors</p>
+                                  <p className="text-sm font-bold text-pink-800 mb-2">Image 1 Colors</p>
                                   
                                   {/* Hex Color 1 */}
                                   <div className="mb-2">
@@ -1289,10 +1289,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   </Button>
                                 </div>
                                 
-                                {/* Right Column - Set 2 */}
-                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300">
+                                 {/* Right Column - Set 2 */}
+                                 <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-2 rounded-lg border border-pink-300">
                                   {/* Set 2 Header */}
-                                  <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center justify-between mb-1">
                                     <div className="flex items-center gap-2">
                                       <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                                         <Upload className="w-3 h-3" />
@@ -1311,7 +1311,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                     </Button>
                                   </div>
                                   
-                                  <p className="text-sm font-bold text-pink-800 mb-3">Image 2 Colors</p>
+                                  <p className="text-sm font-bold text-pink-800 mb-2">Image 2 Colors</p>
                                   
                                   {/* Hex Color 5 */}
                                   <div className="mb-2">
