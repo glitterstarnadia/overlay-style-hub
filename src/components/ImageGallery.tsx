@@ -635,7 +635,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 ) : (
                   <div className="mt-1 flex items-center justify-center">
                      <p 
-                       className="text-xs text-foreground text-center w-20 cursor-pointer hover:text-primary font-bold break-words"
+                       className="text-xs text-primary-foreground text-center w-20 cursor-pointer hover:text-primary-glow font-bold break-words"
                        onClick={() => startEditingName(profile)}
                      >
                        {profile.name}
