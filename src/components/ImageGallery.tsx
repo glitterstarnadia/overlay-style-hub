@@ -841,7 +841,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             }}>
                       <div className="flex gap-2">
                        {/* Controls Section */}
-                       <div className="flex-1">
+                        <div className={category === 'colours' ? "flex-shrink-0 min-w-fit" : "flex-1"}>
                         <h4 className="text-xs font-bold theme-text-primary mb-1 flex items-center justify-between mx-[4px] px-[3px] py-0">
                           <div className="flex items-center gap-1">
                             <span>Set {index + 1}</span>
