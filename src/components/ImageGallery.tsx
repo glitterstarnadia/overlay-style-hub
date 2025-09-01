@@ -974,7 +974,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                           <input type="text" placeholder="#ffffff" className="flex-1 px-1 py-0.5 text-xs rounded border border-pink-300 focus:border-pink-500 focus:outline-none text-pink-800 font-mono font-bold bg-white/80" value={settings.hexColor1 || '#ffffff'} onChange={e => updateImageSettings(imageKey, {
                                  hexColor1: e.target.value
                                })} />
-                                          <Heart className="w-4 h-4 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
+                                          <Heart className="w-5 h-5 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
                                  fill: settings.hexColor1 || '#ffffff',
                                  stroke: '#ec4899',
                                  strokeWidth: 1.5
@@ -990,7 +990,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input type="text" placeholder="#ffffff" className="flex-1 px-1 py-0.5 text-xs rounded border border-pink-300 focus:border-pink-500 focus:outline-none text-pink-800 font-mono font-bold bg-white/80" value={settings.hexColor2 || '#ffffff'} onChange={e => updateImageSettings(imageKey, {
                                hexColor2: e.target.value
                              })} />
-                                       <Heart className="w-4 h-4 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
+                                       <Heart className="w-5 h-5 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
                                fill: settings.hexColor2 || '#ffffff',
                                stroke: '#ec4899',
                                strokeWidth: 1.5
@@ -1005,7 +1005,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input type="text" placeholder="#ffffff" className="flex-1 px-1 py-0.5 text-xs rounded border border-pink-300 focus:border-pink-500 focus:outline-none text-pink-800 font-mono font-bold bg-white/80" value={settings.hexColor3 || '#ffffff'} onChange={e => updateImageSettings(imageKey, {
                                hexColor3: e.target.value
                              })} />
-                                       <Heart className="w-4 h-4 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
+                                       <Heart className="w-5 h-5 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
                                fill: settings.hexColor3 || '#ffffff',
                                stroke: '#ec4899',
                                strokeWidth: 1.5
@@ -1020,7 +1020,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                        <input type="text" placeholder="#ffffff" className="flex-1 px-1 py-0.5 text-xs rounded border border-pink-300 focus:border-pink-500 focus:outline-none text-pink-800 font-mono font-bold bg-white/80" value={settings.hexColor4 || '#ffffff'} onChange={e => updateImageSettings(imageKey, {
                                hexColor4: e.target.value
                              })} />
-                                       <Heart className="w-4 h-4 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
+                                       <Heart className="w-5 h-5 flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-200" style={{
                                fill: settings.hexColor4 || '#ffffff',
                                stroke: '#ec4899',
                                strokeWidth: 1.5
