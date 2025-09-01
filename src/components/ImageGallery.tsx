@@ -1281,7 +1281,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 {/* Left Column - Set 1 */}
                                  <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-4 rounded-lg border border-pink-300 w-80">
                                    {/* Header and Upload - Side by side */}
-                                   <div className="flex items-start justify-between mb-1">
+                                   <div className="flex items-start justify-between">
                                      <div className="flex items-center gap-2">
                                        <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                                          <Upload className="w-3 h-3" />
