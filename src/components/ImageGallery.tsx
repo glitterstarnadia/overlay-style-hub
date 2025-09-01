@@ -940,8 +940,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               </div>
                              </div>}
                            
-                             {/* Hex Colors - Only for colours category */}
-                             {category === 'colours' && <div className="flex gap-4 justify-start mx-[3px] my-0 py-0 px-0 flex-wrap">
+                              {/* Hex Colors - Only for colours category */}
+                              {category === 'colours' && <div className="flex gap-4 justify-start mx-[3px] my-0 py-0 px-0 overflow-x-auto">
                                  {transformControls.map((controlId, setIndex) => {
                                    const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
                                    const settings = getImageSettings(imageKey);
