@@ -1293,7 +1293,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                   
                                   {/* Image Upload Area for Set 1 */}
                                   <div 
-                                    className="w-full h-16 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center mb-3 cursor-pointer hover:bg-pink-300 transition-colors"
+                                    className="w-16 h-16 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center mb-3 cursor-pointer hover:bg-pink-300 transition-colors"
                                     onClick={() => triggerTransformImageUpload(controlId)}
                                   >
                                     {transformImages[controlId] ? (
