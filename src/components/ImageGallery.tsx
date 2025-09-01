@@ -830,7 +830,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
             
             {/* Transform Controls */}
-            <div className="flex-1 space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+            <div className={category === 'colours' ? "flex-1 flex gap-1 max-h-[400px] overflow-x-auto custom-scrollbar pr-2" : "flex-1 space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"}>
               {transformControls.map((controlId, index) => {
             const imageKey = `${smallerImage || 'smaller-image-default'}-${controlId}`;
             const settings = getImageSettings(imageKey);
