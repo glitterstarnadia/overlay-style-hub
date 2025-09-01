@@ -1280,8 +1280,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                               <div className="flex gap-4 justify-start">
                                 {/* Left Column - Set 1 */}
                                  <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-4 rounded-lg border border-pink-300 w-80">
-                                   {/* Set 1 Header */}
-                                   <div className="flex items-center justify-between mb-3">
+                                   {/* Header and Upload - Side by side */}
+                                   <div className="flex items-start justify-between mb-4">
                                      <div className="flex items-center gap-2">
                                        <div className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                                          <Upload className="w-3 h-3" />
@@ -1289,12 +1289,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                          <X className="w-3 h-3 cursor-pointer hover:opacity-70" />
                                        </div>
                                      </div>
-                                   </div>
-                                   
-                                   {/* Image Upload - Positioned at the top */}
-                                   <div className="mb-4">
+                                     
+                                     {/* Image Upload - Top right */}
                                      <div 
-                                       className="w-24 h-24 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center cursor-pointer hover:bg-pink-300 transition-colors mx-auto"
+                                       className="w-24 h-24 bg-pink-200 border-2 border-dashed border-pink-400 rounded-lg flex items-center justify-center cursor-pointer hover:bg-pink-300 transition-colors"
                                        onClick={() => triggerTransformImageUpload(controlId)}
                                      >
                                        {transformImages[controlId] ? (
