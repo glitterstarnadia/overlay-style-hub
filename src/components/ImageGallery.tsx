@@ -93,6 +93,8 @@ interface SavedProfile {
   settings: Record<string, ImageSettings>;
   transformImages: Record<string, string>;
   transformImages2?: Record<string, string>;
+  transformImages3?: Record<string, string>;
+  transformImages4?: Record<string, string>;
   transformControls: string[];
   smallerImage: string;
   createdAt: Date;
@@ -113,6 +115,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [transformControls, setTransformControls] = useState<string[]>(['default']);
   const [transformImages, setTransformImages] = useState<Record<string, string>>({});
   const [transformImages2, setTransformImages2] = useState<Record<string, string>>({});
+  const [transformImages3, setTransformImages3] = useState<Record<string, string>>({});
+  const [transformImages4, setTransformImages4] = useState<Record<string, string>>({});
   
   // Load saved profiles from localStorage on component mount
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>(() => {
@@ -128,6 +132,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const smallerImageInputRef = useRef<HTMLInputElement>(null);
   const transformImageInputRefs = useRef<Record<string, HTMLInputElement>>({});
   const transformImage2InputRefs = useRef<Record<string, HTMLInputElement>>({});
+  const transformImage3InputRefs = useRef<Record<string, HTMLInputElement>>({});
+  const transformImage4InputRefs = useRef<Record<string, HTMLInputElement>>({});
   const thumbnailInputRefs = useRef<Record<number, HTMLInputElement>>({});
   const profileImageInputRef = useRef<HTMLInputElement>(null);
 
@@ -135,7 +141,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setSelectedImage(image);
   };
 
-  const handleImageUpload = async (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string, isSecond: boolean = false) => {
+  const handleImageUpload = async (file: File, isMain: boolean = false, isSmaller: boolean = false, thumbnailIndex?: number, transformId?: string, imageType: 'first' | 'second' | 'third' | 'fourth' = 'first') => {
     if (file && file.type.startsWith('image/')) {
       try {
         toast({
@@ -160,7 +166,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             description: "High-quality smaller image has been loaded",
           });
         } else if (transformId) {
-          if (isSecond) {
+          if (imageType === 'second') {
             setTransformImages2(prev => ({
               ...prev,
               [transformId]: processedImageUrl
@@ -168,6 +174,24 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             toast({
               title: "🖼️ Second Transform Image Updated!",
               description: "High-quality second transform control image has been loaded",
+            });
+          } else if (imageType === 'third') {
+            setTransformImages3(prev => ({
+              ...prev,
+              [transformId]: processedImageUrl
+            }));
+            toast({
+              title: "🖼️ Third Transform Image Updated!",
+              description: "High-quality third transform control image has been loaded",
+            });
+          } else if (imageType === 'fourth') {
+            setTransformImages4(prev => ({
+              ...prev,
+              [transformId]: processedImageUrl
+            }));
+            toast({
+              title: "🖼️ Fourth Transform Image Updated!",
+              description: "High-quality fourth transform control image has been loaded",
             });
           } else {
             setTransformImages(prev => ({
@@ -221,6 +245,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     transformImage2InputRefs.current[transformId]?.click();
   };
 
+  const triggerTransformImage3Upload = (transformId: string) => {
+    transformImage3InputRefs.current[transformId]?.click();
+  };
+
+  const triggerTransformImage4Upload = (transformId: string) => {
+    transformImage4InputRefs.current[transformId]?.click();
+  };
+
   const triggerThumbnailUpload = (index: number) => {
     thumbnailInputRefs.current[index]?.click();
   };
@@ -268,12 +300,20 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const addTransformControl = () => {
     const newId = `transform-${Date.now()}`;
     setTransformControls(prev => [...prev, newId]);
-    // Initialize empty transform image for the new control
+    // Initialize empty transform images for the new control
     setTransformImages(prev => ({
       ...prev,
       [newId]: ''
     }));
     setTransformImages2(prev => ({
+      ...prev,
+      [newId]: ''
+    }));
+    setTransformImages3(prev => ({
+      ...prev,
+      [newId]: ''
+    }));
+    setTransformImages4(prev => ({
       ...prev,
       [newId]: ''
     }));
@@ -295,13 +335,23 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     }
 
     setTransformControls(prev => prev.filter(id => id !== controlId));
-    // Clean up transform image for the removed control
+    // Clean up transform images for the removed control
     setTransformImages(prev => {
       const newImages = { ...prev };
       delete newImages[controlId];
       return newImages;
     });
     setTransformImages2(prev => {
+      const newImages = { ...prev };
+      delete newImages[controlId];
+      return newImages;
+    });
+    setTransformImages3(prev => {
+      const newImages = { ...prev };
+      delete newImages[controlId];
+      return newImages;
+    });
+    setTransformImages4(prev => {
       const newImages = { ...prev };
       delete newImages[controlId];
       return newImages;
@@ -333,6 +383,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               settings: { ...imageSettings },
               transformImages: { ...transformImages },
               transformImages2: { ...transformImages2 },
+              transformImages3: { ...transformImages3 },
+              transformImages4: { ...transformImages4 },
               transformControls: [...transformControls],
               smallerImage: smallerImage,
             }
@@ -352,6 +404,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         settings: { ...imageSettings },
         transformImages: { ...transformImages },
         transformImages2: { ...transformImages2 },
+        transformImages3: { ...transformImages3 },
+        transformImages4: { ...transformImages4 },
         transformControls: [...transformControls],
         smallerImage: smallerImage,
         createdAt: new Date(),
@@ -372,6 +426,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setImageSettings(profile.settings);
     setTransformImages(profile.transformImages);
     setTransformImages2(profile.transformImages2 || {});
+    setTransformImages3(profile.transformImages3 || {});
+    setTransformImages4(profile.transformImages4 || {});
     setTransformControls(profile.transformControls || ['default']);
     setSmallerImage(profile.smallerImage);
     setActiveProfileId(profile.id);
@@ -398,6 +454,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     setImageSettings({});
     setTransformImages({});
     setTransformImages2({});
+    setTransformImages3({});
+    setTransformImages4({});
     setTransformControls(['default']);
     setSmallerImage('');
     setActiveProfileId(null);
@@ -847,7 +905,37 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           className="hidden"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) handleImageUpload(file, false, false, undefined, controlId, true);
+            if (file) handleImageUpload(file, false, false, undefined, controlId, 'second');
+          }}
+        />
+      ))}
+      {transformControls.map((controlId) => (
+        <input
+          key={`transform3-${controlId}`}
+          ref={(el) => {
+            if (el) transformImage3InputRefs.current[controlId] = el;
+          }}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleImageUpload(file, false, false, undefined, controlId, 'third');
+          }}
+        />
+      ))}
+      {transformControls.map((controlId) => (
+        <input
+          key={`transform4-${controlId}`}
+          ref={(el) => {
+            if (el) transformImage4InputRefs.current[controlId] = el;
+          }}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleImageUpload(file, false, false, undefined, controlId, 'fourth');
           }}
         />
       ))}
@@ -953,6 +1041,68 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                     className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
                                     size="sm"
                                     title={`Upload second image for Set ${index + 1}`}
+                                  >
+                                    <Upload className="w-2 h-2" />
+                                 </Button>
+                               </div>
+                             )}
+
+                             {/* Third Image Upload - Only for colours category */}
+                             {category === 'colours' && (
+                               <div className="relative mt-2">
+                                 {transformImages3[controlId] ? (
+                                   <img
+                                     src={imageMap[transformImages3[controlId]] || transformImages3[controlId]}
+                                     alt={`Third transform image ${index + 1}`}
+                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                     style={{ 
+                                       imageRendering: 'auto', 
+                                       maxWidth: 'none',
+                                       filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                     }}
+                                   />
+                                 ) : (
+                                    <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                      <Upload className="w-7 h-7 theme-icon-primary" />
+                                   </div>
+                                 )}
+                                 
+                                  <Button
+                                    onClick={() => triggerTransformImage3Upload(controlId)}
+                                    className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                    size="sm"
+                                    title={`Upload third image for Set ${index + 1}`}
+                                  >
+                                    <Upload className="w-2 h-2" />
+                                 </Button>
+                               </div>
+                             )}
+
+                             {/* Fourth Image Upload - Only for colours category */}
+                             {category === 'colours' && (
+                               <div className="relative mt-2">
+                                 {transformImages4[controlId] ? (
+                                   <img
+                                     src={imageMap[transformImages4[controlId]] || transformImages4[controlId]}
+                                     alt={`Fourth transform image ${index + 1}`}
+                                     className="w-28 h-28 object-cover rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                     style={{ 
+                                       imageRendering: 'auto', 
+                                       maxWidth: 'none',
+                                       filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                                     }}
+                                   />
+                                 ) : (
+                                    <div className="theme-placeholder-bg w-28 h-28 rounded shadow-md flex items-center justify-center border border-dashed border-overlay-border">
+                                      <Upload className="w-7 h-7 theme-icon-primary" />
+                                   </div>
+                                 )}
+                                 
+                                  <Button
+                                    onClick={() => triggerTransformImage4Upload(controlId)}
+                                    className="absolute -top-1 -right-1 text-primary-foreground p-0.5 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90"
+                                    size="sm"
+                                    title={`Upload fourth image for Set ${index + 1}`}
                                   >
                                     <Upload className="w-2 h-2" />
                                  </Button>
