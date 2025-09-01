@@ -300,6 +300,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
   };
   const addTransformControl = () => {
+    if (transformControls.length >= 10) return; // Prevent too many sets
     const newId = `transform-${Date.now()}`;
     setTransformControls(prev => [...prev, newId]);
     // Initialize empty transform images for the new control
