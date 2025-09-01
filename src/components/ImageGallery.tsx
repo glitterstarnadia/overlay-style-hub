@@ -346,6 +346,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         mainImage: currentMainImage,
         settings: { ...imageSettings },
         transformImages: { ...transformImages },
+        transformImages2: { ...transformImages2 },
         transformControls: [...transformControls],
         smallerImage: smallerImage,
         createdAt: new Date(),
