@@ -1134,9 +1134,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                            
                             {/* Hex Colors - Only for colours category */}
                             {category === 'colours' && (
-                              <div className="grid grid-cols-2 gap-4">
+                              <div className="flex gap-4 justify-start">
                                 {/* Left Column - Set 1 */}
-                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300">
+                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300 w-64">
                                   {/* Set 1 Header */}
                                   <div className="flex items-center justify-between mb-2">
                                     <div className="flex items-center gap-2">
@@ -1279,7 +1279,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                 </div>
                                 
                                 {/* Right Column - Set 2 */}
-                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300">
+                                <div className="bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 p-3 rounded-lg border border-pink-300 w-64">
                                   {/* Set 2 Header */}
                                   <div className="flex items-center justify-between mb-2">
                                     <div className="flex items-center gap-2">
