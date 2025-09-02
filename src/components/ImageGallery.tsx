@@ -102,6 +102,7 @@ interface SavedProfile {
   smallerImage: string;
   createdAt: Date;
 }
+
 export const ImageGallery: React.FC<ImageGalleryProps> = ({
   mainImage,
   thumbnails,
@@ -609,20 +610,112 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         </div>
         
         {savedProfiles.length > 0 ? <div className="flex gap-4 overflow-x-auto pb-4 px-3">
-            {savedProfiles.map((profile, index) => <div key={profile.id} className="flex-shrink-0 relative group p-2">
-                 <div className={cn("w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110 relative group", activeProfileId === profile.id ? "border-primary ring-2 ring-primary/30" : "border-overlay-border hover:border-primary")} style={{
-            borderColor: activeProfileId === profile.id ? 'hsl(var(--primary))' : 'hsl(var(--overlay-border))'
-          }}>
-                   <img src={imageMap[profile.thumbnail] || profile.thumbnail} alt={profile.name} className="w-full h-full object-cover" style={{
-              imageRendering: 'auto',
-              maxWidth: 'none',
-              filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-            }} onClick={() => loadProfile(profile)} />
-                   {/* Edit Profile Image Button */}
-                   <Button onClick={() => triggerProfileImageChange(profile.id)} className="absolute top-1 right-1 text-primary-foreground p-1 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity" size="sm" title="Change profile image">
-                     <ImageIcon className="w-2 h-2" />
-                   </Button>
-                 </div>
+            {savedProfiles.map((profile, index) => {
+              const ProfileThumbnail = () => {
+                if (category === 'colours') {
+                  // For colours category, show a simple 2x2 grid overlay
+                  const allImages = [
+                    ...Object.values(profile.transformImages || {}),
+                    ...Object.values(profile.transformImages2 || {})
+                  ].filter(Boolean).slice(0, 4);
+                  
+                  if (allImages.length > 1) {
+                    return (
+                      <div className="w-full h-full relative" onClick={() => loadProfile(profile)}>
+                        {/* Base thumbnail */}
+                        <img 
+                          src={imageMap[profile.thumbnail] || profile.thumbnail} 
+                          alt={profile.name} 
+                          className="w-full h-full object-cover" 
+                        />
+                        {/* Grid overlay */}
+                        <div className="absolute inset-0 grid grid-cols-2 gap-0.5 p-1 bg-black/20">
+                          {allImages.map((imageSrc, idx) => (
+                            <div key={idx} className="bg-white/90 rounded-sm overflow-hidden">
+                              <img 
+                                src={imageMap[imageSrc] || imageSrc} 
+                                alt={`Set ${idx + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ))}
+                          {Array.from({ length: 4 - allImages.length }).map((_, idx) => (
+                            <div key={`empty-${idx}`} className="bg-white/50 rounded-sm" />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                  // For colours category, show a simple 2x2 grid overlay
+                  const allImages = [
+                    ...Object.values(profile.transformImages || {}),
+                    ...Object.values(profile.transformImages2 || {})
+                  ].filter(Boolean).slice(0, 4);
+                  
+                  if (allImages.length > 1) {
+                    return (
+                      <div className="w-full h-full relative">
+                        {/* Base thumbnail */}
+                        <img 
+                          src={imageMap[profile.thumbnail] || profile.thumbnail} 
+                          alt={profile.name} 
+                          className="w-full h-full object-cover" 
+                          style={{
+                            imageRendering: 'auto',
+                            maxWidth: 'none',
+                            filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                          }} 
+                          onClick={() => loadProfile(profile)} 
+                        />
+                        {/* Grid overlay */}
+                        <div className="absolute inset-0 grid grid-cols-2 gap-0.5 p-1 bg-black/20" onClick={() => loadProfile(profile)}>
+                          {allImages.map((imageSrc, idx) => (
+                            <div key={idx} className="bg-white/90 rounded-sm overflow-hidden">
+                              <img 
+                                src={imageMap[imageSrc] || imageSrc} 
+                                alt={`Set ${idx + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ))}
+                          {/* Fill empty slots if less than 4 images */}
+                          {Array.from({ length: 4 - allImages.length }).map((_, idx) => (
+                            <div key={`empty-${idx}`} className="bg-white/50 rounded-sm" />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+                
+                // For other categories or single image, use regular thumbnail
+                return (
+                  <img 
+                    src={imageMap[profile.thumbnail] || profile.thumbnail} 
+                    alt={profile.name} 
+                    className="w-full h-full object-cover" 
+                    style={{
+                      imageRendering: 'auto',
+                      maxWidth: 'none',
+                      filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
+                    }} 
+                    onClick={() => loadProfile(profile)} 
+                  />
+                );
+              };
+              
+              return (
+                <div key={profile.id} className="flex-shrink-0 relative group p-2">
+                  <div className={cn("w-28 h-28 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-110 relative group", activeProfileId === profile.id ? "border-primary ring-2 ring-primary/30" : "border-overlay-border hover:border-primary")} style={{
+                    borderColor: activeProfileId === profile.id ? 'hsl(var(--primary))' : 'hsl(var(--overlay-border))'
+                  }}>
+                    <ProfileThumbnail />
+                    {/* Edit Profile Image Button */}
+                    <Button onClick={() => triggerProfileImageChange(profile.id)} className="absolute top-1 right-1 text-primary-foreground p-1 rounded-full shadow-lg backdrop-blur-sm z-20 bg-primary hover:bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity" size="sm" title="Change profile image">
+                      <ImageIcon className="w-2 h-2" />
+                    </Button>
+                  </div>
                 
                 {/* Profile Name - Editable */}
                 {editingProfileId === profile.id ? <div className="mt-1 flex items-center gap-1">
@@ -681,9 +774,11 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             }} size="sm">
                      <X className="w-2 h-2" />
                    </Button>
-                </div>
-              </div>)}
-          </div> : <p className="text-sm theme-text-muted text-center py-4 font-bold">
+                 </div>
+               </div>
+             );
+            })}
+           </div> : <p className="text-sm theme-text-muted text-center py-4 font-bold">
             No saved profiles yet. Click "New Profile" to get started!
           </p>}
       </div>
