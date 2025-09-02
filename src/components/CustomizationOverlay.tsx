@@ -62,7 +62,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
   );
   
   const initialAlwaysOnTop = useMemo(() => 
-    getStoredValue(`customization-alwaysOnTop-${pageKey}`, false),
+    getStoredValue(`customization-alwaysOnTop-${pageKey}`, true),
     [pageKey]
   );
   
@@ -104,6 +104,14 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     // Call Electron API if available
     if (typeof window !== 'undefined' && (window as any).electronAPI?.setWebBarVisibility) {
       (window as any).electronAPI.setWebBarVisibility(visible);
+    }
+  }, []);
+
+  const handleAlwaysOnTopChange = useCallback((alwaysOnTop: boolean) => {
+    setAlwaysOnTop(alwaysOnTop);
+    // Call Electron API if available
+    if (typeof window !== 'undefined' && (window as any).electronAPI?.setAlwaysOnTop) {
+      (window as any).electronAPI.setAlwaysOnTop(alwaysOnTop);
     }
   }, []);
 
@@ -696,7 +704,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
               opacity={opacity} 
               onOpacityChange={setOpacity} 
               alwaysOnTop={alwaysOnTop} 
-              onAlwaysOnTopChange={setAlwaysOnTop} 
+              onAlwaysOnTopChange={handleAlwaysOnTopChange} 
               theme={theme} 
               onThemeChange={setTheme} 
               webBarVisible={webBarVisible}

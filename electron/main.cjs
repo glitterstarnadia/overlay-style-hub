@@ -128,6 +128,14 @@ ipcMain.handle('set-web-bar-visibility', (event, visible) => {
   }
 });
 
+// IPC handler for always on top
+ipcMain.handle('set-always-on-top', (event, alwaysOnTop) => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow) {
+    focusedWindow.setAlwaysOnTop(alwaysOnTop);
+  }
+});
+
 // IPC handler for window resizing
 ipcMain.handle('resize-window', (event, { width, height }) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();

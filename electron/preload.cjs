@@ -19,6 +19,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     return ipcRenderer.invoke('set-web-bar-visibility', visible);
   },
   
+  // Always on top function
+  setAlwaysOnTop: (alwaysOnTop) => {
+    return ipcRenderer.invoke('set-always-on-top', alwaysOnTop);
+  },
+  
   // Window resize functions
   resizeWindow: (width, height) => {
     return ipcRenderer.invoke('resize-window', { width, height });
