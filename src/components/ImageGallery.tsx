@@ -143,7 +143,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
       try {
         toast({
           title: "🔄 Processing Image...",
-          description: "Enhancing image quality, please wait"
+          description: file.type === 'image/gif' ? "Loading GIF with animation preserved" : "Enhancing image quality, please wait"
         });
 
         // Process image with high quality settings
@@ -152,8 +152,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           setCurrentMainImage(processedImageUrl);
           setSelectedImage(processedImageUrl);
           toast({
-            title: "📸 Main Image Updated!",
-            description: "High-quality main image has been loaded"
+            title: file.type === 'image/gif' ? "🎬 GIF Uploaded!" : "📸 Main Image Updated!",
+            description: file.type === 'image/gif' ? "Your animated GIF is ready to use!" : "High-quality image processed successfully!"
           });
         } else if (isSmaller) {
           setSmallerImage(processedImageUrl);

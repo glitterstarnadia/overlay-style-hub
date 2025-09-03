@@ -59,6 +59,21 @@ export const processImageFile = async (file: File): Promise<string> => {
       return;
     }
     
+    // Handle GIFs specially - preserve animation by returning original file as data URL
+    if (file.type === 'image/gif') {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result as string;
+        console.log('GIF processed: preserved animation, original size');
+        resolve(dataURL);
+      };
+      reader.onerror = () => {
+        reject(new Error('Failed to read GIF file'));
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+    
     const img = new Image();
     img.onload = () => {
       try {
@@ -109,6 +124,21 @@ export const createHighQualityThumbnail = async (
   maxSize: number = 400
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
+    // Handle GIFs specially - preserve animation for thumbnails too
+    if (file.type === 'image/gif') {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result as string;
+        console.log('GIF thumbnail: preserved animation');
+        resolve(dataURL);
+      };
+      reader.onerror = () => {
+        reject(new Error('Failed to read GIF file for thumbnail'));
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+    
     const img = new Image();
     img.onload = () => {
       try {
