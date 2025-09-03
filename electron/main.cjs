@@ -98,6 +98,26 @@ function createWindow() {
   discordRPC = new DiscordRPC();
   discordRPC.connect();
 
+  // Enhanced always-on-top behavior
+  mainWindow.setAlwaysOnTop(true, 'floating');
+  
+  // Force window to stay on top when it loses focus
+  mainWindow.on('blur', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.setAlwaysOnTop(false);
+      mainWindow.setAlwaysOnTop(true, 'floating');
+      mainWindow.focus();
+    }
+  });
+
+  // Keep window on top when other windows are created
+  mainWindow.on('show', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.setAlwaysOnTop(true, 'floating');
+      mainWindow.focus();
+    }
+  });
+
   return mainWindow;
 }
 
@@ -132,7 +152,12 @@ ipcMain.handle('set-web-bar-visibility', (event, visible) => {
 ipcMain.handle('set-always-on-top', (event, alwaysOnTop) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
   if (focusedWindow) {
-    focusedWindow.setAlwaysOnTop(alwaysOnTop);
+    if (alwaysOnTop) {
+      focusedWindow.setAlwaysOnTop(true, 'floating');
+      focusedWindow.focus();
+    } else {
+      focusedWindow.setAlwaysOnTop(false);
+    }
   }
 });
 
