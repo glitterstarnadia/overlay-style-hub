@@ -678,10 +678,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 
                 {/* Profile Name - Editable */}
                 {editingProfileId === profile.id ? <div className="mt-1 flex items-center gap-1">
-                    <input value={editingName} onChange={e => setEditingName(e.target.value)} className="w-16 px-1 py-0.5 text-xs rounded border border-overlay-border bg-overlay-surface focus:border-primary focus:outline-none text-foreground font-bold" style={{
+                    <input value={editingName} onChange={e => setEditingName(e.target.value)} className="w-16 px-1 py-0.5 text-xs rounded border border-overlay-border bg-overlay-surface focus:border-primary focus:outline-none text-pink-500 font-bold" style={{
               backgroundColor: 'hsl(var(--overlay-surface))',
               borderColor: 'hsl(var(--overlay-border))',
-              color: 'hsl(var(--foreground))'
+              color: '#ec4899'
             }} onKeyDown={e => {
               if (e.key === 'Enter') saveProfileName();
               if (e.key === 'Escape') cancelEditingName();
