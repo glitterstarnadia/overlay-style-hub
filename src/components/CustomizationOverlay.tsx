@@ -641,7 +641,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         top: position.y,
         width: size.width,
         height: size.height,
-        zIndex: alwaysOnTop ? 9999 : 50,
+        zIndex: alwaysOnTop ? 99999 : 9999,
         opacity: opacity / 100
       }} 
       onMouseDown={handleMouseDown}
