@@ -647,47 +647,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     );
                   }
                 }
-                  // For colours category, show a simple 2x2 grid overlay
-                  const allImages = [
-                    ...Object.values(profile.transformImages || {}),
-                    ...Object.values(profile.transformImages2 || {})
-                  ].filter(Boolean).slice(0, 4);
-                  
-                  if (allImages.length > 1) {
-                    return (
-                      <div className="w-full h-full relative">
-                        {/* Base thumbnail */}
-                        <img 
-                          src={imageMap[profile.thumbnail] || profile.thumbnail} 
-                          alt={profile.name} 
-                          className="w-full h-full object-cover" 
-                          style={{
-                            imageRendering: 'auto',
-                            maxWidth: 'none',
-                            filter: 'contrast(1.05) saturate(1.1) brightness(1.02)'
-                          }} 
-                          onClick={() => loadProfile(profile)} 
-                        />
-                        {/* Grid overlay */}
-                        <div className="absolute inset-0 grid grid-cols-2 gap-0.5 p-1 bg-black/20" onClick={() => loadProfile(profile)}>
-                          {allImages.map((imageSrc, idx) => (
-                            <div key={idx} className="bg-white/90 rounded-sm overflow-hidden">
-                              <img 
-                                src={imageMap[imageSrc] || imageSrc} 
-                                alt={`Set ${idx + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          ))}
-                          {/* Fill empty slots if less than 4 images */}
-                          {Array.from({ length: 4 - allImages.length }).map((_, idx) => (
-                            <div key={`empty-${idx}`} className="bg-white/50 rounded-sm" />
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  }
-                }
                 
                 // For other categories or single image, use regular thumbnail
                 return (
@@ -776,11 +735,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                    </Button>
                  </div>
                </div>
-             );
-            })}
-           </div> : <p className="text-sm theme-text-muted text-center py-4 font-bold">
-            No saved profiles yet. Click "New Profile" to get started!
-          </p>}
+              );
+             })}
+            </div> : 
+            <p className="text-sm theme-text-muted text-center py-4 font-bold">
+             No saved profiles yet. Click "New Profile" to get started!
+           </p>
+        }
       </div>
       {/* Hidden File Inputs */}
       <input ref={mainImageInputRef} type="file" accept="image/*" className="hidden" onChange={e => {
