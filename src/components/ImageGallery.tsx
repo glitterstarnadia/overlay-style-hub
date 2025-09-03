@@ -697,9 +697,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                        <X className="w-2 h-2" />
                      </Button>
                   </div> : <div className="mt-1 flex items-center justify-center">
-                     <p className="text-xs text-primary-foreground text-center w-20 cursor-pointer hover:text-primary-glow font-bold break-words" onClick={() => startEditingName(profile)}>
-                       {profile.name}
-                     </p>
+                      <p className="text-xs text-center w-20 cursor-pointer font-bold break-words" style={{ color: '#ec4899' }} onClick={() => startEditingName(profile)}>
+                        {profile.name}
+                      </p>
                      <Button onClick={() => startEditingName(profile)} className="w-3 h-3 text-primary-foreground rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity ml-1" style={{
               backgroundColor: 'hsl(var(--primary))'
             }} size="sm">
