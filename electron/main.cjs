@@ -68,10 +68,12 @@ function createWindow() {
     }
   }
 
-  // Force DevTools to open in all cases for debugging
-  setTimeout(() => {
-    mainWindow.webContents.openDevTools();
-  }, 1000);
+  // Only open DevTools in development
+  if (isDev) {
+    setTimeout(() => {
+      mainWindow.webContents.openDevTools();
+    }, 1000);
+  }
 
   // Add comprehensive error handling
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
