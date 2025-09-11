@@ -31,5 +31,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   getWindowSize: () => {
     return ipcRenderer.invoke('get-window-size');
+  },
+  
+  // Update functions
+  downloadUpdate: (url) => {
+    return ipcRenderer.invoke('download-update', url);
   }
 });

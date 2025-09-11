@@ -180,6 +180,14 @@ ipcMain.handle('get-window-size', () => {
   return [800, 900];
 });
 
+// IPC handler for downloading updates
+ipcMain.handle('download-update', (event, url) => {
+  // Open the download URL in the default browser
+  const { shell } = require('electron');
+  shell.openExternal(url);
+  return { success: true };
+});
+
 // This method will be called when Electron has finished initialization
 app.whenReady().then(() => {
   console.log('=== ELECTRON APP READY ===');

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import SparkleTrail from "./components/SparkleTrail";
+import { UpdateNotification } from "./components/UpdateNotification";
 import Index from "./pages/Index";
 import Hair from "./pages/Hair";
 import Colours from "./pages/Colours";
@@ -35,6 +36,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <SparkleTrail />
+          <UpdateNotification />
           <HashRouter>
             <Routes>
               <Route path="/" element={<Index />} />
