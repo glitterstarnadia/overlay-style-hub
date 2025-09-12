@@ -2,7 +2,7 @@
   "appId": "com.nadia.app",
   "productName": "Nadia ❤️",
   "copyright": "Copyright © 2024 Nadia App",
-  "description": "Interactive customization and styling application",
+  
   "directories": {
     "output": "dist-electron",
     "buildResources": "build"
@@ -14,6 +14,10 @@
   "icon": "build/icon.png",
   "compression": "maximum",
   "artifactName": "Nadia-${version}-${os}-${arch}.${ext}",
+  "extraMetadata": {
+    "author": "Nadia Dev",
+    "description": "Interactive customization and styling application"
+  },
   "mac": {
     "category": "public.app-category.lifestyle",
     "target": [
