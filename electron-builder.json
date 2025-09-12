@@ -45,11 +45,9 @@
         "arch": ["x64"]
       }
     ],
-    "publisherName": "Nadia Dev",
-    
+    "publisherName": "Nadia Dev"
   },
   "linux": {
-    
     "category": "Graphics",
     "target": [
       {
