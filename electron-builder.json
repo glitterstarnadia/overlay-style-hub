@@ -9,14 +9,7 @@
   },
   "files": [
     "dist/**/*",
-    "electron/**/*.cjs",
-    {
-      "from": "node_modules",
-      "to": "node_modules",
-      "filter": [
-        "discord-rpc/**/*"
-      ]
-    }
+    "electron/**/*.cjs"
   ],
   "icon": "build/icon.png",
   "compression": "maximum",

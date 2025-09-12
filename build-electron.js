@@ -35,7 +35,7 @@ console.log('✅ React build successful!');
 // Step 4: Build Electron app
 console.log('📦 Building Electron app...');
 try {
-  execSync('npx electron-builder', { stdio: 'inherit' });
+  execSync('npx electron-builder --config=electron-builder.json --publish=never --win --x64', { stdio: 'inherit' });
   console.log('✅ Electron app built successfully!');
   console.log('📁 Check the dist-electron folder for your app.');
 } catch (error) {
