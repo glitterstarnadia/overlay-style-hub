@@ -18,11 +18,11 @@
       ]
     }
   ],
+  "icon": "build/icon.png",
   "compression": "maximum",
-  "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+  "artifactName": "Nadia-${version}-${os}-${arch}.${ext}",
   "mac": {
     "category": "public.app-category.lifestyle",
-    "icon": "src/assets/hair-main.jpg",
     "target": [
       {
         "target": "dmg",
@@ -35,7 +35,6 @@
     "entitlementsInherit": "electron/entitlements.mac.plist"
   },
   "win": {
-    "icon": "src/assets/hair-main.jpg",
     "target": [
       {
         "target": "nsis",
@@ -47,10 +46,10 @@
       }
     ],
     "publisherName": "Nadia Dev",
-    "verifyUpdateCodeSignature": false
+    
   },
   "linux": {
-    "icon": "src/assets/hair-main.jpg",
+    
     "category": "Graphics",
     "target": [
       {
