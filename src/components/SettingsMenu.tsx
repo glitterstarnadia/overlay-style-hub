@@ -113,13 +113,17 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         <DropdownMenuContent 
           align="end"
           side="bottom"
-          className="w-72 bg-overlay-surface border-2 border-overlay-border shadow-panel backdrop-blur-lg relative"
+          className="w-72 bg-overlay-surface border-2 border-overlay-border shadow-panel backdrop-blur-lg relative pointer-events-auto"
           style={{
             backgroundColor: 'hsl(var(--overlay-surface))',
             borderColor: 'hsl(var(--overlay-border))',
             boxShadow: 'var(--shadow-panel)',
             zIndex: 9999999,
-            position: 'fixed'
+            position: 'fixed',
+            // Ensure this area is not part of Electron's drag region
+            // @ts-ignore - Electron specific property not in React.CSSProperties
+            WebkitAppRegion: 'no-drag',
+            pointerEvents: 'auto'
           }}
           sideOffset={5}
           avoidCollisions={true}
