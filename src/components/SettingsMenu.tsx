@@ -111,7 +111,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         </DropdownMenuTrigger>
         
         <DropdownMenuContent 
-          align="end" 
+          align="end"
+          side="top"
           className="w-72 bg-overlay-surface border-2 border-overlay-border shadow-panel backdrop-blur-lg relative"
           style={{
             backgroundColor: 'hsl(var(--overlay-surface))',
