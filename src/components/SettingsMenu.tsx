@@ -112,13 +112,14 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
         
         <DropdownMenuContent 
           align="end"
-          side="top"
+          side="bottom"
           className="w-72 bg-overlay-surface border-2 border-overlay-border shadow-panel backdrop-blur-lg relative"
           style={{
             backgroundColor: 'hsl(var(--overlay-surface))',
             borderColor: 'hsl(var(--overlay-border))',
             boxShadow: 'var(--shadow-panel)',
-            zIndex: 999999
+            zIndex: 9999999,
+            position: 'fixed'
           }}
           sideOffset={5}
           avoidCollisions={true}
