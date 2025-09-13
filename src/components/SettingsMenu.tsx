@@ -117,7 +117,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             backgroundColor: 'hsl(var(--overlay-surface))',
             borderColor: 'hsl(var(--overlay-border))',
             boxShadow: 'var(--shadow-panel)',
-            zIndex: 9999
+            zIndex: 999999
           }}
           sideOffset={5}
           avoidCollisions={true}
