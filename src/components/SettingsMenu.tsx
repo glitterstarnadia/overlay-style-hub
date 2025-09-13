@@ -119,7 +119,6 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             borderColor: 'hsl(var(--overlay-border))',
             boxShadow: 'var(--shadow-panel)',
             zIndex: 9999999,
-            position: 'fixed',
             // Ensure this area is not part of Electron's drag region
             // @ts-ignore - Electron specific property not in React.CSSProperties
             WebkitAppRegion: 'no-drag',
