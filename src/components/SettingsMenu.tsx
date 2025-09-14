@@ -18,7 +18,6 @@ import {
   Download, 
   Upload, 
   Palette, 
-  Pin, 
   Eye,
   Sun,
   Moon,
@@ -31,8 +30,6 @@ import {
 interface SettingsMenuProps {
   opacity: number;
   onOpacityChange: (value: number) => void;
-  alwaysOnTop: boolean;
-  onAlwaysOnTopChange: (value: boolean) => void;
   theme: 'dark' | 'light';
   onThemeChange: (theme: 'dark' | 'light') => void;
   webBarVisible: boolean;
@@ -47,8 +44,6 @@ interface SettingsMenuProps {
 export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   opacity,
   onOpacityChange,
-  alwaysOnTop,
-  onAlwaysOnTopChange,
   theme,
   onThemeChange,
   webBarVisible,
@@ -157,23 +152,6 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               step={5}
               className="w-full [&_[role=slider]]:bg-white [&_[role=slider]]:border-pink-400 [&_[role=slider]]:shadow-3d-button [&>span:first-child]:bg-gradient-to-r [&>span:first-child]:from-pink-200 [&>span:first-child]:to-purple-200 [&>span:first-child]:shadow-inner [&>span:first-child>span]:bg-gradient-to-r [&>span:first-child>span]:from-pink-400 [&>span:first-child>span]:to-purple-400 [&>span:first-child>span]:shadow-sm"
             />
-          </div>
-          
-          <DropdownMenuSeparator className="bg-overlay-border" />
-          
-          {/* Always on Top */}
-          <div className="p-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Pin className="w-4 h-4 text-primary" />
-                <Label className="text-sm text-foreground font-medium">Always on Top</Label>
-              </div>
-              <Switch
-                checked={alwaysOnTop}
-                onCheckedChange={onAlwaysOnTopChange}
-                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-400 data-[state=checked]:to-purple-400 data-[state=unchecked]:bg-white border-2 border-pink-200 shadow-3d-button [&>span]:bg-white [&>span]:border [&>span]:border-pink-300 [&>span]:shadow-sm data-[state=checked]:[&>span]:bg-white data-[state=checked]:[&>span]:translate-x-5"
-              />
-            </div>
           </div>
           
           <DropdownMenuSeparator className="bg-overlay-border" />

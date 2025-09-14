@@ -150,18 +150,6 @@ ipcMain.handle('set-web-bar-visibility', (event, visible) => {
   }
 });
 
-// IPC handler for always on top
-ipcMain.handle('set-always-on-top', (event, alwaysOnTop) => {
-  const focusedWindow = BrowserWindow.getFocusedWindow();
-  if (focusedWindow) {
-    if (alwaysOnTop) {
-      focusedWindow.setAlwaysOnTop(true, 'floating');
-      focusedWindow.focus();
-    } else {
-      focusedWindow.setAlwaysOnTop(false);
-    }
-  }
-});
 
 // IPC handler for window resizing
 ipcMain.handle('resize-window', (event, { width, height }) => {

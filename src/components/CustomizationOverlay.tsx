@@ -61,10 +61,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     [pageKey]
   );
   
-  const initialAlwaysOnTop = useMemo(() => 
-    getStoredValue(`customization-alwaysOnTop-${pageKey}`, true),
-    [pageKey]
-  );
   
   const initialTheme = useMemo(() => 
     getStoredValue(`customization-theme-${pageKey}`, 'light'),
@@ -94,7 +90,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
 
   // Settings state - using memoized initial values
   const [opacity, setOpacity] = useState(initialOpacity);
-  const [alwaysOnTop, setAlwaysOnTop] = useState(initialAlwaysOnTop);
   const [theme, setTheme] = useState<'dark' | 'light'>(initialTheme);
   const [webBarVisible, setWebBarVisible] = useState(initialWebBarVisible);
 
@@ -107,13 +102,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     }
   }, []);
 
-  const handleAlwaysOnTopChange = useCallback((alwaysOnTop: boolean) => {
-    setAlwaysOnTop(alwaysOnTop);
-    // Call Electron API if available
-    if (typeof window !== 'undefined' && (window as any).electronAPI?.setAlwaysOnTop) {
-      (window as any).electronAPI.setAlwaysOnTop(alwaysOnTop);
-    }
-  }, []);
 
   // Toggle menu collapse and resize window
   const handleToggleCollapse = useCallback(async () => {
@@ -251,7 +239,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       position,
       size,
       opacity,
-      alwaysOnTop,
       theme,
       webBarVisible,
       sections, // Include current section order
@@ -297,7 +284,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
       title: "Configuration Exported",
       description: "Your complete settings have been saved to a file."
     });
-  }, [selectedColor, position, size, opacity, alwaysOnTop, theme, webBarVisible, sections, collapsedSections, toast]);
+  }, [selectedColor, position, size, opacity, theme, webBarVisible, sections, collapsedSections, toast]);
 
   const importConfiguration = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -312,7 +299,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
           if (config.position) setPosition(config.position);
           if (config.size) setSize(config.size);
           if (config.opacity) setOpacity(config.opacity);
-          if (config.alwaysOnTop !== undefined) setAlwaysOnTop(config.alwaysOnTop);
           if (config.theme) setTheme(config.theme);
           if (config.webBarVisible !== undefined) setWebBarVisible(config.webBarVisible);
           
@@ -564,9 +550,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
     localStorage.setItem(`customization-opacity-${pageKey}`, opacity.toString());
   }, [opacity, pageKey]);
 
-  useEffect(() => {
-    localStorage.setItem(`customization-alwaysOnTop-${pageKey}`, JSON.stringify(alwaysOnTop));
-  }, [alwaysOnTop, pageKey]);
 
   useEffect(() => {
     localStorage.setItem(`customization-theme-${pageKey}`, theme);
@@ -641,7 +624,7 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
         top: position.y,
         width: size.width,
         height: size.height,
-        zIndex: alwaysOnTop ? 99999 : 9999,
+        zIndex: 99999,
         opacity: opacity / 100
       }} 
       onMouseDown={handleMouseDown}
@@ -703,8 +686,6 @@ const CustomizationOverlay: React.FC<CustomizationOverlayProps> = ({
             <SettingsMenu 
               opacity={opacity} 
               onOpacityChange={setOpacity} 
-              alwaysOnTop={alwaysOnTop} 
-              onAlwaysOnTopChange={handleAlwaysOnTopChange} 
               theme={theme} 
               onThemeChange={setTheme} 
               webBarVisible={webBarVisible}
